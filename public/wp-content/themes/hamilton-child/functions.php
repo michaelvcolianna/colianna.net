@@ -10,5 +10,5 @@ function hamilton_child_enqueue_styles()
 add_action( 'init', 'remove_hamilton_has_js' );
 function remove_hamilton_has_js()
 {
-    remove_action( 'wp_head', 'hanilton_has_js' );
+    remove_action( 'wp_head', 'hamilton_has_js' );
 }
