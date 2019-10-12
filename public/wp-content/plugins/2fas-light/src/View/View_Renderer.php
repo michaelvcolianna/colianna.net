@@ -9,6 +9,7 @@ use Twig_Error_Syntax;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFunction;
 use TwoFAS\Light\Browser\Browser;
+use TwoFAS\Light\Exception\DateTime_Creation_Exception;
 use TwoFAS\Light\Time\Time;
 
 class View_Renderer {
@@ -16,6 +17,7 @@ class View_Renderer {
 	const ERROR_TEMPLATE_NOT_FOUND = '2FAS Light plugin could not find a template.';
 	const ERROR_COMPILATION_FAILED = 'Error occurred in 2FAS plugin during template compilation.';
 	const ERROR_RENDERING_FAILED = 'Error occurred in 2FAS plugin during template rendering.';
+	const ERROR_PARSING_DATE = 'Could not parse date';
 	
 	/**
 	 * @var Twig_Environment
@@ -38,7 +40,7 @@ class View_Renderer {
 		$twig_loader          = new Twig_Loader_Filesystem( TWOFAS_LIGHT_TEMPLATES_PATH );
 		$this->twig           = new Twig_Environment( $twig_loader );
 		$this->twig->addFunction( new Twig_SimpleFunction( 'timestamp_to_wp_datetime',
-			array( $this->time, 'format_to_string_using_wp_settings' ) ) );
+			array( $this, 'timestamp_to_wp_datetime' ) ) );
 		$this->twig->addFunction( new Twig_SimpleFunction( 'describe_device', array( $this, 'describe_device' ) ) );
 		$this->twig->addFunction( new Twig_SimpleFunction( 'login_footer', 'login_footer' ) );
 		$this->twig->addFunction( new Twig_SimpleFunction( 'login_header', 'login_header' ) );
@@ -87,5 +89,18 @@ class View_Renderer {
 	 */
 	private function render_error( $message ) {
 		return '<div class="twofas-light-view-renderer-error-container"><div class="notice notice-error error twofas-light-view-renderer-error"><p>' . $message . '</p></div></div>';
+	}
+	
+	/**
+	 * @param int $timestamp
+	 *
+	 * @return string
+	 */
+	public function timestamp_to_wp_datetime( $timestamp ) {
+		try {
+			return $this->time->format_to_string_using_wp_settings( $timestamp );
+		} catch ( DateTime_Creation_Exception $e ) {
+			return self::ERROR_PARSING_DATE;
+		}
 	}
 }

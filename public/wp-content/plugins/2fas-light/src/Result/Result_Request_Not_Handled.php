@@ -2,7 +2,7 @@
 
 namespace TwoFAS\Light\Result;
 
-class Result_Request_Not_Handled implements Result {
+class Result_Request_Not_Handled {
 	
 	/**
 	 * @param Request_Not_Handled_Consumer $consumer

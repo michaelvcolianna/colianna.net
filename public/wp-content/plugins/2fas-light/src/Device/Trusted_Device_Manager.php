@@ -26,8 +26,6 @@ class Trusted_Device_Manager {
 	private $user;
 	
 	/**
-	 * Trusted_Device_Manager constructor.
-	 *
 	 * @param App  $app
 	 * @param User $user
 	 */

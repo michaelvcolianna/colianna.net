@@ -10,6 +10,7 @@ function twofas_light_bind_to_wp_hooks() {
 	add_action( 'admin_enqueue_scripts', 'twofas_light_enqueue_scripts' );
 	add_action( 'init', 'twofas_light_update_plugin_if_needed', 5 );
 	add_action( 'init', 'twofas_light_init' );
+	add_action( 'admin_init', 'twofas_light_network_setup_validation' );
 	
 	//  Turn off critical functionalities when full plugin is installed
 	if ( ! defined( 'TWOFAS_LIGHT_FULL_TWOFAS_PLUGIN_ACTIVE_FLAG' ) ) {
@@ -32,6 +33,10 @@ use TwoFAS\Light\Authenticate_App;
 use TwoFAS\Light\Generic_App;
 use TwoFAS\Light\Init_App;
 use TwoFAS\Light\Login_App;
+use TwoFAS\Light\Exception\Plugin_Not_Active_On_All_Multinetwork_Sites_Exception;
+use TwoFAS\Light\Exception\Plugin_Not_Active_On_All_Multisite_Sites_Exception;
+use TwoFAS\Light\Network\Network_Setup_Warning_Printer;
+use TwoFAS\Light\Network\Network_Setup_Validator;
 use TwoFAS\Light\View\Login_Footer_Renderer;
 
 function twofas_light_update_plugin_if_needed() {
@@ -74,6 +79,22 @@ function twofas_light_init() {
 function twofas_light_ajax() {
 	$app = new Ajax_App();
 	$app->run();
+}
+
+function twofas_light_network_setup_validation() {
+	$app = new Generic_App();
+	$app->run();
+	
+	$validator       = new Network_Setup_Validator();
+	$warning_printer = new Network_Setup_Warning_Printer( $app->get_view_renderer() );
+	
+	try {
+		$validator->validate();
+	} catch ( Plugin_Not_Active_On_All_Multinetwork_Sites_Exception $e ) {
+		$warning_printer->print_multinetwork_activation_warning();
+	} catch ( Plugin_Not_Active_On_All_Multisite_Sites_Exception $e ) {
+		$warning_printer->print_multisite_activation_warning();
+	}
 }
 
 /**

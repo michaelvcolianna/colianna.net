@@ -4,7 +4,7 @@ namespace TwoFAS\Light\Result;
 
 use TwoFAS\Light\User\User;
 
-class Result_User implements Result {
+class Result_User {
 	
 	/**
 	 * @var mixed

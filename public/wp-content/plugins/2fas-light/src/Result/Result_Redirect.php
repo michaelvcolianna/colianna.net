@@ -2,7 +2,7 @@
 
 namespace TwoFAS\Light\Result;
 
-class Result_Redirect implements Result {
+class Result_Redirect {
 	
 	/**
 	 * @var string

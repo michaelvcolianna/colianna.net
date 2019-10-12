@@ -22,8 +22,6 @@ class Trusted_Device_Cookie_Manager {
 	private $user;
 	
 	/**
-	 * Trusted_Device_Cookie_Manager constructor.
-	 *
 	 * @param App  $app
 	 * @param User $user
 	 */
@@ -35,11 +33,9 @@ class Trusted_Device_Cookie_Manager {
 	
 	/**
 	 * @param Trusted_Device $device
-	 *
-	 * @return bool
 	 */
 	public function set( Trusted_Device $device ) {
-		return $this->cookie->set_cookie( $device->get_device_id(), $device->get_device_key(), self::COOKIE_LIFESPAN,
+		$this->cookie->set_cookie( $device->get_device_id(), $device->get_device_key(), self::COOKIE_LIFESPAN,
 			true );
 	}
 	
@@ -60,10 +56,9 @@ class Trusted_Device_Cookie_Manager {
 	
 	/**
 	 * @param string $device_id
-	 *
-	 * @return bool
 	 */
 	private function delete( $device_id ) {
-		return $this->cookie->delete_cookie( $device_id );
+		$this->cookie->delete_cookie( $device_id );
+		$this->cookie->delete_hostonly_cookie( $device_id );
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace TwoFAS\Light\Result;
 
-class Result_HTML implements Result {
+class Result_HTML {
 	
 	/**
 	 * @var

@@ -8,6 +8,8 @@ use WP_User;
 
 class Authentication_Strategy_Factory {
 	
+	const SPAMMER_WP_ERROR_CODE = 'spammer_account';
+	
 	/** @var App */
 	private $app;
 	
@@ -30,6 +32,14 @@ class Authentication_Strategy_Factory {
 		$this->app                = $app;
 		$step_token_error_factory = new Step_Token_Error_Result_Factory( $app->get_error_factory() );
 		
+		if ( $this->is_reauth_requested() ) {
+			return new Authenticate_Reauth_Request( $this->app->get_step_token() );
+		}
+		
+		if ( $this->is_spammer_login() ) {
+			return new Authenticate_Spammer_Login();
+		}
+		
 		if ( $this->is_username_login_attempt() ) {
 			return new Authenticate_First_Step( $this->app, $this->authentication_input );
 		}
@@ -39,6 +49,22 @@ class Authentication_Strategy_Factory {
 		}
 		
 		return new Authenticate_No_Username_Nor_Step_Token( $this->app, $step_token_error_factory );
+	}
+	
+	/**
+	 * @return bool
+	 */
+	private function is_reauth_requested() {
+		$reauth = $this->app->get_request()->get_from_request( 'reauth' );
+		return ! empty( $reauth );
+	}
+	
+	/**
+	 * @return bool
+	 */
+	private function is_spammer_login() {
+		$wp_user = $this->authentication_input->get();
+		return $wp_user instanceof WP_Error && self::SPAMMER_WP_ERROR_CODE === $wp_user->get_error_code();
 	}
 	
 	/**

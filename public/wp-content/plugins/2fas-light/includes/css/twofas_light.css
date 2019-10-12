@@ -117,7 +117,6 @@
         padding: 0; } }
 
 .twofas-light-logo-header {
-  display: table;
   padding-top: 10px;
   margin-bottom: 37px; }
   @media all and (max-width: 1199px) {
@@ -130,31 +129,34 @@
     .twofas-light-logo-header {
       margin-bottom: 20px;
       padding-top: 0; } }
-  .twofas-light-logo-header .twofas-light-logo-header-cell {
-    display: table-cell; }
-  .twofas-light-logo-header img {
-    height: 43px;
-    width: 43px; }
   .twofas-light-logo-header h1 {
-    font-size: 1.375rem;
-    font-weight: 100;
-    line-height: 1.625rem;
-    margin-left: 5px; }
-    @media all and (max-width: 991px) {
-      .twofas-light-logo-header h1 {
-        font-size: 1.25rem;
-        line-height: 1.5rem; } }
-    @media all and (max-width: 767px) {
-      .twofas-light-logo-header h1 {
-        font-size: 1.125rem;
-        line-height: 1.375rem; } }
-    .twofas-light-logo-header h1 .twofas-light-classy-font {
-      font-family: 'Bilbo Swash Caps', cursive;
-      font-size: 120%; }
-  .twofas-light-logo-header img,
-  .twofas-light-logo-header h1 {
-    display: inline-block;
-    vertical-align: middle; }
+    font-size: 0;
+    min-height: 43px;
+    padding: 0; }
+    .twofas-light-logo-header h1 img, .twofas-light-logo-header h1 .twofas-light-logo-header-title {
+      display: inline-block;
+      vertical-align: middle; }
+    .twofas-light-logo-header h1 img {
+      height: 43px;
+      width: 43px; }
+    .twofas-light-logo-header h1 .twofas-light-logo-header-title {
+      font-size: 1.375rem;
+      font-weight: 100;
+      line-height: 1.625rem;
+      margin-left: 5px;
+      padding: 9px 0 4px;
+      width: calc(100% - 43px - 5px); }
+      @media all and (max-width: 991px) {
+        .twofas-light-logo-header h1 .twofas-light-logo-header-title {
+          font-size: 1.25rem;
+          line-height: 1.5rem; } }
+      @media all and (max-width: 767px) {
+        .twofas-light-logo-header h1 .twofas-light-logo-header-title {
+          font-size: 1.125rem;
+          line-height: 1.375rem; } }
+      .twofas-light-logo-header h1 .twofas-light-logo-header-title .twofas-light-classy-font {
+        font-family: 'Bilbo Swash Caps', cursive;
+        font-size: 120%; }
 
 .twofas-light-config-bar {
   height: 60px;
@@ -756,12 +758,13 @@
           line-height: 22px; } }
     @media all and (max-width: 991px) {
       .twofas-light-trusted-devices table tr {
-        float: left;
-        width: 49%;
-        padding: 15px 0;
-        margin-right: 2%; }
-        .twofas-light-trusted-devices table tr:nth-of-type(2n) {
-          margin-right: 0; } }
+        padding: 15px 0; }
+        .twofas-light-trusted-devices table tr:not(.twofas-light-no-devices-row) {
+          float: left;
+          width: 49%;
+          margin-right: 2%; }
+          .twofas-light-trusted-devices table tr:not(.twofas-light-no-devices-row):nth-of-type(2n) {
+            margin-right: 0; } }
     @media all and (max-width: 767px) {
       .twofas-light-trusted-devices table tr {
         width: 100%;
@@ -774,21 +777,24 @@
       @media all and (max-width: 991px) {
         .twofas-light-trusted-devices table td {
           padding: 0 15px;
-          white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis; }
           .twofas-light-trusted-devices table td::before {
             font-weight: 700;
             font-size: 0.8125rem;
             margin-right: 5px; }
-          .twofas-light-trusted-devices table td:nth-of-type(1)::before {
-            content: 'Browser and device: '; }
-          .twofas-light-trusted-devices table td:nth-of-type(2)::before {
-            content: 'Added on: '; }
-          .twofas-light-trusted-devices table td:nth-of-type(3)::before {
-            content: 'IP Address: '; }
-          .twofas-light-trusted-devices table td:nth-of-type(4)::before {
-            content: 'Action: '; } }
+          .twofas-light-trusted-devices table td.twofas-light-no-devices-column h5 {
+            line-height: 1.5; }
+          .twofas-light-trusted-devices table td:not(.twofas-light-no-devices-column) {
+            white-space: nowrap; }
+            .twofas-light-trusted-devices table td:not(.twofas-light-no-devices-column):nth-of-type(1)::before {
+              content: 'Browser and device: '; }
+            .twofas-light-trusted-devices table td:not(.twofas-light-no-devices-column):nth-of-type(2)::before {
+              content: 'Added on: '; }
+            .twofas-light-trusted-devices table td:not(.twofas-light-no-devices-column):nth-of-type(3)::before {
+              content: 'IP Address: '; }
+            .twofas-light-trusted-devices table td:not(.twofas-light-no-devices-column):nth-of-type(4)::before {
+              content: 'Action: '; } }
       .twofas-light-trusted-devices table td:first-of-type .twofas-light-td-content {
         border-left: none; }
       .twofas-light-trusted-devices table td .twofas-light-td-content {
@@ -1265,6 +1271,8 @@ body.login .twofas-light-view-renderer-error-container {
   position: fixed;
   top: 32px;
   transform: translateX(-50%) translateY(-100%);
+  transition: visibility 0s 0s;
+  visibility: visible;
   width: 550px;
   z-index: 9999; }
   @media all and (max-width: 960px) {
@@ -1275,7 +1283,9 @@ body.login .twofas-light-view-renderer-error-container {
       margin-left: 0;
       top: 46px; } }
   .twofas-light-rate-plugin-prompt.closed {
-    animation: slide-out .5s ease-in-out 1 both; }
+    animation: slide-out .5s ease-in-out 1 both;
+    transition: visibility 0s .5s;
+    visibility: hidden; }
   .twofas-light-rate-plugin-prompt-header {
     margin-bottom: 15px; }
     .twofas-light-rate-plugin-prompt-header h6 {

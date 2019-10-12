@@ -93,19 +93,8 @@ abstract class App {
 	protected $cookie;
 	
 	/**
-	 * @var Step_Token
+	 * @var Second_Step_Renderer
 	 */
-	protected $step_token;
-	
-	/**
-	 * @var Step_Token_Validator
-	 */
-	protected $step_token_validator;
-	
-	/** @var Step_Token_Cookie_To_User_Mapper */
-	protected $step_token_cookie_to_user_mapper;
-	
-	/** @var Second_Step_Renderer */
 	protected $second_step_renderer;
 	
 	/**
@@ -165,14 +154,6 @@ abstract class App {
 		$this->base32_alphabet = new Base32_Alphabet();
 		
 		$this->totp_secret_generator = new Secret_Generator( $this->base32_alphabet );
-		
-		$this->cookie = Cookie::create();
-		
-		$this->step_token = Step_Token::create();
-		
-		$this->step_token_validator = Step_Token_Validator::create();
-		
-		$this->step_token_cookie_to_user_mapper = new Step_Token_Cookie_To_User_Mapper( $this->step_token );
 		
 		$this->error_factory = new TwoFASLight_Error_Factory();
 		
@@ -261,7 +242,7 @@ abstract class App {
 	 * @return Cookie
 	 */
 	public function get_cookie() {
-		return $this->cookie;
+		return Cookie::create();
 	}
 	
 	/**
@@ -286,21 +267,21 @@ abstract class App {
 	 * @return Step_Token
 	 */
 	public function get_step_token() {
-		return $this->step_token;
+		return Step_Token::create();
 	}
 	
 	/**
 	 * @return Step_Token_Validator
 	 */
 	public function get_step_token_validator() {
-		return $this->step_token_validator;
+		return Step_Token_Validator::create();
 	}
 	
 	/**
 	 * @return Step_Token_Cookie_To_User_Mapper
 	 */
 	public function get_step_token_cookie_to_user_mapper() {
-		return $this->step_token_cookie_to_user_mapper;
+		return new Step_Token_Cookie_To_User_Mapper( $this->get_step_token() );
 	}
 	
 	/**

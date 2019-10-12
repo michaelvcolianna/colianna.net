@@ -30,25 +30,20 @@ abstract class Request {
 	const TWOFAS_LIGHT_GET_REQUEST = 'GET';
 	
 	/**
+	 * @return mixed
+	 */
+	abstract public function get_page();
+	
+	/**
+	 * @return mixed
+	 */
+	abstract public function get_action();
+	
+	/**
 	 * @param Request_Context $request_context
 	 */
 	public function fill_with_context( Request_Context $request_context ) {
 		$this->request_context = $request_context;
-	}
-	
-	/**
-	 * @param      $array
-	 * @param      $key
-	 * @param null $default
-	 *
-	 * @return mixed
-	 */
-	protected function get_if_isset( $array, $key, $default = null ) {
-		if ( ! is_string( $key ) || ! isset( $array[ $key ] ) ) {
-			return $default;
-		}
-		
-		return $array[ $key ];
 	}
 	
 	/**
@@ -72,10 +67,25 @@ abstract class Request {
 	}
 	
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function get_ip() {
-		return $this->get_if_isset( $this->request_context->get_server(), 'REMOTE_ADDR' );
+		$headers = array(
+			'X-Forwarded-For',
+			'HTTP_X_FORWARDED_FOR',
+			'REMOTE_ADDR'
+		);
+		
+		foreach ( $headers as $header ) {
+			$ip = explode( ',', $this->get_if_isset( $this->request_context->get_server(), $header ) );
+			$ip = array_shift( $ip );
+			
+			if ( $this->validate_ip( $ip ) ) {
+				return $ip;
+			}
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -158,12 +168,26 @@ abstract class Request {
 	}
 	
 	/**
+	 * @param      $array
+	 * @param      $key
+	 * @param null $default
+	 *
 	 * @return mixed
 	 */
-	abstract public function get_page();
+	protected function get_if_isset( $array, $key, $default = null ) {
+		if ( ! is_string( $key ) || ! isset( $array[ $key ] ) ) {
+			return $default;
+		}
+		
+		return $array[ $key ];
+	}
 	
 	/**
-	 * @return mixed
+	 * @param string $ip
+	 *
+	 * @return bool
 	 */
-	abstract public function get_action();
+	protected function validate_ip( $ip ) {
+		return null !== $ip && filter_var( $ip, FILTER_VALIDATE_IP );
+	}
 }

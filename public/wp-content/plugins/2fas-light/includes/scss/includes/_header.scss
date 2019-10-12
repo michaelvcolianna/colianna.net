@@ -2,7 +2,6 @@
 @import 'functions';
 
 .twofas-light-logo-header {
-  display: table;
   padding-top: 10px;
   margin-bottom: 37px;
 
@@ -19,40 +18,46 @@
     padding-top: 0;
   }
 
-  .twofas-light-logo-header-cell {
-    display: table-cell;
-  }
-
-  img {
-    height: 43px;
-    width: 43px;
-  }
-
   h1 {
-    font-size: px-to-rem(22);
-    font-weight: 100;
-    line-height: px-to-rem(26);
-    margin-left: 5px;
+    $logo-image-size: 43px;
+    $spacing-between-logo-and-title: 5px;
 
-    @media all and (max-width: $screen-sm-max) {
-      font-size: px-to-rem(20);
-      line-height: px-to-rem(24);
+    font-size: 0;
+    min-height: $logo-image-size;
+    padding: 0;
+
+    img, .twofas-light-logo-header-title {
+      display: inline-block;
+      vertical-align: middle;
     }
 
-    @media all and (max-width: $screen-xs-max) {
-      font-size: px-to-rem(18);
-      line-height: px-to-rem(22);
+    img {
+      height: $logo-image-size;
+      width: $logo-image-size;
     }
 
-    .twofas-light-classy-font {
-      font-family: 'Bilbo Swash Caps', cursive;
-      font-size: 120%;
-    }
-  }
+    .twofas-light-logo-header-title {
+      font-size: px-to-rem(22);
+      font-weight: 100;
+      line-height: px-to-rem(26);
+      margin-left: $spacing-between-logo-and-title;
+      padding: 9px 0 4px;
+      width: calc(100% - #{$logo-image-size} - #{$spacing-between-logo-and-title});
 
-  img,
-  h1 {
-    display: inline-block;
-    vertical-align: middle;
+      @media all and (max-width: $screen-sm-max) {
+        font-size: px-to-rem(20);
+        line-height: px-to-rem(24);
+      }
+
+      @media all and (max-width: $screen-xs-max) {
+        font-size: px-to-rem(18);
+        line-height: px-to-rem(22);
+      }
+
+      .twofas-light-classy-font {
+        font-family: 'Bilbo Swash Caps', cursive;
+        font-size: 120%;
+      }
+    }
   }
 }

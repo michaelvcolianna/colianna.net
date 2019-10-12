@@ -2,7 +2,7 @@
 
 namespace TwoFAS\Light\Result;
 
-class Result_Error implements Result {
+class Result_Error {
 	
 	/**
 	 * @var

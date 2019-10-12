@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 1.2.0 (Oct. 9, 2019) =
+* Added compatibility with multisite
+* Minor frontend fixes
+* Fixed issue with deleting all plugin's data during uninstallation
+* Fixed IP in trusted devices
+
 = 1.1.5 (Apr. 16, 2019) =
 * Fixed compatibility with plugins renaming login page
 

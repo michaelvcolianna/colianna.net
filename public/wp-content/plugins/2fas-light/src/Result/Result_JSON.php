@@ -2,7 +2,7 @@
 
 namespace TwoFAS\Light\Result;
 
-class Result_JSON implements Result {
+class Result_JSON {
 	
 	/**
 	 * @var string

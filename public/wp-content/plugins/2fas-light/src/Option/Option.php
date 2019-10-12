@@ -10,17 +10,15 @@ class Option {
 	 * @return string
 	 */
 	public function get_blog_name() {
-		return $this->get_option( 'blogname', 'WordPress Account' );
+		$blogname = $this->get_option( 'blogname', 'WordPress Account' );
+		return wp_specialchars_decode( $blogname, ENT_QUOTES );
 	}
 	
 	/**
 	 * @return string
 	 */
-	public function get_url_encoded_blog_name() {
-		$blogname = $this->get_blog_name();
-		$blogname = wp_specialchars_decode( $blogname, ENT_QUOTES );
-		
-		return rawurlencode( $blogname );
+	public function get_network_name() {
+		return get_current_site()->site_name;
 	}
 	
 	/**

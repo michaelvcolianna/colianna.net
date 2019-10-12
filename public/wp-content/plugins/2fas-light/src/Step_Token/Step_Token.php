@@ -4,6 +4,8 @@ namespace TwoFAS\Light\Step_Token;
 
 use TwoFAS\Encryption\Random\RandomGenerator;
 use TwoFAS\Light\Cookie\Cookie;
+use TwoFAS\Light\Cookie\Cookie_Config_Factory;
+use TwoFAS\Light\Cookie\Cookie_Writer;
 use TwoFAS\Light\Hash\Hash_Generator;
 use TwoFAS\Light\Time\Time;
 use TwoFAS\Light\User\User;
@@ -34,10 +36,11 @@ class Step_Token {
 	 * @return Step_Token
 	 */
 	public static function create() {
-		$hash_generator  = new Hash_Generator( new RandomGenerator() );
-		$time            = new Time();
-		$cookie          = new Cookie( $time );
-		$token_validator = new Step_Token_Validator( $time );
+		$hash_generator        = new Hash_Generator( new RandomGenerator() );
+		$time                  = new Time();
+		$cookie_config_factory = new Cookie_Config_Factory();
+		$cookie                = new Cookie( $cookie_config_factory->create(), new Cookie_Writer(), $time );
+		$token_validator       = new Step_Token_Validator( $time );
 		
 		return new self( $hash_generator, $cookie, $time, $token_validator );
 	}

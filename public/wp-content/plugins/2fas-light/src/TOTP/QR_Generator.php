@@ -27,22 +27,12 @@ class QR_Generator {
 	public function generate_qr_code( $secret ) {
 		// TOTP metadata
 		$endroid_qr_code = new QrCode();
-		$blog_name       = $this->options->get_url_encoded_blog_name();
-		$user            = wp_get_current_user();
-		$user_email      = $user->user_email;
-		$description     = urlencode( 'WordPress Account' );
-		$site_url        = get_option( 'siteurl' );
+		$site_name       = $this->get_site_name();
+		$user_email      = rawurlencode( wp_get_current_user()->user_email );
+		$description     = $this->get_description();
 		$size            = 300;
 		
-		if ( $site_url ) {
-			$parsed = parse_url( $site_url );
-			
-			if ( isset( $parsed['host'] ) ) {
-				$description = $parsed['host'];
-			}
-		}
-		
-		$message = "otpauth://totp/{$description}:$user_email?secret={$secret}&issuer={$blog_name}";
+		$message = "otpauth://totp/{$description}:{$user_email}?secret={$secret}&issuer={$site_name}";
 		
 		$endroid_qr_code
 			->setText( $message )
@@ -50,5 +40,31 @@ class QR_Generator {
 			->setErrorCorrection( 'high' );
 		
 		return $endroid_qr_code->getDataUri();
+	}
+	
+	/**
+	 * @return string
+	 */
+	private function get_site_name() {
+		if ( is_multisite() ) {
+			$site_name = sprintf( '%s (%s)', $this->options->get_blog_name(), $this->options->get_network_name() );
+		} else {
+			$site_name = $this->options->get_blog_name();
+		}
+		return rawurlencode( $site_name );
+	}
+	
+	/**
+	 * @return string
+	 */
+	private function get_description() {
+		$site_url = get_option( 'siteurl' );
+		if ( $site_url ) {
+			$parsed = parse_url( $site_url );
+			if ( isset( $parsed['host'] ) ) {
+				return rawurlencode( $parsed['host'] );
+			}
+		}
+		return rawurlencode( 'WordPress Account' );
 	}
 }

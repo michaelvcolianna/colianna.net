@@ -4,6 +4,7 @@ namespace TwoFAS\Light\User;
 
 use DateTime;
 use TwoFAS\Light\Device\Trusted_Device;
+use TwoFAS\Light\Exception\Rate_Plugin_Countdown_Never_Started_Exception;
 
 class User {
 	
@@ -18,9 +19,6 @@ class User {
 	const USER_BLOCKED_UNTIL = 'twofas_light_user_blocked_until';
 	const USER_HID_RATE_PLUGIN_PROMPT = 'twofas_light_hid_rate_plugin_prompt';
 	const RATE_PROMPT_COUNTDOWN_START_FIELD_NAME = 'twofas_light_rate_prompt_countdown_start';
-	
-	const MAX_LOGINS_FAILED = 10;
-	const USER_BLOCK_PERIOD = 300;
 	
 	/**
 	 * @var
@@ -216,16 +214,19 @@ class User {
 	 */
 	public function get_totp_secret_update_date() {
 		$date = get_user_meta( $this->id, self::TOTP_SECRET_UPDATE_DATE, true );
-		
-		return empty( $date ) ? null : DateTime::createFromFormat( DateTime::ISO8601, $date );
+		if ( empty( $date ) ) {
+			return null;
+		}
+		$datetime = DateTime::createFromFormat( DateTime::ISO8601, $date );
+		return ( $datetime instanceof DateTime ) ? $datetime : null;
 	}
 	
 	/**
-	 * @param $totp_secret
+	 * @param string   $totp_secret
+	 * @param DateTime $date_time
 	 */
-	public function set_totp_secret( $totp_secret ) {
-		$date = new DateTime();
-		$date = $date->format( DateTime::ISO8601 );
+	public function set_totp_secret( $totp_secret, DateTime $date_time ) {
+		$date = $date_time->format( DateTime::ISO8601 );
 		update_user_meta( $this->id, self::TOTP_SECRET, $totp_secret );
 		update_user_meta( $this->id, self::TOTP_SECRET_UPDATE_DATE, $date );
 	}
@@ -247,16 +248,17 @@ class User {
 	}
 	
 	/**
-	 * @return DateTime|null
+	 * @return int
+	 * @throws Rate_Plugin_Countdown_Never_Started_Exception
 	 */
-	public function get_rate_prompt_countdown_start() {
+	public function get_rate_prompt_countdown_start_timestamp() {
 		$countdown_start_timestamp = $this->get_user_field( self::RATE_PROMPT_COUNTDOWN_START_FIELD_NAME );
 		
 		if ( null === $countdown_start_timestamp || ! ctype_digit( $countdown_start_timestamp ) ) {
-			return null;
+			throw new Rate_Plugin_Countdown_Never_Started_Exception();
 		}
 		
-		return new DateTime( '@' . $countdown_start_timestamp );
+		return $countdown_start_timestamp;
 	}
 	
 	/**

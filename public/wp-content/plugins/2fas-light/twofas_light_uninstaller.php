@@ -12,11 +12,13 @@ class TwoFASLight_Uninstaller {
 		$user_meta = array(
 			'twofas_light_totp_secret',
 			'twofas_light_totp_secret_update_date',
+			'twofas_light_step_token',
 			'twofas_light_totp_status',
 			'twofas_light_trusted_devices',
-			'twofas_light_step_token',
 			'twofas_light_failed_logins_count',
 			'twofas_light_user_blocked_until',
+			'twofas_light_hid_rate_plugin_prompt',
+			'twofas_light_rate_prompt_countdown_start',
 		);
 		
 		$users = get_users();
@@ -29,8 +31,21 @@ class TwoFASLight_Uninstaller {
 	}
 	
 	private function clear_wp_options() {
+		if ( is_multisite() ) {
+			$this->clear_wp_options_on_multisite_install();
+		} else {
+			$this->clear_wp_options_on_single_site_install();
+		}
+	}
+	
+	private function clear_wp_options_on_multisite_install() {
+		foreach ( get_sites( array( 'number' => '' ) ) as $site ) {
+			delete_blog_option( $site->blog_id, 'twofas_light_plugin_version' );
+		}
+	}
+	
+	private function clear_wp_options_on_single_site_install() {
 		delete_option( 'twofas_light_plugin_version' );
-		delete_option( 'twofas_light_rate_prompt_countdown_start' );
 	}
 	
 	private function clear_trusted_device_cookies() {
