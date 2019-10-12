@@ -1,0 +1,36 @@
+@import 'variables';
+@import 'functions';
+
+.twofas-light-config-wrapper {
+  display: block;
+  margin-bottom: 50px;
+
+  &.twofas-light-configured {
+    display: none;
+  }
+}
+
+.twofas-light-config-wrapper-button {
+  display: none;
+
+  &.twofas-light-configured {
+    display: block;
+  }
+
+  .twofas-light-button-add-another-device {
+    display: block;
+    font-size: px-to-rem(26);
+    font-weight: 700;
+    height: 68px;
+    margin: 0 auto 75px;
+    padding: 0 25px;
+
+    @media all and (max-width: $screen-sm-max) {
+      font-size: px-to-rem(23);
+    }
+
+    @media all and (max-width: $screen-xs-max) {
+      font-size: px-to-rem(20);
+    }
+  }
+}

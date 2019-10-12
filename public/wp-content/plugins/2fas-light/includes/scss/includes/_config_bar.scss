@@ -1,0 +1,139 @@
+@import 'variables';
+@import 'functions';
+
+.twofas-light-config-bar {
+  height: 60px;
+  line-height: 60px;
+  margin-bottom: 45px;
+  width: 100%;
+
+  @media all and (max-width: $screen-xs-max) {
+    height: auto;
+    line-height: 1;
+  }
+
+  &-description {
+    display: inline-block;
+    font-size: px-to-rem(16);
+    letter-spacing: .3px;
+    vertical-align: middle;
+
+    @media all and (max-width: $screen-xs-max) {
+      display: table-cell;
+      font-size: px-to-rem(14);
+      padding-left: 10px;
+    }
+  }
+
+  &-switch {
+    display: inline-block;
+
+    .twofas-light-totp-switch {
+      display: none;
+
+      &[value='totp_enabled'] {
+        + label {
+          background: $tf-switch-enabled-background;
+        }
+      }
+
+      &[value='totp_disabled'] {
+        + label {
+          background: $tf-switch-disabled-background;
+
+          span {
+            &.twofas-light-totp-switch-indicator {
+              box-shadow: 0 3px 4px 0 $tf-switch-disabled-button-circle-shadow;
+              transform: translateX(30px) translateY(-50%);
+            }
+          }
+        }
+      }
+
+      &[disabled] {
+        + label {
+          background: $tf-switch-disabled-button-background;
+          cursor: wait;
+
+          span {
+            &.twofas-light-totp-switch-indicator {
+              box-shadow: 0 3px 4px 0 $tf-switch-disabled-button-circle-shadow;
+            }
+          }
+        }
+      }
+    }
+
+    label {
+      border-radius: 16px;
+      display: inline-block;
+      height: 32px;
+      margin-left: 10px;
+      overflow: hidden;
+      position: relative;
+      transition: all .5s ease-in-out;
+      width: 64px;
+
+      span {
+        &.twofas-light-totp-switch-indicator {
+          background-color: $tf-switch-circle-background;
+          border-radius: 50%;
+          box-shadow: 0 3px 4px 0 $tf-switch-circle-shadow;
+          display: inline-block;
+          height: 24px;
+          left: 5px;
+          position: absolute;
+          top: 50%;
+          transform: translateX(0) translateY(-50%);
+          transition: all .5s ease-in-out;
+          width: 24px;
+        }
+      }
+    }
+  }
+
+  &-configured,
+  &-not-configured {
+    border-radius: 6px;
+    display: none;
+    height: 100%;
+    padding: 0 24px;
+    width: 100%;
+
+    @media all and (max-width: $screen-sm-max) {
+      padding: 0 15px;
+    }
+
+    @media all and (max-width: $screen-xs-max) {
+      padding: 10px;
+    }
+
+    &.twofas-light-show {
+      display: block;
+
+      @media all and (max-width: $screen-xs-max) {
+        display: table;
+      }
+    }
+  }
+
+  &-configured {
+    background: $tf-bar-configured-background;
+    color: $tf-bar-configured-color;
+  }
+
+  &-not-configured {
+    background: $tf-bar-not-configured-background;
+    color: $tf-bar-not-configured-color;
+  }
+
+  .twofas-light-icon {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+
+    @media all and (max-width: $screen-xs-max) {
+      display: table-cell;
+    }
+  }
+}

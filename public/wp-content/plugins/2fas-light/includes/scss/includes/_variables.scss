@@ -1,0 +1,125 @@
+// TwoFas Authentication Bar
+$tf-bar-not-configured-background: #dbdbdb;
+$tf-bar-not-configured-color: #4a4a4a;
+$tf-bar-configured-background: #fff;
+$tf-bar-configured-color: #282c32;
+
+// TwoFas Headers
+$tf-section-header-color: #282c32;
+$tf-section-subheader-color: #7d7d7d;
+$tf-section-step-header-color: #282c32;
+
+// TwoFas Card
+$tf-card-background: #fff;
+
+// TwoFas Step
+$tf-step-number-color: #fff;
+$tf-step-number-background: #55cc4e;
+$tf-step-border-color: #e8e8e8;
+$tf-step-desc-color: #7d7d7d;
+$tf-step-desc-link-color: #282c32;
+
+// TwoFas QR
+$tf-qr-border: rgba(#282c32, .15);
+$tf-qr-buttons-border: #c1c1c1;
+$tf-qr-link-color: #282c32;
+
+// TwoFas Token
+$tf-token-label-color: #282c32;
+$tf-token-input-border: #c1c1c1;
+$tf-token-input-placeholder: #c1c1c1;
+
+// TwoFas Trusted Devices
+$tf-trusted-devices-help-link-color: #282c32;
+$tf-trusted-devices-th-background: #e8e8e8;
+$tf-trusted-devices-th-color: #282c32;
+$tf-trusted-devices-table-border: #e8e8e8;
+$tf-trusted-devices-hour-color: #9fa3ab;
+$tf-trusted-devices-remove-link-color: #ff2b23;
+
+// TwoFas Remove Bar
+$tf-remove-bar-color: #ff2b23;
+
+// TwoFas Configured Box
+$tf-configured-box-background: rgba(85, 204, 78, .1);
+$tf-configured-box-border: #55cc4e;
+$tf-configured-box-header-color: #282c32;
+$tf-configured-box-color: #7d7d7d;
+
+// TwoFas Successful Config
+$tf-successful-config-background: rgba(85, 204, 78, .1);
+$tf-successful-config-border: #55cc4e;
+
+// TwoFas Tooltip
+$tf-tooltip-background: #282c32;
+$tf-tooltip-color: #fff;
+
+// TwoFas Switch
+$tf-switch-enabled-background: #55cc4e;
+$tf-switch-disabled-background: #ff2b23;
+$tf-switch-disabled-shadow: darken(#ff2b23, 20%);
+$tf-switch-disabled-button-background: #7d7d7d;
+$tf-switch-disabled-button-circle-shadow: darken(#7d7d7d, 20%);
+$tf-switch-circle-background: #fff;
+$tf-switch-circle-shadow: #55b34f;
+
+// TwoFas Toast
+$tf-toast-background: #333;
+$tf-toast-shadow: rgba(0, 0, 0, .2);
+$tf-toast-color: #fff;
+$tf-toast-background-success: #66bb6a;
+$tf-toast-background-error: #ef5350;
+$tf-toast-background-warning: #ffca28;
+
+// TwoFas Rate Plugin Prompt
+$tf-rate-plugin-prompt-background: #fff;
+$tf-rate-plugin-prompt-color: lighten(#333, 5%);
+$tf-rate-plugin-prompt-shadow: rgba(0, 0, 0, .3);
+
+// TwoFas View Renderer Error
+$tf-view-renderer-background: #fff;
+$tf-view-renderer-border: #dc3232;
+$tf-view-renderer-shadow: rgba(0, 0, 0, .1);
+
+// TwoFas Modal
+$tf-modal-header-background: #f6f6f6;
+$tf-modal-header-border: #e8e8e8;
+$tf-modal-header-color: #282c32;
+$tf-modal-body-background: #fff;
+$tf-modal-body-color: #7d7d7d;
+$tf-modal-cancel-btn-border: #e3e3e3;
+
+// TwoFas Buttons
+$tf-button-success-background: #3ab234;
+$tf-button-success-color: #fff;
+$tf-button-success-border-color-1: darken(#3ab234, 5%);
+$tf-button-success-border-color-2: darken(#3ab234, 7.5%);
+$tf-button-success-shadow-color: darken(#3ab234, 7.5%);
+
+// TwoFas RWD Breakpoints
+$screen-xs:         576px;
+$screen-xs-min:     $screen-xs;
+$screen-phone:      $screen-xs-min;
+
+$screen-sm:         768px;
+$screen-sm-min:     $screen-sm;
+$screen-tablet:     $screen-sm-min;
+
+$screen-md:         992px;
+$screen-md-min:     $screen-md;
+$screen-desktop:    $screen-md-min;
+
+$screen-lg:         1200px;
+$screen-lg-min:     $screen-lg;
+$screen-lg-desktop: $screen-lg-min;
+
+$screen-xs-max:     ($screen-sm-min - 1);
+$screen-sm-max:     ($screen-md-min - 1);
+$screen-md-max:     ($screen-lg-min - 1);
+
+
+
+
+$twofas-light-border-color: #d9d9d9;
+$twofas-light-qr-code-size: 200px;
+$twofas-light-gray: #292d31;

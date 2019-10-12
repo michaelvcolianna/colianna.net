@@ -1,0 +1,23 @@
+// INCLUDES
+@import 'includes/variables';
+@import 'includes/functions';
+@import 'includes/wrapper';
+@import 'includes/typography';
+@import 'includes/header';
+@import 'includes/config_bar';
+@import 'includes/card';
+@import 'includes/trusted_devices';
+@import 'includes/remove_bar';
+@import 'includes/configured_box';
+@import 'includes/toast';
+@import 'includes/config_wrapper';
+@import 'includes/sprites_svg';
+@import 'includes/view_renderer_error';
+@import 'includes/error_message';
+@import 'includes/modal';
+@import 'includes/rate_plugin_prompt';
+@import 'includes/loader';
+
+// WP
+@import 'wp/login_form';
+@import 'wp/menu_icon';

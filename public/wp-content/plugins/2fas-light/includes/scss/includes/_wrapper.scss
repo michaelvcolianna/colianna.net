@@ -1,0 +1,100 @@
+@import 'variables';
+@import 'functions';
+
+.twofas-light-wrapper {
+  font-family: Arial, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1;
+  text-rendering: optimizeSpeed;
+
+  * {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  .anim-on,
+  .anim-on * {
+    transition: all .2s ease-in-out;
+  }
+
+  .anim-off,
+  .anim-off * {
+    transition: none !important;
+  }
+
+  .clear-fix {
+    *zoom: 1;
+
+    &::before,
+    &::after {
+      content: ' ';
+      display: table;
+    }
+
+    &::after {
+      clear: both;
+    }
+  }
+
+  .twofas-light-text-line {
+    display: block;
+
+    @media all and (max-width: $screen-sm-max) {
+      display: inline;
+
+      &::after {
+        content: ' ';
+      }
+    }
+  }
+
+  input,
+  textarea,
+  button {
+    -webkit-appearance: none;
+  }
+
+  a {
+    color: inherit;
+    outline: none;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: inherit;
+      outline: none;
+      text-decoration: none;
+    }
+  }
+
+  ::-webkit-input-placeholder {
+    color: inherit;
+  }
+
+  ::-moz-placeholder {
+    color: inherit;
+  }
+
+  :-ms-input-placeholder {
+    color: inherit;
+  }
+
+  .button-success {
+    background-color: $tf-button-success-background;
+    border-color: $tf-button-success-border-color-1 $tf-button-success-border-color-2 $tf-button-success-border-color-2;
+    box-shadow: 0 1px 0 $tf-button-success-shadow-color;
+    color: $tf-button-success-color;
+    text-shadow: 0 -1px 1px $tf-button-success-shadow-color, 1px 0 1px $tf-button-success-shadow-color, 0 1px 1px $tf-button-success-shadow-color, -1px 0 1px $tf-button-success-shadow-color;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: lighten($tf-button-success-background, 2.5%);
+      color: $tf-button-success-color;
+      outline: 0;
+    }
+  }
+}

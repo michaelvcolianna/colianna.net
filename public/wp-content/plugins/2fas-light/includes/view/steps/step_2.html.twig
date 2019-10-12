@@ -1,0 +1,57 @@
+<div class="twofas-light-card">
+    <div class="twofas-light-card-step">
+        <div class="twofas-light-card-step-box">
+            <h6>Step</h6>
+            <span class="twofas-light-card-step-number">2</span>
+        </div>
+    </div>
+
+    <p class="twofas-light-card-description twofas-light-qr-desc">Please, scan following QR code with your app.</p>
+
+    <div class="twofas-light-card-qr-wrapper js-twofas-light-qr-wrapper">
+        <div class="twofas-light-qr-hidden">
+            <button type="button" class="button button-primary js-twofas-light-show-qr-button">Show QR Code</button>
+            <img src="{{ twofas_plugin_path ~ '/includes/img/qr.png'}}" alt="QR - cover" />
+        </div>
+        <div class="twofas-light-qr-loader">
+            <div class="twofas-light-loader">
+                <span class="twofas-light-loader-block"></span>
+                <span class="twofas-light-loader-block"></span>
+                <span class="twofas-light-loader-block"></span>
+                <span class="twofas-light-loader-block"></span>
+                <span class="twofas-light-loader-block"></span>
+                <span class="twofas-light-loader-block"></span>
+                <span class="twofas-light-loader-block"></span>
+                <span class="twofas-light-loader-block"></span>
+                <span class="twofas-light-loader-block"></span>
+            </div>
+        </div>
+        <div class="twofas-light-qr-visible">
+            <img id="qr_code" class="twofas-light-qr-code js-twofas-light-qr-image" src="{{ qr_code }}" alt="TOTP" />
+        </div>
+        <div class="twofas-light-qr-buttons js-twofas-light-qr-buttons">
+            <div class="twofas-light-qr-buttons-wrapper">
+                <button type="button" class="twofas-light-reload-qr-code js-twofas-light-reload-qr-button">
+                    <span class="twofas-light-icon twofas-light-icon-refresh twofas-light-icon-refresh-dims"></span>
+                </button>
+            </div>
+            <div class="twofas-light-qr-buttons-wrapper">
+                <button class="twofas-light-reload-qr-info">
+                    <span class="twofas-light-icon twofas-light-icon-info twofas-light-icon-info-dims"></span>
+                </button>
+                <span class="twofas-light-qr-buttons-tooltip">
+                    Click the <span class="twofas-light-icon twofas-light-icon-refresh twofas-light-icon-refresh-dims"></span> button to generate new QR code
+                </span>
+            </div>
+        </div>
+        <div class="clear-fix"></div>
+    </div>
+
+    <p class="twofas-light-card-description twofas-light-private-key-desc">
+        Instead of using QR code you can <a href="#" class="js-twofas-light-show-private-key">enter your private key manually</a>.
+    </p>
+
+    <div class="twofas-light-card-description twofas-light-private-key js-twofas-light-private-key">
+        Your private key: <strong class="js-twofas-light-private-key-value">{{ totp_secret }}</strong>
+    </div>
+</div>

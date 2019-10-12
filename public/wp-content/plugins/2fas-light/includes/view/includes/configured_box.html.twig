@@ -1,0 +1,24 @@
+<div class="twofas-light-configured-box twofas-light-configured js-twofas-light-configured-box{% if twofas_light_user_is_configured %} twofas-light-show{% endif %}">
+    <span class="twofas-light-configured-box-tick">
+        <span class="twofas-light-icon twofas-light-icon-tick twofas-light-icon-tick-dims"></span>
+    </span>
+    <h6>2FAS tokens are already configured.</h6>
+    <div class="twofas-light-configured js-twofas-light-configured-paragraph">
+        <p>If you want to configure another app/device, click button below.</p>
+    </div>
+    <div class="twofas-light-configuring-new js-twofas-light-configuring-new-paragraph">
+        <p>You are configuring another device right now.</p>
+        <p class="twofas-light-date">
+            Last paired device:
+			{% if twofas_light_user_configuration_date is not null %}
+				<span class="js-twofas-light-date-content" data-timestamp-to-format="{{ twofas_light_user_configuration_date|e('html_attr') }}">
+					{{ timestamp_to_wp_datetime(twofas_light_user_configuration_date) }}
+				</span>
+			{% else %}
+				<span class="js-twofas-light-date-content">
+					not specified
+				</span>
+			{% endif %}
+        </p>
+    </div>
+</div>

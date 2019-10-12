@@ -1,0 +1,58 @@
+@import 'variables';
+@import 'functions';
+
+.twofas-light-logo-header {
+  display: table;
+  padding-top: 10px;
+  margin-bottom: 37px;
+
+  @media all and (max-width: $screen-md-max) {
+    margin-bottom: 30px;
+  }
+
+  @media all and (max-width: $screen-sm-max) {
+    margin-bottom: 25px;
+  }
+
+  @media all and (max-width: $screen-xs-max) {
+    margin-bottom: 20px;
+    padding-top: 0;
+  }
+
+  .twofas-light-logo-header-cell {
+    display: table-cell;
+  }
+
+  img {
+    height: 43px;
+    width: 43px;
+  }
+
+  h1 {
+    font-size: px-to-rem(22);
+    font-weight: 100;
+    line-height: px-to-rem(26);
+    margin-left: 5px;
+
+    @media all and (max-width: $screen-sm-max) {
+      font-size: px-to-rem(20);
+      line-height: px-to-rem(24);
+    }
+
+    @media all and (max-width: $screen-xs-max) {
+      font-size: px-to-rem(18);
+      line-height: px-to-rem(22);
+    }
+
+    .twofas-light-classy-font {
+      font-family: 'Bilbo Swash Caps', cursive;
+      font-size: 120%;
+    }
+  }
+
+  img,
+  h1 {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

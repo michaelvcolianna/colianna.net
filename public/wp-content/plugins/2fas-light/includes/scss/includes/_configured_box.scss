@@ -1,0 +1,131 @@
+@import 'variables';
+@import 'functions';
+
+.twofas-light-configured-box {
+  background: $tf-configured-box-background;
+  border: 2px solid $tf-configured-box-border;
+  color: $tf-configured-box-color;
+  display: none;
+  margin: 0 auto 42px;
+  max-width: 95%;
+  padding: 65px 15px 35px;
+  position: relative;
+  text-align: center;
+  width: 1386px;
+
+  @media all and (max-width: $screen-sm-max) {
+    padding: 55px 10px 25px;
+  }
+
+  @media all and (max-width: $screen-xs-max) {
+    padding: 40px 10px 20px;
+  }
+
+  &.twofas-light-show {
+    display: block;
+  }
+
+  &.twofas-light-configured {
+    .twofas-light-configured {
+      display: block;
+    }
+
+    .twofas-light-configuring-new {
+      display: none;
+    }
+  }
+
+  &.twofas-light-configuring-new {
+    .twofas-light-configured {
+      display: none;
+    }
+
+    .twofas-light-configuring-new {
+      display: block;
+    }
+  }
+
+  &-tick {
+    background: $tf-step-number-background;
+    border-radius: 50%;
+    display: inline-block;
+    height: 60px;
+    left: 50%;
+    line-height: 60px;
+    margin-left: 10px;
+    position: absolute;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    top: 0;
+    vertical-align: middle;
+    width: 60px;
+
+    @media all and (max-width: $screen-sm-max) {
+      height: 50px;
+      line-height: 50px;
+      width: 50px;
+    }
+
+    @media all and (max-width: $screen-xs-max) {
+      height: 40px;
+      line-height: 40px;
+      width: 40px;
+    }
+
+    .twofas-light-icon {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .twofas-light-configured,
+  .twofas-light-configuring-new {
+    display: none;
+  }
+
+  h6 {
+    color: $tf-configured-box-header-color;
+    font-size: px-to-rem(24);
+    font-weight: 400;
+    letter-spacing: .3px;
+    margin: 0 0 5px;
+
+    @media all and (max-width: $screen-sm-max) {
+      font-size: px-to-rem(22);
+    }
+
+    @media all and (max-width: $screen-xs-max) {
+      font-size: px-to-rem(20);
+    }
+  }
+
+  p {
+    font-size: px-to-rem(20);
+    letter-spacing: .3px;
+    line-height: 1.38;
+    margin-top: 0;
+    margin-bottom: 2px;
+
+    @media all and (max-width: $screen-sm-max) {
+      font-size: px-to-rem(18);
+    }
+
+    @media all and (max-width: $screen-xs-max) {
+      font-size: px-to-rem(16);
+    }
+
+    &.twofas-light-date {
+      font-size: px-to-rem(18);
+      line-height: 1.71;
+      letter-spacing: .2px;
+
+      @media all and (max-width: $screen-sm-max) {
+        font-size: px-to-rem(16);
+      }
+
+      @media all and (max-width: $screen-xs-max) {
+        font-size: px-to-rem(14);
+      }
+    }
+  }
+}
