@@ -2,7 +2,7 @@
 Contributors: Anlino
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=anders%40andersnoren%2ese&lc=US&item_name=Free%20WordPress%20Themes%20from%20Anders%20Noren&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Requires at least: 4.4
-Tested up to: 5.2
+Tested up to: 5.4
 Stable tag: trunk
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -22,7 +22,6 @@ All theme specific options are handled through the WordPress Customizer.
 2. Click the dropdown beneath "Template" in "Page Attributes", and select Resum.
 
 In the resume page template, all titles span the entire width of the content, whereas all other elements are aligned to the right. This enables you to create sections in the resume content by simple adding another title. For instance, adding a title called "Education" and adding a paragraph of text beneath it will automatically create a section with the "Education" title to the left and the paragraph of text to the right.
-
 
 
 == Frequently Asked Questions ==
@@ -50,6 +49,27 @@ Source: https://www.pexels.com/u/fancycrave-60738/
 
 
 == Changelog ==
+
+Version 1.28 (2020-04-25)
+-------------------------
+- Singular: Added output of edit link after the entry content.
+- Singular: Changed the post_class element to a `article` element.
+- Singular: Added the `entry` class to the `article` element, and the `entry-title` class to the post heading.
+- Set the post thumbnail size to the size of the `hamilton_fullscreen-image` image size, and removed said image size.
+- Moved the editor styles to the new `/assets/css/` folder, and renamed them.
+- Removed output of "Comments closed" when the comments field is closed.
+- Fixed targeting of the "Sticky post" string in post previews.
+- Updated Firefox text aliasing to better match Safari and Chrome.
+- Increased the color contrast of the light gray color.
+
+Version 1.27 (2020-04-02)
+-------------------------
+- Updated alignwide width to match the featured image width (1240px).
+- Added clearfix to the entry-content.
+- Bumped "Tested up to" to 5.4.
+- Updated styles to work with the new markup structure for the gallery block.
+- New block styles: Social, Buttons.
+- Added base block margins (for blocks without alignments set)
 
 Version 1.26 (2019-07-20)
 -------------------------

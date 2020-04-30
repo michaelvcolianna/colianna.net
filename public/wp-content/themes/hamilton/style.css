@@ -2,7 +2,7 @@
 
 	Theme Name: Hamilton
     Text Domain: hamilton
-	Version: 1.26
+	Version: 1.28
 	Description: Hamilton is a clean WordPress portfolio theme for creatives. It displays posts in a beautiful image grid that can be set to either two or three columns, which makes it a perfect fit for photographers, illustrators or graphic designers looking for a theme for their portfolio. It also features Block Editor/Gutenberg support, a dark mode, custom background color support, a resume page template, responsive design, Jetpack infinite scroll support, editor styling, and much more. Demo: https://andersnoren.se/themes/hamilton/
 	Tags: blog, two-columns, three-columns, custom-menu, featured-images, threaded-comments, translation-ready, grid-layout, custom-background, custom-logo, editor-style, sticky-post, theme-options, portfolio, photography, block-styles, wide-blocks
 	Author: Anders Norén
@@ -148,6 +148,7 @@ body * {
         -webkit-box-sizing: border-box; 
         -moz-box-sizing: border-box; 
 	box-sizing: border-box; 
+	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -172,6 +173,7 @@ img {
 
 .group:after,
 .pagination:after,
+.entry-content:after,
 .gallery:after {
 	clear: both; 
 	content: "";
@@ -183,9 +185,9 @@ img {
 	color: #FFF;
 }
 
-input::-webkit-input-placeholder { color: #999; }
-input:-ms-input-placeholder { color: #999; }
-input::-moz-placeholder { color: #999; }
+input::-webkit-input-placeholder { color: #767676; }
+input:-ms-input-placeholder { color: #767676; }
+input::-moz-placeholder { color: #767676; }
 
 
 /* -------------------------------------------------------------------------------- */
@@ -256,12 +258,12 @@ a {
 }
 
 .site-header .site-title a:hover {
-	color: rgba( 0, 0, 0, .35 );
+	color: rgba( 0, 0, 0, .55 );
 	text-decoration: none;
 }
 
 .dark-mode .site-header .site-title a:hover {
-	color: rgba( 255, 255, 255, .35 );
+	color: rgba( 255, 255, 255, .55 );
 }
 
 .site-header .custom-logo {
@@ -415,11 +417,11 @@ a {
 }
 
 .site-nav ul + ul a {
-	color: rgba( 0, 0, 0, .35 );
+	color: rgba( 0, 0, 0, .55 );
 }
 
 .dark-mode .site-nav ul + ul a {
-	color: rgba( 255, 255, 255, .35 );
+	color: rgba( 255, 255, 255, .55 );
 }
 
 .site-nav ul a:hover {
@@ -438,12 +440,12 @@ a {
 
 .site-nav ul:last-child a:hover,
 .site-nav ul:last-child .current-menu-item > a { 
-	border-bottom-color: rgba( 0, 0, 0, .35 );
+	border-bottom-color: rgba( 0, 0, 0, .55 );
 }
 
 .dark-mode .site-nav ul:last-child a:hover,
 .dark-mode .site-nav ul:last-child .current-menu-item > a { 
-	border-bottom-color: rgba( 255, 255, 255, .35 );
+	border-bottom-color: rgba( 255, 255, 255, .55 );
 }
 
 .site-nav footer {
@@ -469,12 +471,12 @@ a {
 }
 
 .site-nav footer p:last-child { 
-	color: rgba( 0, 0, 0, .35 );
+	color: rgba( 0, 0, 0, .55 );
 	float: right; 
 }
 
 .dark-mode .site-nav footer p:last-child { 
-	color: rgba( 255, 255, 255, .35 );
+	color: rgba( 255, 255, 255, .55 );
 }
 
 
@@ -762,7 +764,7 @@ a {
 	transform: translateY( 10px );
 }
 
-.post-preview.sticky .sticky-post {
+.post-preview .sticky-post {
 	color: #fff;
 	font-size: 13px;
 	font-weight: 700;
@@ -895,13 +897,13 @@ a {
 /* Meta ----------------------------- */
 
 .meta {	
-	color: rgba( 0, 0, 0, .35 );
+	color: rgba( 0, 0, 0, .55 );
 	font-size: 18px;
 	margin-top: 30px;
 }
 
 .dark-mode .meta {	
-	color: rgba( 255, 255, 255, .35 );
+	color: rgba( 255, 255, 255, .55 );
 }
 
 .meta span {
@@ -914,12 +916,12 @@ a {
 }
 
 .meta a:hover {
-	border-bottom-color: rgba( 0, 0, 0, .35 );
+	border-bottom-color: rgba( 0, 0, 0, .55 );
 	text-decoration: none;
 }
 
 .dark-mode .meta a:hover {
-	border-bottom-color: rgba( 255, 255, 255, .35 );
+	border-bottom-color: rgba( 255, 255, 255, .55 );
 }
 
 
@@ -1183,10 +1185,6 @@ address {
 	line-height: 140%;
 	margin: 2em 0;
 	padding: 20px;
-	white-space: pre-wrap;       /* css-3 */
-	white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-	white-space: -pre-wrap;      /* Opera 4-6 */
-	white-space: -o-pre-wrap;    /* Opera 7 */
 	word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
@@ -1271,7 +1269,7 @@ figure {
 
 .entry-content figcaption,
 .entry-content .wp-caption-text {
-	color: rgba( 0, 0, 0, .5 );
+	color: rgba( 0, 0, 0, .55 );
 	margin-bottom: 0;
 }
 
@@ -1318,9 +1316,9 @@ figure {
 }
 
 .entry-content .alignwide {
-	margin-left: calc( 50% - 530px );
-	max-width: 1060px;
-	width: 1060px;
+	margin-left: calc( 50% - 620px );
+	max-width: 1240px;
+	width: 1240px;
 }
 
 .alignnone {
@@ -1629,6 +1627,44 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 .entry-content .has-larger-font-size { font-size: 1.4em; }
 
 
+/* Block: Base Margins ----------------------- */
+
+:root *[class*="_inner-container"] > *:first-child {
+	margin-top: 0;
+}
+
+:root *[class*="_inner-container"] > *:last-child {
+	margin-bottom: 0;
+}
+
+.wp-block-archives,
+.wp-block-button,
+.wp-block-buttons,
+.wp-block-categories,
+.wp-block-code,
+.wp-block-columns,
+.wp-block-cover,
+.wp-block-cover-image,
+.wp-block-embed,
+.wp-block-gallery,
+.wp-block-group,
+.wp-block-image,
+.wp-block-latest-comments,
+.wp-block-latest-posts,
+.wp-block-media-text,
+.wp-block-preformatted,
+.wp-block-pullquote,
+.wp-block-social,
+.wp-block-quote,
+.wp-block-quote.is-large,
+.wp-block-quote.is-style-large,
+.wp-block-verse,
+.wp-block-video {
+	margin-bottom: 3rem;
+	margin-top: 3rem;
+}
+
+
 /* Block: Button --------------------------------------- */
 
 .entry-content .wp-block-file__button,
@@ -1729,6 +1765,18 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 	line-height: 1.3;
 }
 
+/* Block: Social ---------------------------------------- */
+
+ul.wp-block-social-links {
+	margin-left: 0;
+}
+
+/* Block: Buttons ---------------------------------------- */
+
+.wp-block-buttons {
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
 
 /* Block: Gallery --------------------------------------- */
 
@@ -1739,21 +1787,16 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 	padding-bottom: 10px;
 }
 
-.entry-content .wp-block-gallery.alignfull {
-	padding: 0 8px;
-}
-
-.entry-content ul.wp-block-gallery:not(.alignfull):not(.alignwide) {
+.entry-content ul.wp-block-gallery:not(.alignfull):not(.alignwide),
+.entry-content .wp-block-gallery ul {
 	margin-left: 0;
 }
 
-.entry-content ul.wp-block-gallery > li:first-child {
-	margin-top: 0;
-}
+.entry-content ul.wp-block-gallery > li:first-child,
+.entry-content .wp-block-gallery ul > li:first-child { margin-top: 0; }
 
-.entry-content ul.wp-block-gallery > li:last-child {
-	margin-bottom: 16px;
-}
+.entry-content ul.wp-block-gallery > li:last-child,
+.entry-content .wp-block-gallery ul > li:last-child { margin-bottom: 16px; }
 
 
 /* Block: Image --------------------------------------- */
@@ -1884,12 +1927,12 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 }
 
 .comment-metadata {
-	color: rgba( 0, 0, 0, .35 );
+	color: rgba( 0, 0, 0, .55 );
 	line-height: 1.25;
 }
 
 .dark-mode .comment-metadata {
-	color: rgba( 255, 255, 255, .35 );
+	color: rgba( 255, 255, 255, .55 );
 }
 
 .comment-content,
@@ -1935,11 +1978,11 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 }
 
 .comments-pagination .page-numbers.dots {
-	color: rgba( 0, 0, 0, .35 );
+	color: rgba( 0, 0, 0, .55 );
 }
 
 .dark-mode .comments-pagination .page-numbers.dots {
-	color: rgba( 255, 255, 255, .35 );
+	color: rgba( 255, 255, 255, .55 );
 }
 
 .comments-pagination .prev,
@@ -1961,14 +2004,14 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 }
 
 .comment-respond .logged-in-as {
-	color: rgba( 0, 0, 0, .35 );
+	color: rgba( 0, 0, 0, .55 );
 	font-size: 18px;
 	line-height: 1.25;
 	margin: 0 0 50px 0;
 }
 
 .dark-mode .comment-respond .logged-in-as {
-	color: rgba( 255, 255, 255, .35 );
+	color: rgba( 255, 255, 255, .55 );
 }
 
 .comment-respond p + p { 
@@ -2067,11 +2110,11 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 .post-pagination .next-posts-link { float: right; }
 
 .post-pagination a {
-	color: rgba( 0, 0, 0, .35 );
+	color: rgba( 0, 0, 0, .55 );
 }
 
 .dark-mode .post-pagination a {
-	color: rgba( 255, 255, 255, .35 );
+	color: rgba( 255, 255, 255, .55 );
 }
 
 .post-pagination a:hover {
@@ -2118,7 +2161,7 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 .infinite-scroll #infinite-handle button:focus {
 	background: none;
 	border-radius: 0;
-	color: rgba( 0, 0, 0, .5 );
+	color: rgba( 0, 0, 0, .55 );
 	font-size: 40px;
 	font-weight: 300;
 	letter-spacing: -0.025em;
@@ -2216,13 +2259,13 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 }
 
 .site-footer p + p { 
-	color: rgba( 0, 0, 0, .35 );
+	color: rgba( 0, 0, 0, .55 );
 	font-size: 18px;
     margin-top: 12px; 
 }
 
 .dark-mode .site-footer p + p {
-	color: rgba( 255, 255, 255, .35 );
+	color: rgba( 255, 255, 255, .55 );
 }
 
 .site-footer a {
@@ -2246,11 +2289,11 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 }
 
 .site-footer p + p a:hover {
-	border-bottom-color: rgba( 0, 0, 0, .35 );
+	border-bottom-color: rgba( 0, 0, 0, .55 );
 }
 
 .dark-mode .site-footer p + p a:hover {
-	border-bottom-color: rgba( 255, 255, 255, .35 );
+	border-bottom-color: rgba( 255, 255, 255, .55 );
 }
 
 
@@ -2295,7 +2338,7 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 
 /* 1180 PX */
 
-@media ( max-width: 1180px ) {
+@media ( max-width: 1377px ) {
 
 
 	/* Entry Content ----------------------------- */
@@ -2580,7 +2623,7 @@ tbody > tr:nth-child(odd) { background: rgba( 0, 0, 0, 0.05 ); }
 		top: 20px;
 	}
 	
-	.post-preview.sticky .sticky-post {
+	.post-preview .sticky-post {
 		font-size: 11px;
 		letter-spacing: 1px;
 		margin-bottom: 5px;
