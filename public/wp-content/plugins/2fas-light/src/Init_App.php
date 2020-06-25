@@ -22,7 +22,7 @@ class Init_App extends App implements HTML_Consumer, Redirect_Consumer {
 	}
 	
 	/**
-	 * @param $html
+	 * @param string $html
 	 */
 	public function consume_html( $html ) {
 		$menu = new Menu();

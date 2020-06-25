@@ -6,10 +6,10 @@ use Endroid\QrCode\QrCode;
 use TwoFAS\Light\Option\Option;
 
 class QR_Generator {
-	
+
 	/** @var Option */
 	private $options;
-	
+
 	/**
 	 * QR_Generator constructor.
 	 *
@@ -18,9 +18,9 @@ class QR_Generator {
 	public function __construct( Option $options ) {
 		$this->options = $options;
 	}
-	
+
 	/**
-	 * @param  string $secret
+	 * @param string $secret
 	 *
 	 * @return string
 	 */
@@ -31,17 +31,17 @@ class QR_Generator {
 		$user_email      = rawurlencode( wp_get_current_user()->user_email );
 		$description     = $this->get_description();
 		$size            = 300;
-		
+
 		$message = "otpauth://totp/{$description}:{$user_email}?secret={$secret}&issuer={$site_name}";
-		
+
 		$endroid_qr_code
 			->setText( $message )
 			->setSize( $size )
 			->setErrorCorrection( 'high' );
-		
+
 		return $endroid_qr_code->getDataUri();
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -51,9 +51,10 @@ class QR_Generator {
 		} else {
 			$site_name = $this->options->get_blog_name();
 		}
+
 		return rawurlencode( $site_name );
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -65,6 +66,7 @@ class QR_Generator {
 				return rawurlencode( $parsed['host'] );
 			}
 		}
+
 		return rawurlencode( 'WordPress Account' );
 	}
 }

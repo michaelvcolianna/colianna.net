@@ -12,6 +12,7 @@ use WP_Error;
 class Second_Step_Renderer {
 	
 	const LOGIN_ERROR_CODE = 'twofas_light_login_error';
+	const RENDERING_ACTION = 'twofas_light_rendering_second_step';
 	
 	/** @var View_Renderer */
 	private $view_renderer;
@@ -41,6 +42,7 @@ class Second_Step_Renderer {
 	 * @return Result_HTML
 	 */
 	public function render( $error_message = '' ) {
+		do_action( self::RENDERING_ACTION );
 		$html = $this->view_renderer->render( 'login_second_step.html.twig', array_merge(
 			$this->login_params_mapper->map_from_request_for_view(),
 			array(

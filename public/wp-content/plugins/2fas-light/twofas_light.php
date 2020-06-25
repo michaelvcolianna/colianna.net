@@ -3,7 +3,7 @@
  * Plugin Name: 2FAS Light — Google Authenticator
  * Plugin URI:  https://wordpress.org/plugins/2fas-light/
  * Description: Free, simple, token-based authentication (Google Authenticator) for your WordPress. No registration needed.
- * Version:     1.2.0
+ * Version:     1.3.0
  * Author:      Two Factor Authentication Service Inc.
  * Author URI:  https://2fas.com
  * License:     GPL2
@@ -42,14 +42,9 @@ function full_twofas_plugin_active_notice() {
 	     . '</div>';
 }
 
-$plugin_url     = plugins_url( '', __FILE__ );
-$templates_path = plugin_dir_path( __FILE__ ) . 'includes/view';
-
-define( 'TWOFAS_LIGHT_URL', $plugin_url );
-define( 'TWOFAS_LIGHT_WP_ADMIN_PATH', get_admin_url() );
-define( 'TWOFAS_LIGHT_TEMPLATES_PATH', $templates_path );
-define( 'TWOFAS_LIGHT_PLUGIN_VERSION', '1.2.0' );
+define( 'TWOFAS_LIGHT_PLUGIN_VERSION', '1.3.0' );
 define( 'TWOFAS_LIGHT_PLUGIN_FILE', __FILE__ );
+define( 'TWOFAS_LIGHT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 twofas_light_bind_enqueue_styles();
 twofas_light_check_system_requirements_and_init();

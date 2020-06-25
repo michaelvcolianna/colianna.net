@@ -13,20 +13,20 @@ use TwoFAS\Light\Exception\DateTime_Creation_Exception;
 use TwoFAS\Light\Time\Time;
 
 class View_Renderer {
-	
+
 	const ERROR_TEMPLATE_NOT_FOUND = '2FAS Light plugin could not find a template.';
 	const ERROR_COMPILATION_FAILED = 'Error occurred in 2FAS plugin during template compilation.';
 	const ERROR_RENDERING_FAILED = 'Error occurred in 2FAS plugin during template rendering.';
 	const ERROR_PARSING_DATE = 'Could not parse date';
-	
+
 	/**
 	 * @var Twig_Environment
 	 */
 	private $twig;
-	
+
 	/** @var Time */
 	private $time;
-	
+
 	/**
 	 * View_Renderer constructor.
 	 *
@@ -35,17 +35,17 @@ class View_Renderer {
 	public function __construct( Time $time ) {
 		$this->time = $time;
 	}
-	
+
 	public function init() {
-		$twig_loader          = new Twig_Loader_Filesystem( TWOFAS_LIGHT_TEMPLATES_PATH );
-		$this->twig           = new Twig_Environment( $twig_loader );
+		$twig_loader = new Twig_Loader_Filesystem( TWOFAS_LIGHT_TEMPLATES_PATH );
+		$this->twig  = new Twig_Environment( $twig_loader );
 		$this->twig->addFunction( new Twig_SimpleFunction( 'timestamp_to_wp_datetime',
 			array( $this, 'timestamp_to_wp_datetime' ) ) );
 		$this->twig->addFunction( new Twig_SimpleFunction( 'describe_device', array( $this, 'describe_device' ) ) );
 		$this->twig->addFunction( new Twig_SimpleFunction( 'login_footer', 'login_footer' ) );
 		$this->twig->addFunction( new Twig_SimpleFunction( 'login_header', 'login_header' ) );
 	}
-	
+
 	/**
 	 * @param $template
 	 * @param $arguments
@@ -59,7 +59,7 @@ class View_Renderer {
 		$arguments['login_url']                    = wp_login_url();
 		$arguments['nonce_field']                  = wp_nonce_field( 'twofas_light_ajax', $name = '_wpnonce',
 			$referer = false, $echo = false );
-		
+
 		try {
 			return $this->twig->render( $template, $arguments );
 		} catch ( Twig_Error_Loader $e ) {
@@ -70,7 +70,7 @@ class View_Renderer {
 			return $this->render_error( self::ERROR_RENDERING_FAILED );
 		}
 	}
-	
+
 	/**
 	 * @param $user_agent
 	 *
@@ -78,10 +78,10 @@ class View_Renderer {
 	 */
 	public function describe_device( $user_agent ) {
 		$twofas_browser = new Browser( $user_agent );
-		
+
 		return $twofas_browser->describe();
 	}
-	
+
 	/**
 	 * @param string $message
 	 *

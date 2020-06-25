@@ -2,26 +2,27 @@
 
 namespace TwoFAS\Light\Action\Authenticate;
 
+use TwoFAS\Light\Login_Token\Login_Token_Manager;
 use TwoFAS\Light\Result\Result_Request_Not_Handled;
-use TwoFAS\Light\Step_Token\Step_Token;
 
 class Authenticate_Reauth_Request implements Authentication_Strategy {
-	
-	/** @var Step_Token */
-	private $step_token;
-	
+
+	/** @var Login_Token_Manager */
+	private $step_token_manager;
+
 	/**
-	 * @param Step_Token $step_token
+	 * @param Login_Token_Manager $step_token_manager
 	 */
-	public function __construct( Step_Token $step_token ) {
-		$this->step_token = $step_token;
+	public function __construct( Login_Token_Manager $step_token_manager ) {
+		$this->step_token_manager = $step_token_manager;
 	}
-	
+
 	/**
 	 * @return Result_Request_Not_Handled
 	 */
 	public function authenticate() {
-		$this->step_token->delete_token_cookie();
+		$this->step_token_manager->delete_cookie();
+
 		return new Result_Request_Not_Handled();
 	}
 }

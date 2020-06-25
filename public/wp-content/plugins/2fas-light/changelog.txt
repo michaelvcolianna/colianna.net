@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 1.3.0 (Jun. 22, 2020) =
+* Added compatibility with Jetpack
+* Added link to plugin settings in plugin list
+* Fixed use plugins_url function
+
 = 1.2.0 (Oct. 9, 2019) =
 * Added compatibility with multisite
 * Minor frontend fixes

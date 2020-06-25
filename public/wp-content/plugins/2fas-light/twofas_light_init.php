@@ -4,23 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-function twofas_light_bind_to_wp_hooks() {
-	//  Add actions and filters
-	add_action( 'login_enqueue_scripts', 'twofas_light_enqueue_scripts' );
-	add_action( 'admin_enqueue_scripts', 'twofas_light_enqueue_scripts' );
-	add_action( 'init', 'twofas_light_update_plugin_if_needed', 5 );
-	add_action( 'init', 'twofas_light_init' );
-	add_action( 'admin_init', 'twofas_light_network_setup_validation' );
-	
-	//  Turn off critical functionalities when full plugin is installed
-	if ( ! defined( 'TWOFAS_LIGHT_FULL_TWOFAS_PLUGIN_ACTIVE_FLAG' ) ) {
-		add_action( 'login_form', 'twofas_light_login' );
-		add_action( 'login_footer', 'twofas_light_login_footer' );
-		add_action( 'wp_ajax_twofas_light_ajax', 'twofas_light_ajax' );
-		add_filter( 'authenticate', 'twofas_light_authenticate', 100, 1 );
-	}
-}
-
 //  Import application contexts
 require_once( __DIR__ . '/vendor/autoload.php' );
 
@@ -30,14 +13,48 @@ use TwoFAS\Light\Action\Authenticate\Authentication_Strategy_Factory;
 use TwoFAS\Light\Action\Router;
 use TwoFAS\Light\Ajax_App;
 use TwoFAS\Light\Authenticate_App;
-use TwoFAS\Light\Generic_App;
-use TwoFAS\Light\Init_App;
-use TwoFAS\Light\Login_App;
 use TwoFAS\Light\Exception\Plugin_Not_Active_On_All_Multinetwork_Sites_Exception;
 use TwoFAS\Light\Exception\Plugin_Not_Active_On_All_Multisite_Sites_Exception;
-use TwoFAS\Light\Network\Network_Setup_Warning_Printer;
+use TwoFAS\Light\Generic_App;
+use TwoFAS\Light\Hooks\Action_Links_Filter;
+use TwoFAS\Light\Init_App;
+use TwoFAS\Light\Jetpack_Support\Jetpack_Support_Handler;
+use TwoFAS\Light\Jetpack_Support\Script_Conflict_Resolver;
+use TwoFAS\Light\Login_App;
 use TwoFAS\Light\Network\Network_Setup_Validator;
+use TwoFAS\Light\Network\Network_Setup_Warning_Printer;
 use TwoFAS\Light\View\Login_Footer_Renderer;
+
+function twofas_light_bind_to_wp_hooks() {
+	//  Add actions and filters
+	add_action( 'login_enqueue_scripts', 'twofas_light_enqueue_scripts' );
+	add_action( 'admin_enqueue_scripts', 'twofas_light_enqueue_scripts' );
+	add_action( 'init', 'twofas_light_define_paths', 3 );
+	add_action( 'init', 'twofas_light_update_plugin_if_needed', 5 );
+	add_action( 'init', 'twofas_light_init' );
+	add_action( 'admin_init', 'twofas_light_network_setup_validation' );
+	
+	$action_links = new Action_Links_Filter();
+	$action_links->register_hook();
+	
+	//  Only activate critical functionalities if full plugin is not active
+	if ( ! defined( 'TWOFAS_LIGHT_FULL_TWOFAS_PLUGIN_ACTIVE_FLAG' ) ) {
+		add_action( 'login_form', 'twofas_light_login' );
+		add_action( 'login_footer', 'twofas_light_login_footer' );
+		add_action( 'wp_ajax_twofas_light_ajax', 'twofas_light_ajax' );
+		add_filter( 'authenticate', 'twofas_light_authenticate', 100, 1 );
+		add_action( 'init', 'twofas_light_support_jetpack_features' );
+	}
+}
+
+function twofas_light_define_paths() {
+	$plugin_url     = plugins_url( '', __FILE__ );
+	$templates_path = plugin_dir_path( __FILE__ ) . 'includes/view';
+	
+	define( 'TWOFAS_LIGHT_URL', $plugin_url );
+	define( 'TWOFAS_LIGHT_WP_ADMIN_PATH', get_admin_url() );
+	define( 'TWOFAS_LIGHT_TEMPLATES_PATH', $templates_path );
+}
 
 function twofas_light_update_plugin_if_needed() {
 	$app = new Generic_App();
@@ -103,10 +120,18 @@ function twofas_light_network_setup_validation() {
  * @return WP_User|WP_Error|null
  */
 function twofas_light_authenticate( $wp_user ) {
-	$authentication_input = new Authentication_Input( $wp_user );
-	$strategy_factory = new Authentication_Strategy_Factory( $authentication_input );
-	$action = new Authenticate( $strategy_factory );
-	$app = new Authenticate_App( $action, $authentication_input );
+	$authentication_input            = new Authentication_Input( $wp_user );
+	$authentication_strategy_factory = new Authentication_Strategy_Factory( $authentication_input );
+	$action                          = new Authenticate( $authentication_strategy_factory );
+	$app                             = new Authenticate_App( $action, $authentication_input );
 	
 	return $app->run();
+}
+
+function twofas_light_support_jetpack_features() {
+	$app = new Generic_App();
+	$app->run();
+	
+	$jetpack_support = new Jetpack_Support_Handler( $app, new Script_Conflict_Resolver() );
+	$jetpack_support->handle_jetpack_features();
 }

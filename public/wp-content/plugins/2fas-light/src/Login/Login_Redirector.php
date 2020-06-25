@@ -5,36 +5,40 @@ namespace TwoFAS\Light\Login;
 use TwoFAS\Light\Request\Request;
 
 class Login_Redirector {
-	
+
 	const LOGIN_REDIRECT_FLAG = 'twofas_light_login_redirect';
-	
+
 	/** @var Current_Path_Checker */
 	private $current_path_checker;
-	
+
 	/** @var Login_Params_Mapper */
 	private $login_params_mapper;
-	
+
 	/** @var Request */
 	private $request;
-	
+
 	/**
 	 * @param Current_Path_Checker $current_path_checker
 	 * @param Login_Params_Mapper  $login_params
 	 * @param Request              $request
 	 */
-	public function __construct( Current_Path_Checker $current_path_checker, Login_Params_Mapper $login_params, Request $request ) {
+	public function __construct(
+		Current_Path_Checker $current_path_checker,
+		Login_Params_Mapper $login_params,
+		Request $request
+	) {
 		$this->current_path_checker = $current_path_checker;
 		$this->login_params_mapper  = $login_params;
 		$this->request              = $request;
 	}
-	
+
 	/**
 	 * @return bool
 	 */
 	public function is_current_page_standard_wp_login_page() {
 		return $this->current_path_checker->is_current_path( 'wp-login.php' );
 	}
-	
+
 	/**
 	 * @return bool
 	 */
@@ -44,10 +48,10 @@ class Login_Redirector {
 		} else {
 			$was_redirected = $this->request->get_from_get( self::LOGIN_REDIRECT_FLAG );
 		}
-		
+
 		return '1' === $was_redirected;
 	}
-	
+
 	public function redirect_to_wp_login_page() {
 		$query_args = array_merge(
 			array( 'redirect_to' => rawurlencode( site_url( $this->request->get_from_server( 'REQUEST_URI' ) ) ) ),
@@ -57,5 +61,30 @@ class Login_Redirector {
 		$login_form_action_url = esc_url( site_url( 'wp-login.php', 'login_post' ) );
 		wp_safe_redirect( add_query_arg( $query_args, $login_form_action_url ) );
 		exit;
+	}
+
+	public function redirect_to_jetpack_login_page() {
+		wp_safe_redirect( $this->generate_jetpack_redirect_url() );
+		exit;
+	}
+
+	/**
+	 * This method reproduces the URL generation logic of Jetpack_SSO::build_sso_button_url().
+	 *
+	 * @return string
+	 * @see Jetpack_SSO::build_sso_button_url()
+	 *
+	 */
+	private function generate_jetpack_redirect_url() {
+		$args = array(
+			'action' => 'jetpack-sso',
+		);
+
+		$redirect_to = $this->request->get_from_post( 'redirect_to' );
+		if ( ! empty( $redirect_to ) ) {
+			$args['redirect_to'] = urlencode( esc_url_raw( $redirect_to ) );
+		}
+
+		return add_query_arg( $args, wp_login_url() );
 	}
 }

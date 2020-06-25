@@ -4,15 +4,13 @@ namespace TwoFAS\Light\Result;
 
 class Result_HTML {
 	
-	/**
-	 * @var
-	 */
+	/** @var string */
 	private $html;
 	
 	/**
 	 * Result_HTML constructor.
 	 *
-	 * @param $html
+	 * @param string $html
 	 */
 	public function __construct( $html ) {
 		$this->html = $html;

@@ -5,12 +5,10 @@ namespace TwoFAS\Light\Hash;
 use TwoFAS\Encryption\Random\RandomGenerator;
 
 class Hash_Generator {
-	
-	const GENERATED_HASH_LENGTH = 128;
-	
+
 	/** @var RandomGenerator */
 	private $random_generator;
-	
+
 	/**
 	 * Hash_Generator constructor.
 	 *
@@ -19,7 +17,7 @@ class Hash_Generator {
 	public function __construct( RandomGenerator $random_generator ) {
 		$this->random_generator = $random_generator;
 	}
-	
+
 	/**
 	 * @param int $length
 	 *
@@ -28,7 +26,7 @@ class Hash_Generator {
 	public function generate_hash( $length ) {
 		return $this->random_generator->string( $length )->__toString();
 	}
-	
+
 	/**
 	 * @param int $length
 	 *

@@ -2,7 +2,7 @@
 Contributors: 2fas
 Tags: 2FA, 2 factor authentication, 2-fa, 2-step verification, 2fa wordpress, two factor authentication, security, multifactor authentication, google authenticator, token, otp, totp
 Requires at least: 3.6
-Tested up to: 5.2
+Tested up to: 5.4
 Requires PHP: 5.3
 Stable tag: trunk
 License: GPL2
@@ -101,6 +101,11 @@ You can either use it privately or for commercial usage without any fees.
 3. Configuring the two-factor authentication in the 2FAS Light plugin
 
 == Changelog ==
+
+= 1.3.0 (Jun. 22, 2020) =
+* Added compatibility with Jetpack
+* Added link to plugin settings in plugin list
+* Fixed use plugins_url function
 
 = 1.2.0 (Oct. 9, 2019) =
 * Added compatibility with multisite
