@@ -34,7 +34,7 @@ class Menu {
 	 */
 	public function run( $view ) {
 		$this->view = $view;
-		add_action( 'admin_menu', array( $this, 'init_menu' ) );
+		add_action( 'admin_menu', [ $this, 'init_menu' ] );
 	}
 	
 	public function init_menu() {
@@ -43,7 +43,7 @@ class Menu {
 			$this->menu_name,
 			$this->capability,
 			$this->menu_id,
-			array( $this, 'init_submenu' ),
+			[ $this, 'init_submenu' ],
 			TWOFAS_LIGHT_URL . '/includes/img/icon.svg'
 		);
 	}

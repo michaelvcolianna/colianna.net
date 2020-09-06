@@ -2,13 +2,13 @@
 
 namespace TwoFAS\Light\TOTP;
 
+use TwoFAS\Light\App;
 use TwoFAS\Light\Exception\Empty_TOTP_Token_Exception;
 use TwoFAS\Light\Exception\Invalid_TOTP_Secret;
 use TwoFAS\Light\Exception\Invalid_TOTP_Token_Format;
 use TwoFAS\Light\Exception\Invalid_TOTP_Token_Supplied;
 use TwoFAS\Light\Exception\Non_String_TOTP_Token_Exception;
 use TwoFAS\Light\Exception\Validation_Exception;
-use TwoFAS\Light\App;
 use TwoFAS\Light\User\User;
 use TwoFAS\Light\User\User_Blocker;
 

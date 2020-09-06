@@ -2,9 +2,9 @@
 
 namespace TwoFAS\Light\Device;
 
+use TwoFAS\Light\App;
 use TwoFAS\Light\Cookie\Cookie;
 use TwoFAS\Light\Request\Request;
-use TwoFAS\Light\App;
 use TwoFAS\Light\User\User;
 
 class Trusted_Device_Cookie_Manager {
@@ -35,8 +35,12 @@ class Trusted_Device_Cookie_Manager {
 	 * @param Trusted_Device $device
 	 */
 	public function set( Trusted_Device $device ) {
-		$this->cookie->set_cookie( $device->get_device_id(), $device->get_device_key(), self::COOKIE_LIFESPAN,
-			true );
+		$this->cookie->set_cookie(
+			$device->get_device_id(),
+			$device->get_device_key(),
+			self::COOKIE_LIFESPAN,
+			true
+		);
 	}
 	
 	public function delete_all_set() {

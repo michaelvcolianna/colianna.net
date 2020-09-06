@@ -3,22 +3,22 @@
 namespace TwoFAS\Light\Rate_Plugin_Prompt;
 
 use DateTime;
-use TwoFAS\Light\Exception\Rate_Plugin_Countdown_Never_Started_Exception;
 use TwoFAS\Light\Exception\DateTime_Creation_Exception;
+use TwoFAS\Light\Exception\Rate_Plugin_Countdown_Never_Started_Exception;
 use TwoFAS\Light\Time\Time;
 use TwoFAS\Light\User\User;
 
 class Rate_Plugin_Prompt {
-
+	
 	const DAYS_BEFORE_DISPLAYING_PROMPT = 14;
-	const REQUIRED_CAPABILITY = 'install_plugins';
-
+	const REQUIRED_CAPABILITY           = 'install_plugins';
+	
 	/** @var Time */
 	private $time;
-
+	
 	/** @var User */
 	private $user;
-
+	
 	/**
 	 * Rate_Plugin_Prompt constructor.
 	 *
@@ -29,7 +29,7 @@ class Rate_Plugin_Prompt {
 		$this->time = $time;
 		$this->user = $user;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -42,7 +42,7 @@ class Rate_Plugin_Prompt {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Restart the countdown to when to start displaying the prompt again.
 	 * @throws DateTime_Creation_Exception
@@ -51,7 +51,7 @@ class Rate_Plugin_Prompt {
 		$current_date = $this->time->get_current_datetime();
 		$this->user->update_rate_prompt_countdown_start_date( $current_date );
 	}
-
+	
 	/**
 	 * @return bool
 	 * @throws Rate_Plugin_Countdown_Never_Started_Exception
@@ -84,6 +84,7 @@ class Rate_Plugin_Prompt {
 		} catch ( DateTime_Creation_Exception $e ) {
 			// Pass.
 		}
+		
 		return false;
 	}
 	
@@ -94,6 +95,7 @@ class Rate_Plugin_Prompt {
 	 */
 	private function get_countdown_start_datetime() {
 		$prompt_countdown_start_timestamp = $this->user->get_rate_prompt_countdown_start_timestamp();
+		
 		return $this->time->get_datetime_for_timestamp( $prompt_countdown_start_timestamp );
 	}
 }

@@ -2,22 +2,22 @@
 
 namespace TwoFAS\Light\Hash;
 
-use TwoFAS\Encryption\Random\RandomGenerator;
+use TwoFAS\Encryption\Random\RandomStringGenerator;
 
 class Hash_Generator {
-
-	/** @var RandomGenerator */
+	
+	/** @var RandomStringGenerator */
 	private $random_generator;
-
+	
 	/**
 	 * Hash_Generator constructor.
 	 *
-	 * @param RandomGenerator $random_generator
+	 * @param RandomStringGenerator $random_generator
 	 */
-	public function __construct( RandomGenerator $random_generator ) {
+	public function __construct( RandomStringGenerator $random_generator ) {
 		$this->random_generator = $random_generator;
 	}
-
+	
 	/**
 	 * @param int $length
 	 *
@@ -26,7 +26,7 @@ class Hash_Generator {
 	public function generate_hash( $length ) {
 		return $this->random_generator->string( $length )->__toString();
 	}
-
+	
 	/**
 	 * @param int $length
 	 *

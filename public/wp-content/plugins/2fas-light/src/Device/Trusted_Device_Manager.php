@@ -2,16 +2,16 @@
 
 namespace TwoFAS\Light\Device;
 
+use TwoFAS\Light\App;
 use TwoFAS\Light\Exception\Device_ID_Is_Not_Trusted_Exception;
 use TwoFAS\Light\Hash\Hash_Generator;
 use TwoFAS\Light\Request\Request;
-use TwoFAS\Light\App;
 use TwoFAS\Light\User\User;
 
 class Trusted_Device_Manager {
 	
 	const DEVICE_ID_PREFIX = 'TWOFAS_LIGHT_TRUSTED_DEVICE_';
-	const HASH_LENGTH = 128;
+	const HASH_LENGTH      = 128;
 	
 	/** @var Trusted_Device_Cookie_Manager */
 	private $cookie_manager;

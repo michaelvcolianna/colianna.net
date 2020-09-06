@@ -4,9 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-//  Import application contexts
-require_once( __DIR__ . '/vendor/autoload.php' );
-
 use TwoFAS\Light\Action\Authenticate;
 use TwoFAS\Light\Action\Authenticate\Authentication_Input;
 use TwoFAS\Light\Action\Authenticate\Authentication_Strategy_Factory;

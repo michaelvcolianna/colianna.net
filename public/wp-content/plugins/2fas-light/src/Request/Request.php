@@ -70,11 +70,11 @@ abstract class Request {
 	 * @return string|null
 	 */
 	public function get_ip() {
-		$headers = array(
+		$headers = [
 			'X-Forwarded-For',
 			'HTTP_X_FORWARDED_FOR',
 			'REMOTE_ADDR'
-		);
+		];
 		
 		foreach ( $headers as $header ) {
 			$ip = explode( ',', $this->get_if_isset( $this->request_context->get_server(), $header ) );
@@ -106,20 +106,14 @@ abstract class Request {
 	 * @return bool
 	 */
 	public function is_post_request() {
-		$request_method = $this->get_if_isset( $this->request_context->get_server(),
-			self::TWOFAS_LIGHT_REQUEST_METHOD );
-		
-		return self::TWOFAS_LIGHT_POST_REQUEST === $request_method;
+		return self::TWOFAS_LIGHT_POST_REQUEST === $this->get_request_method();
 	}
 	
 	/**
 	 * @return bool
 	 */
 	public function is_get_request() {
-		$request_method = $this->get_if_isset( $this->request_context->get_server(),
-			self::TWOFAS_LIGHT_REQUEST_METHOD );
-		
-		return self::TWOFAS_LIGHT_GET_REQUEST === $request_method;
+		return self::TWOFAS_LIGHT_GET_REQUEST === $this->get_request_method();
 	}
 	
 	/**
@@ -189,5 +183,12 @@ abstract class Request {
 	 */
 	protected function validate_ip( $ip ) {
 		return null !== $ip && filter_var( $ip, FILTER_VALIDATE_IP );
+	}
+	
+	/**
+	 * @return string
+	 */
+	private function get_request_method() {
+		return $this->get_if_isset( $this->request_context->get_server(), self::TWOFAS_LIGHT_REQUEST_METHOD );
 	}
 }

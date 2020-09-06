@@ -24,8 +24,8 @@ class Migration_List {
 	 * @return Migration[]
 	 */
 	public function instantiate_migrations() {
-		return array(
+		return [
 			new Migration_Remove_Rate_Prompt_Countdown_Start_From_Options(),
-		);
+		];
 	}
 }

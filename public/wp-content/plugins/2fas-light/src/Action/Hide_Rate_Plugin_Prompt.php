@@ -2,8 +2,8 @@
 
 namespace TwoFAS\Light\Action;
 
-use TwoFAS\Light\Result\Result_JSON;
 use TwoFAS\Light\App;
+use TwoFAS\Light\Result\Result_JSON;
 
 class Hide_Rate_Plugin_Prompt extends Action {
 	
@@ -22,8 +22,6 @@ class Hide_Rate_Plugin_Prompt extends Action {
 			$result = 'error';
 		}
 		
-		return new Result_JSON( array(
-			'twofas_light_result' => $result,
-		) );
+		return new Result_JSON( [ 'twofas_light_result' => $result, ] );
 	}
 }

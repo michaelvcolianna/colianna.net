@@ -1,9 +1,9 @@
 === 2FAS Light - Google Authenticator ===
 Contributors: 2fas
 Tags: 2FA, 2 factor authentication, 2-fa, 2-step verification, 2fa wordpress, two factor authentication, security, multifactor authentication, google authenticator, token, otp, totp
-Requires at least: 3.6
-Tested up to: 5.4
-Requires PHP: 5.3
+Requires at least: 4.2
+Tested up to: 5.5
+Requires PHP: 5.6
 Stable tag: trunk
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -57,9 +57,9 @@ If you need our support, please contact us at support@2fas.com
 
 Plugin requirements:
 
-* PHP 5.3 or newer (PHP 7.3 is recommended)
+* PHP 5.6 or newer (PHP 7.3 is recommended)
 * PHP extensions: GD, Multibyte String, OpenSSL
-* WordPress 3.6 or newer
+* WordPress 4.2 or newer
 * JavaScript enabled
 
 Warning: The plugin is currently not compatible with multisite installations.
@@ -101,6 +101,10 @@ You can either use it privately or for commercial usage without any fees.
 3. Configuring the two-factor authentication in the 2FAS Light plugin
 
 == Changelog ==
+
+= 2.0 (Sep. 1, 2020) =
+* Dropped support for PHP 5.4, 5.5. Minimum required PHP version is now 5.6
+* Dropped support for Wordpress < 4.2 Minimum required version is now 4.2
 
 = 1.3.0 (Jun. 22, 2020) =
 * Added compatibility with Jetpack

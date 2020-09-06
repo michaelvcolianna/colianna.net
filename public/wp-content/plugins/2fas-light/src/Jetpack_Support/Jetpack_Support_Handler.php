@@ -32,7 +32,7 @@ class Jetpack_Support_Handler {
 	}
 	
 	private function intercept_sso_logins() {
-		add_action( 'jetpack_sso_handle_login', array( $this, 'intercept_jetpack_sso_login_if_necessary' ), 100, 2 );
+		add_action( 'jetpack_sso_handle_login', [ $this, 'intercept_jetpack_sso_login_if_necessary' ], 100, 2 );
 	}
 	
 	/**

@@ -2,8 +2,8 @@
 
 namespace TwoFAS\Light\Action;
 
-use TwoFAS\Light\Result\Result_JSON;
 use TwoFAS\Light\App;
+use TwoFAS\Light\Result\Result_JSON;
 
 class Reload_QR_Code extends Action {
 	
@@ -18,9 +18,11 @@ class Reload_QR_Code extends Action {
 		$totp_secret           = $totp_secret_generator->generate_totp_secret();
 		$qr_code               = $totp_qr_generator->generate_qr_code( $totp_secret );
 		
-		return new Result_JSON( array(
-			'twofas_light_totp_secret' => $totp_secret,
-			'twofas_light_qr_code'     => $qr_code
-		) );
+		return new Result_JSON(
+			[
+				'twofas_light_totp_secret' => $totp_secret,
+				'twofas_light_qr_code'     => $qr_code
+			]
+		);
 	}
 }

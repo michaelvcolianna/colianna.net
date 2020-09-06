@@ -7,9 +7,9 @@ use TwoFAS\Light\Exception\Plugin_Not_Active_On_All_Multinetwork_Sites_Exception
 use TwoFAS\Light\Exception\Plugin_Not_Active_On_All_Multisite_Sites_Exception;
 
 class Network_Setup_Validator {
-
+	
 	const CAPABILITY_REQUIRED_TO_SEE_NOTIFICATION = 'activate_plugins';
-
+	
 	/**
 	 * @throws Plugin_Not_Active_On_All_Multinetwork_Sites_Exception
 	 * @throws Plugin_Not_Active_On_All_Multisite_Sites_Exception
@@ -18,23 +18,23 @@ class Network_Setup_Validator {
 		if ( ! is_multisite() || ! current_user_can( self::CAPABILITY_REQUIRED_TO_SEE_NOTIFICATION ) ) {
 			return;
 		}
-
+		
 		if ( $this->is_multinetwork_installation() ) {
 			$this->validate_multinetwork_setup();
 		} else {
 			$this->validate_multisite_setup();
 		}
 	}
-
+	
 	/**
 	 * @return bool
 	 */
 	private function is_multinetwork_installation() {
-		$network_count = get_networks( array( 'count' => true ) );
-
+		$network_count = get_networks( [ 'count' => true ] );
+		
 		return $network_count > 1;
 	}
-
+	
 	/**
 	 * @throws Plugin_Not_Active_On_All_Multinetwork_Sites_Exception
 	 */
@@ -45,7 +45,7 @@ class Network_Setup_Validator {
 			throw new Plugin_Not_Active_On_All_Multinetwork_Sites_Exception();
 		}
 	}
-
+	
 	/**
 	 * @throws Plugin_Not_Active_On_All_Multisite_Sites_Exception
 	 */
@@ -56,7 +56,7 @@ class Network_Setup_Validator {
 			throw new Plugin_Not_Active_On_All_Multisite_Sites_Exception();
 		}
 	}
-
+	
 	/**
 	 * @throws Plugin_Not_Active_Network_Wide_Exception
 	 */
@@ -65,14 +65,14 @@ class Network_Setup_Validator {
 			$this->validate_plugin_is_active_network_wide_on_network( $network->id );
 		}
 	}
-
+	
 	/**
 	 * @throws Plugin_Not_Active_Network_Wide_Exception
 	 */
 	private function validate_plugin_is_active_network_wide_on_current_network() {
 		$this->validate_plugin_is_active_network_wide_on_network( null );
 	}
-
+	
 	/**
 	 * @param int|null $network_id
 	 *

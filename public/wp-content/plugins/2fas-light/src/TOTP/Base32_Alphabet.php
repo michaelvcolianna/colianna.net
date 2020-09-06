@@ -7,7 +7,7 @@ class Base32_Alphabet {
 	/**
 	 * Lookup needed for Base32 encoding
 	 */
-	private $alphabet = array(
+	private $alphabet = [
 		'A' => 0,
 		'B' => 1,
 		'C' => 2,
@@ -40,7 +40,7 @@ class Base32_Alphabet {
 		'5' => 29,
 		'6' => 30,
 		'7' => 31
-	);
+	];
 	
 	/**
 	 * @return string

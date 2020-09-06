@@ -4,6 +4,7 @@ namespace TwoFAS\Light;
 
 use TwoFAS\Light\Request\Ajax_Request;
 use TwoFAS\Light\Result\JSON_Consumer;
+use TwoFAS\Light\Result\Result_JSON;
 
 class Ajax_App extends App implements JSON_Consumer {
 	
@@ -18,6 +19,7 @@ class Ajax_App extends App implements JSON_Consumer {
 		$action = $this->router->get_action( $this->request );
 		
 		//  Execute Action
+		/** @var Result_JSON $result */
 		$result = $action->handle( $this );
 		$result->feed_consumer( $this );
 	}

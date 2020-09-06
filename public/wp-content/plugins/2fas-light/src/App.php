@@ -2,7 +2,8 @@
 
 namespace TwoFAS\Light;
 
-use TwoFAS\Encryption\Random\RandomGenerator;
+use TwoFAS\Encryption\Random\NonCryptographicalRandomIntGenerator;
+use TwoFAS\Encryption\Random\RandomStringGenerator;
 use TwoFAS\Light\Action\Router;
 use TwoFAS\Light\Cookie\Cookie;
 use TwoFAS\Light\Device\Trusted_Device_Cookie_Manager;
@@ -34,135 +35,137 @@ use TwoFAS\Light\TOTP\Single_Code_Generator;
 use TwoFAS\Light\TOTP\TOTP_Login_Validator;
 use TwoFAS\Light\User\User;
 use TwoFAS\Light\View\View_Renderer;
-use TwoFASLight_Error_Factory;
+use WhichBrowser\Parser;
 
 abstract class App {
-
+	
 	/**
 	 * @var Request_Context
 	 */
 	protected $request_context;
-
+	
 	/**
 	 * @var Request
 	 */
 	protected $request;
-
+	
 	/**
 	 * @var Router
 	 */
 	protected $router;
-
+	
 	/**
 	 * @var View_Renderer
 	 */
 	protected $view_renderer;
-
+	
 	/**
 	 * @var TOTP_Login_Validator
 	 */
 	protected $totp_login_validator;
-
+	
 	/**
 	 * @var QR_Generator
 	 */
 	protected $totp_qr_generator;
-
+	
 	/**
 	 * @var Base32_Alphabet
 	 */
 	protected $base32_alphabet;
-
+	
 	/**
 	 * @var Secret_Generator
 	 */
 	protected $totp_secret_generator;
-
+	
 	/**
 	 * @var User
 	 */
 	protected $user;
-
+	
 	/**
 	 * @var Option
 	 */
 	protected $options;
-
+	
 	/**
 	 * @var Time
 	 */
 	protected $time;
-
+	
 	/**
-	 * @var TwoFASLight_Error_Factory
+	 * @var Error_Factory
 	 */
 	protected $error_factory;
-
+	
 	/**
 	 * @var Hash_Generator
 	 */
 	protected $hash_generator;
-
+	
 	/**
 	 * @var Format_Validator
 	 */
 	protected $totp_format_validator;
-
+	
 	/**
 	 * @var Rate_Plugin_Prompt
 	 */
 	protected $rate_plugin_prompt;
-
+	
 	/**
 	 * @var Updater
 	 */
 	protected $updater;
-
+	
 	/**
 	 * App constructor.
 	 */
 	public function __construct() {
 		$this->request_context = new Request_Context();
 		$this->request_context->fill_with_global_arrays( $_GET, $_POST, $_SERVER, $_COOKIE, $_REQUEST );
-
+		
 		$this->router = new Router();
-
+		
 		$this->time = new Time();
-
-		$this->view_renderer = new View_Renderer( $this->time );
+		
+		$this->view_renderer = new View_Renderer( $this->time, new Parser() );
 		$this->view_renderer->init();
-
+		
 		$this->user = new User( wp_get_current_user()->ID );
-
+		
 		$this->options = new Option();
-
+		
 		$this->totp_qr_generator = new QR_Generator( $this->get_options() );
-
+		
 		$this->totp_format_validator = new Format_Validator();
-
+		
 		$this->totp_login_validator = new TOTP_Login_Validator();
-
+		
 		$this->base32_alphabet = new Base32_Alphabet();
-
+		
 		$this->totp_secret_generator = new Secret_Generator( $this->base32_alphabet );
 		
-		$this->error_factory = new TwoFASLight_Error_Factory();
-
-		$this->hash_generator = new Hash_Generator( new RandomGenerator() );
-
+		$this->error_factory = new Error_Factory();
+		
+		$this->hash_generator = new Hash_Generator(
+			new RandomStringGenerator( new NonCryptographicalRandomIntGenerator() )
+		);
+		
 		$this->rate_plugin_prompt = new Rate_Plugin_Prompt( $this->time, $this->user );
-
+		
 		$migration_executor = new Migration_Executor( new Migration_List( $this ) );
 		$this->updater      = new Updater( $this->options, $migration_executor );
 	}
-
+	
 	/**
 	 * @return View_Renderer
 	 */
 	public function get_view_renderer() {
 		return $this->view_renderer;
 	}
-
+	
 	/**
 	 * @param string $totp_secret
 	 *
@@ -177,7 +180,7 @@ abstract class App {
 			new Base32_Decoder( $this->base32_alphabet )
 		);
 	}
-
+	
 	/**
 	 * @param string $totp_secret
 	 *
@@ -186,56 +189,56 @@ abstract class App {
 	public function get_totp_code_validator( $totp_secret ) {
 		return new Code_Validator( $this->get_totp_code_generator( $totp_secret ) );
 	}
-
+	
 	/**
 	 * @return TOTP_Login_Validator
 	 */
 	public function get_totp_login_validator() {
 		return $this->totp_login_validator;
 	}
-
+	
 	/**
 	 * @return QR_Generator
 	 */
 	public function get_totp_qr_generator() {
 		return $this->totp_qr_generator;
 	}
-
+	
 	/**
 	 * @return Secret_Generator
 	 */
 	public function get_totp_secret_generator() {
 		return $this->totp_secret_generator;
 	}
-
+	
 	/**
 	 * @return User
 	 */
 	public function get_user() {
 		return $this->user;
 	}
-
+	
 	/**
 	 * @return Option
 	 */
 	public function get_options() {
 		return $this->options;
 	}
-
+	
 	/**
 	 * @return Request
 	 */
 	public function get_request() {
 		return $this->request;
 	}
-
+	
 	/**
 	 * @return Cookie
 	 */
 	public function get_cookie() {
 		return Cookie::create();
 	}
-
+	
 	/**
 	 * @param User $user
 	 *
@@ -244,7 +247,7 @@ abstract class App {
 	public function get_trusted_device_cookie_manager( $user ) {
 		return new Trusted_Device_Cookie_Manager( $this, $user );
 	}
-
+	
 	/**
 	 * @param User $user
 	 *
@@ -253,82 +256,82 @@ abstract class App {
 	public function get_trusted_device_manager( $user ) {
 		return new Trusted_Device_Manager( $this, $user );
 	}
-
+	
 	/**
 	 * @return Login_Token_Manager
 	 */
 	public function get_step_token_manager() {
 		$login_manager = new Login_Token_Manager_Factory( new Step_Token_Config() );
-
+		
 		return $login_manager->create();
 	}
-
+	
 	/**
 	 * @return Login_Token_Manager
 	 */
 	public function get_jetpack_login_token_manager() {
 		$login_manager = new Login_Token_Manager_Factory( new Jetpack_Login_Token_Config() );
-
+		
 		return $login_manager->create();
 	}
-
+	
 	/**
 	 * @return Login_Params_Mapper
 	 */
 	public function get_login_params_mapper() {
 		return new Login_Params_Mapper( $this->request );
 	}
-
+	
 	/**
 	 * @return Login_Redirector
 	 */
 	public function get_login_redirector() {
 		$login_redirector_factory = new Login_Redirector_Factory();
-
+		
 		return $login_redirector_factory->create( $this->get_login_params_mapper(), $this->request );
 	}
-
+	
 	/**
 	 * @return Second_Step_Renderer
 	 */
 	public function get_second_step_renderer() {
 		return new Second_Step_Renderer( $this );
 	}
-
+	
 	/**
 	 * @return Time
 	 */
 	public function get_time() {
 		return $this->time;
 	}
-
+	
 	/**
-	 * @return TwoFASLight_Error_Factory
+	 * @return Error_Factory
 	 */
 	public function get_error_factory() {
 		return $this->error_factory;
 	}
-
+	
 	/**
 	 * @return Hash_Generator
 	 */
 	public function get_hash_generator() {
 		return $this->hash_generator;
 	}
-
+	
 	/**
 	 * @return Rate_Plugin_Prompt
 	 */
 	public function get_rate_plugin_prompt() {
 		return $this->rate_plugin_prompt;
 	}
-
+	
 	/**
 	 * @return Updater
 	 */
 	public function get_updater() {
 		return $this->updater;
 	}
-
+	
 	abstract public function run();
 }

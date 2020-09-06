@@ -1,18 +1,18 @@
 language: php
 
 php:
-  - 5.3
-  - 5.4
-  - 5.5
   - 5.6
   - 7.0
-  - hhvm
-  
-before_script:
-  - composer install --dev
+  - 7.1
 
-script: phpunit -c phpunit.xml.dist
+matrix:
+  fast_finish: true
+
+before_install:
+  - phpenv config-rm xdebug.ini
+  - composer self-update && composer install --no-interaction
+
+script: bin/phpunit
 
 notifications:
-  email:
-    - info@endroid.nl
+  email: info@endroid.nl

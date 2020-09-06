@@ -1,19 +1,29 @@
 <?php
 /**
- * Plugin Name: 2FAS Light — Google Authenticator
- * Plugin URI:  https://wordpress.org/plugins/2fas-light/
- * Description: Free, simple, token-based authentication (Google Authenticator) for your WordPress. No registration needed.
- * Version:     1.3.0
- * Author:      Two Factor Authentication Service Inc.
- * Author URI:  https://2fas.com
- * License:     GPL2
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Network:     true
+ * Plugin Name:       2FAS Light — Google Authenticator
+ * Plugin URI:        https://wordpress.org/plugins/2fas-light/
+ * Description:       Free, simple, token-based authentication (Google Authenticator) for your WordPress. No registration needed.
+ * Version:           2.0
+ * Requires PHP:      5.6
+ * Requires at least: 4.2
+ * Author:            Two Factor Authentication Service Inc.
+ * Author URI:        https://2fas.com
+ * License:           GPL2
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Network:           true
  */
 
 defined( 'ABSPATH' ) or die();
 
-require_once plugin_dir_path( __FILE__ ) . 'global_class_loader.php';
+//  Import application contexts
+require_once __DIR__ . '/vendor/autoload.php';
+
+use TwoFAS\Light\Exception\Unmet_System_Requirements_Exception;
+use TwoFAS\Light\Login_Preventer\Login_Preventer_Setup;
+use TwoFAS\Light\System_Requirements\Requirements_Spec;
+use TwoFAS\Light\System_Requirements\System_Requirements_Checker;
+use TwoFAS\Light\System_Requirements\System_Versions_Provider;
+use TwoFAS\Light\System_Requirements\Unmet_Requirements_Error_Printer;
 
 function is_full_twofas_plugin_active() {
 	if ( ! function_exists( 'get_plugins' ) ) {
@@ -42,7 +52,7 @@ function full_twofas_plugin_active_notice() {
 	     . '</div>';
 }
 
-define( 'TWOFAS_LIGHT_PLUGIN_VERSION', '1.3.0' );
+define( 'TWOFAS_LIGHT_PLUGIN_VERSION', '2.0' );
 define( 'TWOFAS_LIGHT_PLUGIN_FILE', __FILE__ );
 define( 'TWOFAS_LIGHT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
@@ -61,13 +71,13 @@ function twofas_light_enqueue_styles() {
 }
 
 function twofas_light_check_system_requirements_and_init() {
-	$versions_provider   = new TwoFASLight_System_Versions_Provider();
-	$requirements_spec   = new TwoFASLight_Requirements_Spec( '5.3', '3.6', array( 'gd', 'mbstring', 'openssl' ) );
-	$system_requirements = new TwoFASLight_System_Requirements_Checker( $versions_provider, $requirements_spec );
+	$versions_provider   = new System_Versions_Provider();
+	$requirements_spec   = new Requirements_Spec( '5.6', '4.2', [ 'gd', 'mbstring', 'openssl', 'json' ] );
+	$system_requirements = new System_Requirements_Checker( $versions_provider, $requirements_spec );
 	
 	try {
 		$system_requirements->check_system_requirements();
-	} catch ( TwoFASLight_Unmet_System_Requirements_Exception $e ) {
+	} catch ( Unmet_System_Requirements_Exception $e ) {
 		twofas_light_enqueue_unmet_requirements_error( $e );
 		twofas_light_enqueue_unmet_requirements_login_prevention();
 		
@@ -78,8 +88,8 @@ function twofas_light_check_system_requirements_and_init() {
 	twofas_light_bind_to_wp_hooks();
 }
 
-function twofas_light_enqueue_unmet_requirements_error( TwoFASLight_Unmet_System_Requirements_Exception $e ) {
-	$error_printer = new TwoFASLight_Unmet_Requirements_Error_Printer( $e );
+function twofas_light_enqueue_unmet_requirements_error( Unmet_System_Requirements_Exception $e ) {
+	$error_printer = new Unmet_Requirements_Error_Printer( $e );
 	add_action( 'admin_notices', array( $error_printer, 'print_error' ) );
 }
 
@@ -88,6 +98,6 @@ function twofas_light_enqueue_unmet_requirements_login_prevention() {
 		return;
 	}
 	
-	$login_preventer_setup = new TwoFASLight_Login_Preventer_Setup();
+	$login_preventer_setup = new Login_Preventer_Setup();
 	$login_preventer_setup->bind_to_hooks();
 }

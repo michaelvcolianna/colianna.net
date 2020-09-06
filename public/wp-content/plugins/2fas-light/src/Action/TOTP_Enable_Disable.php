@@ -2,8 +2,8 @@
 
 namespace TwoFAS\Light\Action;
 
-use TwoFAS\Light\Result\Result_JSON;
 use TwoFAS\Light\App;
+use TwoFAS\Light\Result\Result_JSON;
 
 class TOTP_Enable_Disable extends Action {
 	
@@ -26,9 +26,11 @@ class TOTP_Enable_Disable extends Action {
 			$result = 'success';
 		}
 		
-		return new Result_JSON( array(
-			'twofas_light_result'      => $result,
-			'twofas_light_totp_status' => $user->get_totp_status()
-		) );
+		return new Result_JSON(
+			[
+				'twofas_light_result'      => $result,
+				'twofas_light_totp_status' => $user->get_totp_status()
+			]
+		);
 	}
 }

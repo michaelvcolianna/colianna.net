@@ -30,6 +30,6 @@ class Login_Footer_Renderer {
 			return;
 		}
 		
-		echo $this->view_renderer->render( 'login_footer.html.twig', array() );
+		echo $this->view_renderer->render( 'login_footer.html.twig', [] );
 	}
 }

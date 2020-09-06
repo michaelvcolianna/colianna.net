@@ -11,25 +11,25 @@ use TwoFAS\Light\User\User;
 use TwoFAS\Light\User\User_Repository;
 
 class Login_Token_Manager {
-
+	
 	/** @var Login_Token_Factory */
 	private $login_token_factory;
-
+	
 	/** @var Login_Token_Config */
 	private $config;
-
+	
 	/** @var Login_Token_Cookie */
 	private $cookie;
-
+	
 	/** @var Login_Token_User_Meta */
 	private $user_meta;
-
+	
 	/** @var Login_Token_Validator */
 	private $validator;
-
+	
 	/** @var User_Repository */
 	private $user_repository;
-
+	
 	/**
 	 * @param Login_Token_Config    $config
 	 * @param Login_Token_Cookie    $cookie
@@ -53,7 +53,7 @@ class Login_Token_Manager {
 		$this->login_token_factory = $login_token_factory;
 		$this->user_repository     = $user_repository;
 	}
-
+	
 	/**
 	 * @param User   $user
 	 * @param string $context
@@ -63,7 +63,7 @@ class Login_Token_Manager {
 	public function create( User $user, $context ) {
 		return $this->login_token_factory->create( $user, $context );
 	}
-
+	
 	/**
 	 * @param Login_Token $token
 	 */
@@ -71,7 +71,7 @@ class Login_Token_Manager {
 		$this->user_meta->store( $token->get_user(), $token->get_hash(), $token->get_expiry(), $token->get_context() );
 		$this->cookie->store( $token->get_user(), $token->get_hash(), $token->get_expiry() );
 	}
-
+	
 	/**
 	 * @return Login_Token
 	 * @throws Login_Token_Invalid_Exception
@@ -82,7 +82,7 @@ class Login_Token_Manager {
 			$cookie_hash  = $this->cookie->get_hash();
 			$token        = $this->get_token_by_login( $cookie_login );
 			$this->validator->validate( $token, $cookie_hash );
-
+			
 			return $token;
 		} catch ( Invalid_Or_Empty_Cookie_Value_Exception $e ) {
 			throw new Login_Token_Invalid_Exception();
@@ -94,7 +94,7 @@ class Login_Token_Manager {
 			throw new Login_Token_Invalid_Exception();
 		}
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -102,13 +102,13 @@ class Login_Token_Manager {
 		try {
 			$this->cookie->get_user_login();
 			$this->cookie->get_hash();
-
+			
 			return true;
 		} catch ( Invalid_Or_Empty_Cookie_Value_Exception $e ) {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * @param User $user
 	 */
@@ -116,11 +116,11 @@ class Login_Token_Manager {
 		$this->user_meta->delete( $user );
 		$this->cookie->delete();
 	}
-
+	
 	public function delete_cookie() {
 		$this->cookie->delete();
 	}
-
+	
 	/**
 	 * @param string $login
 	 *
@@ -130,7 +130,7 @@ class Login_Token_Manager {
 	 */
 	private function get_token_by_login( $login ) {
 		$user = $this->user_repository->get_by_login( $login );
-
+		
 		return $this->user_meta->get_token( $user );
 	}
 }

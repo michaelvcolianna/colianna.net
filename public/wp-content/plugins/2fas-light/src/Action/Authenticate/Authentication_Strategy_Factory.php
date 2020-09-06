@@ -6,9 +6,9 @@ use TwoFAS\Light\App;
 use TwoFAS\Light\Exception\Authenticate_No_Username_Nor_Step_Token_Exception;
 use TwoFAS\Light\Exception\Login_Token_Invalid_Exception;
 use TwoFAS\Light\Login_Token\Login_Context;
+use TwoFAS\Light\Login_Token\Login_Token;
 use TwoFAS\Light\Login_Token\Login_Token_Manager;
 use TwoFAS\Light\User\User;
-use TwoFAS\Light\Login_Token\Login_Token;
 use WP_Error;
 use WP_User;
 
@@ -75,9 +75,9 @@ class Authentication_Strategy_Factory {
 		if ( ! ( $wp_user instanceof WP_Error ) ) {
 			return false;
 		}
-
+		
 		$error_codes          = $wp_user->get_error_codes();
-		$expected_error_codes = array( 'empty_username', 'empty_password' );
+		$expected_error_codes = [ 'empty_username', 'empty_password' ];
 		$matched_error_codes  = array_intersect( $error_codes, $expected_error_codes );
 		
 		return count( $matched_error_codes ) < 2;

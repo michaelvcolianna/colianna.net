@@ -17,11 +17,11 @@ class Network_Setup_Warning_Printer {
 	}
 	
 	public function print_multinetwork_activation_warning() {
-		$this->render_warning( array( $this, 'render_multinetwork_activation_warning' ) );
+		$this->render_warning( [ $this, 'render_multinetwork_activation_warning' ] );
 	}
 	
 	public function print_multisite_activation_warning() {
-		$this->render_warning( array( $this, 'render_multisite_activation_warning' ) );
+		$this->render_warning( [ $this, 'render_multisite_activation_warning' ] );
 	}
 	
 	/**
@@ -33,10 +33,10 @@ class Network_Setup_Warning_Printer {
 	}
 	
 	public function render_multinetwork_activation_warning() {
-		echo $this->view_renderer->render( 'local_activation_on_multinetwork_error.html.twig', array() );
+		echo $this->view_renderer->render( 'local_activation_on_multinetwork_error.html.twig', [] );
 	}
 	
 	public function render_multisite_activation_warning() {
-		echo $this->view_renderer->render( 'local_activation_on_multisite_error.html.twig', array() );
+		echo $this->view_renderer->render( 'local_activation_on_multisite_error.html.twig', [] );
 	}
 }

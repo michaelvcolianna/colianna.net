@@ -2,10 +2,10 @@
 
 namespace TwoFAS\Light\Action;
 
-use TwoFAS\Light\Rate_Plugin_Prompt\Rate_Plugin_Prompt;
-use TwoFAS\Light\Result\Result_JSON;
 use TwoFAS\Light\App;
 use TwoFAS\Light\Exception\DateTime_Creation_Exception;
+use TwoFAS\Light\Rate_Plugin_Prompt\Rate_Plugin_Prompt;
+use TwoFAS\Light\Result\Result_JSON;
 
 class Postpone_Rate_Plugin_Prompt extends Action {
 	
@@ -27,9 +27,7 @@ class Postpone_Rate_Plugin_Prompt extends Action {
 			$result = 'error';
 		}
 		
-		return new Result_JSON( array(
-			'twofas_light_result' => $result,
-		) );
+		return new Result_JSON( [ 'twofas_light_result' => $result, ] );
 	}
 	
 	/**
@@ -41,6 +39,7 @@ class Postpone_Rate_Plugin_Prompt extends Action {
 		} catch ( DateTime_Creation_Exception $e ) {
 			return 'error';
 		}
+		
 		return 'success';
 	}
 }

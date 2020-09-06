@@ -6,7 +6,14 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'WhichBrowser\\' => array($vendorDir . '/whichbrowser/parser/src', $vendorDir . '/whichbrowser/parser/tests/src'),
     'TwoFAS\\Light\\' => array($baseDir . '/src'),
     'TwoFAS\\Encryption\\' => array($vendorDir . '/twofas/encryption/src', $vendorDir . '/twofas/encryption/tests'),
+    'Twig\\' => array($vendorDir . '/twig/twig/src'),
+    'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
+    'Symfony\\Component\\PropertyAccess\\' => array($vendorDir . '/symfony/property-access'),
+    'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
+    'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
+    'MyCLabs\\Enum\\' => array($vendorDir . '/myclabs/php-enum/src'),
     'Endroid\\QrCode\\' => array($vendorDir . '/endroid/qr-code/src'),
 );

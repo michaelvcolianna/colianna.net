@@ -3,10 +3,10 @@
 namespace TwoFAS\Light\Login;
 
 use TwoFAS\Light\App;
+use TwoFAS\Light\Error_Factory;
 use TwoFAS\Light\Request\Request;
 use TwoFAS\Light\Result\Result_HTML;
 use TwoFAS\Light\View\View_Renderer;
-use TwoFASLight_Error_Factory;
 use WP_Error;
 
 class Second_Step_Renderer {
@@ -23,7 +23,7 @@ class Second_Step_Renderer {
 	/** @var Request */
 	private $request;
 	
-	/** @var TwoFASLight_Error_Factory */
+	/** @var Error_Factory */
 	private $error_factory;
 	
 	/**
@@ -43,16 +43,18 @@ class Second_Step_Renderer {
 	 */
 	public function render( $error_message = '' ) {
 		do_action( self::RENDERING_ACTION );
-		$html = $this->view_renderer->render( 'login_second_step.html.twig', array_merge(
+		$data = array_merge(
 			$this->login_params_mapper->map_from_request_for_view(),
-			array(
+			[
 				'twofas_light_login_error'            => $this->wrap_error_message_with_wp_error( $error_message ),
-				'twofas_light_save_device_as_trusted' => $this->request->get_from_post( 'twofas_light_save_device_as_trusted' ),
+				'twofas_light_save_device_as_trusted' => $this->request->get_from_post(
+					'twofas_light_save_device_as_trusted'
+				),
 				'login_form_action_url'               => esc_url( site_url( 'wp-login.php', 'login_post' ) ),
-			)
-		) );
+			]
+		);
 		
-		return new Result_HTML( $html );
+		return new Result_HTML( $this->view_renderer->render( 'login_second_step.html.twig', $data ) );
 	}
 	
 	/**
