@@ -211,7 +211,7 @@ class MTM_Builder {
 			}else{
 				//single option, output value no key
 				if( is_numeric($key) ){
-					$html .= '<option'.$selected_attr.'>'.esc_html($option).'</option>';
+					$html .= '<option value="'.esc_attr($option).'"'.$selected_attr.'>'.esc_html($option).'</option>';
 				}else{
 					$html .= '<option value="'.esc_attr($option).'"'.$selected_attr.'>'.esc_html($key).'</option>';
 				}

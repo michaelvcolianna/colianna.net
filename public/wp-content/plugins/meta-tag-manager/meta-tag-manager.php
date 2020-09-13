@@ -4,12 +4,12 @@ Plugin Name: Meta Tag Manager
 Plugin URI: https://wordpress.org/plugins/meta-tag-manager/
 Description: A simple plugin to manage meta tags that appear on aread of your site or individual posts. This can be used for verifiying google, yahoo, and more.
 Author: Marcus Sykes
-Version: 2.1
+Version: 2.1.2
 Author URI: http://msyk.es/?utm_source=meta-tag-manager&utm_medium=plugin-header&utm_campaign=plugins
 Text Domain: meta-tag-manager
 */
 /*
-Copyright (C) 2017 Marcus Sykes
+Copyright (C) 2020 Marcus Sykes
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 if( !defined('ABSPATH') ) exit;
 
-define('MTM_VERSION', '2.1');
+define('MTM_VERSION', '2.1.2');
 
 class Meta_Tag_Manager {
 	/** loads the plugin */
@@ -76,7 +76,29 @@ class Meta_Tag_Manager {
 		if( is_single() || is_page() ){
 			$mtm_custom = get_option('mtm_custom');
 			if( !empty($mtm_custom['post-types']) && in_array(get_post_type(), $mtm_custom['post-types']) ){
-				$meta_tags = array_merge($meta_tags, self::get_post_data());
+				$post_meta_tags = self::get_post_data();
+				//remove unique meta tags from being output within MTM (not other plugins), where specific tags take precendence
+				$unique_types = apply_filters('mtm_unique_meta_name_values', array('description', 'keywords'));
+				$meta_tags_unique_name_values = array();
+				foreach( $unique_types as $name_value ){
+					foreach( $meta_tags as $k => $tag ){ /* @var MTM_Tag $tag */
+						if( $tag->type == 'name' && $tag->value == $name_value ){
+							if( !empty($meta_tags_unique_name_values[$name_value]) ){
+								//remove first one, last one takes precendence
+								unset($meta_tags[$meta_tags_unique_name_values[$name_value]]);
+							}
+							$meta_tags_unique_name_values[$name_value] = $k;
+						}
+					}
+					if( !empty($meta_tags_unique_name_values) ){
+						foreach( $post_meta_tags as $k => $tag ){
+							if( $tag->type == 'name' && $tag->value == $name_value && !empty($meta_tags_unique_name_values[$name_value]) ){
+								unset($meta_tags[$meta_tags_unique_name_values[$name_value]]);	
+							}
+						}
+					}
+				}
+				$meta_tags = array_merge($meta_tags, $post_meta_tags);
 			}
 		}
 		//output the filtered out tags that pass validation
