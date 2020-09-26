@@ -1,5 +1,5 @@
 <?php exit; ?>{
-    "version": "0.13.3",
+    "version": "0.15.0",
     "cluster.messagebus.debug": false,
     "cluster.messagebus.enabled": false,
     "cluster.messagebus.sns.region": "",
@@ -61,6 +61,9 @@
     "lazyload.enabled": false,
     "lazyload.process_img": true,
     "lazyload.process_background": true,
+    "lazyload.googlemaps.google_maps_easy": false,
+    "lazyload.googlemaps.wp_google_maps": false,
+    "lazyload.googlemaps.wp_google_map_plugin": false,
     "lazyload.exclude": [
         "avia-bg-style-fixed",
         "data-bgposition=",
@@ -561,6 +564,9 @@
     "cdnfsd.stackpath2.site_root_domain": 0,
     "cdnfsd.stackpath2.domain": [],
     "cdnfsd.stackpath2.ssl": "auto",
+    "cdnfsd.transparentcdn.client_id": "",
+    "cdnfsd.transparentcdn.client_secret": "",
+    "cdnfsd.transparentcdn.company_id": "",
     "varnish.configuration_overloaded": false,
     "varnish.enabled": false,
     "varnish.debug": false,
@@ -927,6 +933,7 @@
     "extensions.active_dropin": [],
     "plugin.license_key": "",
     "plugin.type": "",
+    "jquerymigrate.disabled": false,
     "common.support": "",
     "fragmentcache": {
         "engine": "apc"
