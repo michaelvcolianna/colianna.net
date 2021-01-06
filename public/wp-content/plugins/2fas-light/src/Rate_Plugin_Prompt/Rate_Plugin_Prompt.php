@@ -1,12 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace TwoFAS\Light\Rate_Plugin_Prompt;
 
 use DateTime;
-use TwoFAS\Light\Exception\DateTime_Creation_Exception;
-use TwoFAS\Light\Exception\Rate_Plugin_Countdown_Never_Started_Exception;
-use TwoFAS\Light\Time\Time;
-use TwoFAS\Light\User\User;
+use TwoFAS\Light\Exceptions\DateTime_Creation_Exception;
+use TwoFAS\Light\Exceptions\Rate_Plugin_Countdown_Never_Started_Exception;
+use TwoFAS\Light\Helpers\Time;
+use TwoFAS\Light\Storage\User_Storage;
 
 class Rate_Plugin_Prompt {
 	
@@ -16,24 +17,19 @@ class Rate_Plugin_Prompt {
 	/** @var Time */
 	private $time;
 	
-	/** @var User */
-	private $user;
+	/** @var User_Storage */
+	private $user_storage;
 	
 	/**
-	 * Rate_Plugin_Prompt constructor.
-	 *
-	 * @param Time $time
-	 * @param User $user
+	 * @param User_Storage $user_storage
+	 * @param Time         $time
 	 */
-	public function __construct( Time $time, User $user ) {
-		$this->time = $time;
-		$this->user = $user;
+	public function __construct( User_Storage $user_storage, Time $time ) {
+		$this->user_storage = $user_storage;
+		$this->time         = $time;
 	}
 	
-	/**
-	 * @return bool
-	 */
-	public function should_display() {
+	public function should_display(): bool {
 		try {
 			return $this->are_display_conditions_satisfied();
 		} catch ( Rate_Plugin_Countdown_Never_Started_Exception $e ) {
@@ -49,36 +45,39 @@ class Rate_Plugin_Prompt {
 	 */
 	public function restart_countdown() {
 		$current_date = $this->time->get_current_datetime();
-		$this->user->update_rate_prompt_countdown_start_date( $current_date );
+		$this->user_storage->update_rate_prompt_countdown_start_date( $current_date );
+	}
+	
+	public function hide() {
+		$this->user_storage->set_rate_plugin_prompt_hidden();
 	}
 	
 	/**
 	 * @return bool
+	 *
 	 * @throws Rate_Plugin_Countdown_Never_Started_Exception
 	 * @throws DateTime_Creation_Exception
 	 */
-	private function are_display_conditions_satisfied() {
+	private function are_display_conditions_satisfied(): bool {
 		return current_user_can( self::REQUIRED_CAPABILITY ) &&
 		       $this->has_enough_time_passed() &&
-		       ! $this->user->is_rate_plugin_prompt_hidden();
+		       ! $this->user_storage->is_rate_plugin_prompt_hidden();
 	}
 	
 	/**
 	 * @return bool
+	 *
 	 * @throws Rate_Plugin_Countdown_Never_Started_Exception
 	 * @throws DateTime_Creation_Exception
 	 */
-	private function has_enough_time_passed() {
+	private function has_enough_time_passed(): bool {
 		$prompt_countdown_start = $this->get_countdown_start_datetime();
 		$current_date           = $this->time->get_current_datetime();
 		
 		return $current_date->diff( $prompt_countdown_start )->days >= self::DAYS_BEFORE_DISPLAYING_PROMPT;
 	}
 	
-	/**
-	 * @return bool
-	 */
-	private function handle_countdown_never_started() {
+	private function handle_countdown_never_started(): bool {
 		try {
 			$this->restart_countdown();
 		} catch ( DateTime_Creation_Exception $e ) {
@@ -90,12 +89,13 @@ class Rate_Plugin_Prompt {
 	
 	/**
 	 * @return DateTime
+	 *
 	 * @throws Rate_Plugin_Countdown_Never_Started_Exception
 	 * @throws DateTime_Creation_Exception
 	 */
-	private function get_countdown_start_datetime() {
-		$prompt_countdown_start_timestamp = $this->user->get_rate_prompt_countdown_start_timestamp();
+	private function get_countdown_start_datetime(): DateTime {
+		$prompt_countdown_start_timestamp = $this->user_storage->get_rate_prompt_countdown_start_timestamp();
 		
-		return $this->time->get_datetime_for_timestamp( $prompt_countdown_start_timestamp );
+		return $this->time->get_datetime_for_timestamp( intval( $prompt_countdown_start_timestamp ) );
 	}
 }

@@ -1,0 +1,43 @@
+<table>
+    <thead>
+        <tr>
+            <th>Browser and device</th>
+            <th>Added on</th>
+            <th>Last logged in</th>
+            <th>IP Address</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if trusted_devices is empty %}
+            <tr class="twofas-light-no-devices-row">
+                <td colspan="4" class="twofas-light-no-devices-column">
+                    <h5>You don't have any trusted devices</h5>
+                </td>
+            </tr>
+        {% else %}
+            {% for trusted_device in trusted_devices %}
+                <tr>
+                    <td>
+                        {{ parse_browser(trusted_device.user_agent) }}
+                    </td>
+                    <td data-timestamp-to-format="{{ trusted_device.created_at|e('html_attr') }}">
+                        {{ timestamp_to_wp_datetime(trusted_device.created_at) }}
+                    </td>
+                    <td data-timestamp-to-format="{{ trusted_device.last_logged_in|e('html_attr') }}">
+                        {{ trusted_device.last_logged_in is empty ? 'No information' : timestamp_to_wp_datetime(trusted_device.last_logged_in) }}
+                    </td>
+                    <td>
+                        {{ trusted_device.ip }}
+                    </td>
+                    <td>
+                        <button class="twofas-light-trusted-devices-remove js-twofas-light-remove-trusted-device" data-device="{{ trusted_device.device_id }}">
+                            <span class="twofas-light-icon twofas-light-icon-remove twofas-light-icon-remove-dims"></span>
+                            <span>Remove</span>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>

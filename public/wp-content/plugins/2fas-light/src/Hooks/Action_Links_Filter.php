@@ -1,31 +1,27 @@
 <?php
+declare(strict_types=1);
 
 namespace TwoFAS\Light\Hooks;
 
-class Action_Links_Filter {
-	
+use TwoFAS\Light\Http\Action_Index;
+
+class Action_Links_Filter implements Hook_Interface {
+
 	public function register_hook() {
 		add_filter( 'plugin_action_links_' . TWOFAS_LIGHT_PLUGIN_BASENAME, [ $this, 'add_settings_link' ] );
 	}
-	
-	/**
-	 * @param array $links
-	 *
-	 * @return array
-	 */
-	public function add_settings_link( array $links ) {
-		$link     = $this->create_link();
-		$settings = [ 'settings' => $link ];
-		
-		return array_merge( $settings, $links );
+
+	public function add_settings_link( array $links ): array {
+		return array_merge(
+			[
+				'settings' => $this->create_link()
+			],
+			$links );
 	}
-	
-	/**
-	 * @return string
-	 */
-	private function create_link() {
-		$url = get_admin_url() . 'admin.php?page=twofas-light-menu';
-		
+
+	private function create_link(): string {
+		$url = admin_url( 'admin.php?page=' . Action_Index::TWOFAS_LIGHT_ADMIN_PAGE_SLUG );
+
 		return '<a href="' . $url . '">Settings</a>';
 	}
 }
