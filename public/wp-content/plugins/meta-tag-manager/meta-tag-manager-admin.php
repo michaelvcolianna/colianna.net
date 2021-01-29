@@ -32,6 +32,9 @@ class Meta_Tag_Manager_Admin {
 			add_action('add_meta_boxes', 'Meta_Tag_Manager_Admin::meta_boxes');
     		//Save/Edit actions
     		add_filter('wp_insert_post_data', 'Meta_Tag_Manager_Admin::wp_insert_post_data', 100, 2); //validate post meta before saving is done
+    		//special for attachments (if supported)
+    		add_action('attachment_updated', 'Meta_Tag_Manager_Admin::wp_insert_attachment_data'); 
+    		add_action('add_attachment', 'Meta_Tag_Manager_Admin::wp_insert_attachment_data');
 		}		
 	}
 	
@@ -58,7 +61,7 @@ class Meta_Tag_Manager_Admin {
 	        if( defined('WP_DEBUG') && WP_DEBUG ){
 		        wp_enqueue_script('mtm-selectize', plugins_url('js/selectize.js',__FILE__), $jquery_deps, MTM_VERSION);
     			wp_enqueue_script('meta-tag-manager', plugins_url('js/meta-tag-manager.js',__FILE__), $jquery_deps, MTM_VERSION);
-    			wp_enqueue_style('mtm-selectize', plugins_url('css/selectize.css',__FILE__), array(), MTM_VERSION);
+    			wp_enqueue_style('mtm-selectize', plugins_url('css/selectize/selectize.css',__FILE__), array(), MTM_VERSION);
     			wp_enqueue_style('meta-tag-manager', plugins_url('css/meta-tag-manager.css',__FILE__), array(), MTM_VERSION);
 	        }else{
 		        wp_enqueue_script('mtm-selectize', plugins_url('js/selectize.min.js',__FILE__), $jquery_deps, MTM_VERSION);
@@ -82,7 +85,7 @@ class Meta_Tag_Manager_Admin {
 	    echo MTM_Builder::output(Meta_Tag_Manager::get_post_data($post->ID), array('context'=>false));
 	}
 	
-	public static function wp_insert_post_data($data, $postarr){
+	public static function wp_insert_post_data( $data, $postarr ){
 		$post_type = $data['post_type'];
 		$post_ID = !empty($postarr['ID']) ? $postarr['ID'] : false;
 		$mtm_custom = get_option('mtm_custom');
@@ -90,9 +93,23 @@ class Meta_Tag_Manager_Admin {
 		if( $post_ID && !empty($mtm_custom['post-types']) && in_array($post_type, $mtm_custom['post-types']) ){
 			include_once('mtm-builder.php');
 			$mtm_data = MTM_Builder::get_post(array('context'=>false));
-			if( !empty($mtm_data) ) update_post_meta($post_ID, 'mtm_data', $mtm_data);
+			if( !empty($mtm_data) ){
+				update_post_meta($post_ID, 'mtm_data', $mtm_data);
+			}else{
+				//check if we already had tags for this post, if so, delete them since it must have been deleted
+				$previous_tags = Meta_Tag_Manager::get_post_data($post_ID);
+				if( !empty($previous_tags) ) delete_post_meta($post_ID, 'mtm_data');
+			}
 		}
 		return $data;
+	}
+	
+	/**
+	 * Wrapper function for wp_insert_post_data processing of attachments, since they have specific actions and no filter.
+	 * @param int $post_ID
+	 */
+	public static function wp_insert_attachment_data( $post_ID ){
+		self::wp_insert_post_data(array('post_type' => 'attachment'), array('ID'=>$post_ID));
 	}
 		
 	/** the plugin options page */

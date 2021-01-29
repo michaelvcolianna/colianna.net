@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '6a5bc1a9c38312b15f39bf27d550475c5fec9e8c',
+    'reference' => '365fa139f5071111df87589441869d48c5ee6d61',
     'name' => 'twofas/wp-plugin-secure',
   ),
   'versions' => 
@@ -196,7 +196,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '6a5bc1a9c38312b15f39bf27d550475c5fec9e8c',
+      'reference' => '365fa139f5071111df87589441869d48c5ee6d61',
     ),
     'whichbrowser/parser' => 
     array (

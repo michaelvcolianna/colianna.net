@@ -3,8 +3,8 @@ Contributors: netweblogic
 Tags: google, SEO, yahoo, tags, webmaster tools, meta, meta tags, ogp, open graph, twitter cards
 Text Domain: meta-tag-manager
 Requires at least: 3.6
-Tested up to: 5.5
-Stable tag: 2.1.2
+Tested up to: 5.6
+Stable tag: 2.1.3
 
 Easily add and manage custom meta tags to various parts of your site or on individual posts, such as Yahoo and Google verification tags.
 
@@ -69,6 +69,10 @@ Please visit our <a href="https://wordpress.org/support/plugin/meta-tag-manager"
 3. If enabled you can add meta tags to a specific post in it's own meta box
 
 == Changelog ==
+= 2.1.3 =
+* updated selectize library to v0.13 which fixes issues with name tags containing custom values
+* fixed minor php warning
+
 = 2.1.2 =
 * fixed WordPress 5.5 conflict (props to @seserss)
 

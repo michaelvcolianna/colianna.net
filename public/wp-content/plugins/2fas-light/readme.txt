@@ -102,7 +102,10 @@ You can either use it privately or for commercial usage without any fees.
 
 == Changelog ==
 
-= 3.0.1 (Jan. 1, 2021) =
+= 3.0.2 (Jan. 8, 2021) =
+* Fixed bug in custom column filter
+
+= 3.0.1 (Jan. 4, 2021) =
 * Fixed bug in custom column filter
 
 = 3.0 (Dec.21, 2020) =

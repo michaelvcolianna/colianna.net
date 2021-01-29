@@ -135,7 +135,7 @@ class MTM_Builder {
 							<?php echo self::output_select_options($type_values, $tag->value); ?>
 						</select>
 						<?php else: ?>
-						<input  name="mtm-fields[<?php echo esc_attr($i); ?>][value]" type="text" class="mtm-field-input-<?php echo esc_attr($type); ?> mtm-field-input-tag-value" value="<?php echo esc_attr($tag->value); ?>" />
+						<input  name="mtm-fields[<?php echo esc_attr($i); ?>][value]" type="text" class="mtm-field-input-<?php echo esc_attr($tag->type); ?> mtm-field-input-tag-value" value="<?php echo esc_attr($tag->value); ?>" />
 						<?php endif; ?>
 					</label>
 				</div>
