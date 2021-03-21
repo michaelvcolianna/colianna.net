@@ -4,7 +4,7 @@ Plugin Name: Meta Tag Manager
 Plugin URI: https://wordpress.org/plugins/meta-tag-manager/
 Description: A simple plugin to manage meta tags that appear on aread of your site or individual posts. This can be used for verifiying google, yahoo, and more.
 Author: Marcus Sykes
-Version: 2.1.3
+Version: 2.2
 Author URI: http://msyk.es/?utm_source=meta-tag-manager&utm_medium=plugin-header&utm_campaign=plugins
 Text Domain: meta-tag-manager
 */
@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 if( !defined('ABSPATH') ) exit;
 
-define('MTM_VERSION', '2.1.3');
+define('MTM_VERSION', '2.2');
 
 class Meta_Tag_Manager {
 	/** loads the plugin */

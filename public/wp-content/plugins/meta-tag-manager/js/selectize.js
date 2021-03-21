@@ -633,8 +633,9 @@
 	return MicroPlugin;
 }));
 
+
 /**
- * selectize.js (v0.13.0)
+ * selectize.js (v0.13.3)
  * Copyright (c) 2013–2015 Brian Reavis & contributors
  * Copyright (c) 2020 Selectize Team & contributors
  *
@@ -966,6 +967,10 @@
 	 */
 	var getSelection = function(input) {
 		var result = {};
+		if(input === undefined) {
+			console.warn('WARN getSelection cannot locate input control');
+			return result;
+		}
 		if ('selectionStart' in input) {
 			result.start = input.selectionStart;
 			result.length = input.selectionEnd - result.start;
@@ -1170,6 +1175,7 @@
 			hasOptions       : false,
 			currentResults   : null,
 			lastValue        : '',
+			lastValidValue   : '',
 			caretPos         : 0,
 			loading          : 0,
 			loadedSearches   : {},
@@ -1270,7 +1276,7 @@
 			$control_input    = $('<input type="text" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 			$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 			$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
-			$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
+			$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).attr('tabindex', '-1').appendTo($dropdown);
 
 			if(inputId = $input.attr('id')) {
 				$control_input.attr('id', inputId + '-selectized');
@@ -1386,6 +1392,7 @@
 			$input.attr('tabindex', -1).hide().after(self.$wrapper);
 
 			if ($.isArray(settings.items)) {
+				self.lastValidValue = settings.items;
 				self.setValue(settings.items);
 				delete settings.items;
 			}
@@ -1547,6 +1554,11 @@
 		 * input / select element.
 		 */
 		onChange: function() {
+			var self = this;
+			if (self.getValue() !== "") {
+				self.lastValidValue = self.getValue();
+			}
+			this.$input.trigger('input');
 			this.$input.trigger('change');
 		},
 
@@ -1894,6 +1906,16 @@
 		},
 
 		/**
+		 * Gets the value of input field of the control.
+		 *
+		 * @returns {string} value
+		 */
+		getTextboxValue: function() {
+			var $input = this.$control_input;
+			return $input.val();
+		},
+
+		/**
 		 * Sets the input field of the control to the specified value.
 		 *
 		 * @param {string} value
@@ -2097,7 +2119,7 @@
 		 */
 		focus: function() {
 			var self = this;
-			if (self.isDisabled) return;
+			if (self.isDisabled) return self;
 
 			self.ignoreFocus = true;
 			self.$control_input[0].focus();
@@ -2105,6 +2127,7 @@
 				self.ignoreFocus = false;
 				self.onFocus();
 			}, 0);
+			return self;
 		},
 
 		/**
@@ -2115,6 +2138,7 @@
 		blur: function(dest) {
 			this.$control_input[0].blur();
 			this.onBlur(null, dest);
+			return this;
 		},
 
 		/**
@@ -2253,8 +2277,8 @@
 			// sort optgroups
 			if (this.settings.lockOptgroupOrder) {
 				groups_order.sort(function(a, b) {
-					var a_order = self.optgroups[a].$order || 0;
-					var b_order = self.optgroups[b].$order || 0;
+					var a_order = self.optgroups[a] && self.optgroups[a].$order || 0;
+					var b_order = self.optgroups[b] && self.optgroups[b].$order || 0;
 					return a_order - b_order;
 				});
 			}
@@ -2588,6 +2612,34 @@
 		},
 
 		/**
+		 * Finds the first element with a "textContent" property
+		 * that matches the given textContent value.
+		 *
+		 * @param {mixed} textContent
+		 * @param {boolean} ignoreCase
+		 * @param {object} $els
+		 * @return {object}
+		 */
+		getElementWithTextContent: function(textContent, ignoreCase ,$els) {
+			textContent = hash_key(textContent);
+
+			if (typeof textContent !== 'undefined' && textContent !== null) {
+				for (var i = 0, n = $els.length; i < n; i++) {
+					var eleTextContent = $els[i].textContent
+					if (ignoreCase == true) {
+						eleTextContent = (eleTextContent !== null) ? eleTextContent.toLowerCase() : null;
+						textContent = textContent.toLowerCase();
+					}
+					if (eleTextContent === textContent) {
+						return $($els[i]);
+					}
+				}
+			}
+
+			return $();
+		},
+
+		/**
 		 * Returns the jQuery element of the item
 		 * matching the given value.
 		 *
@@ -2596,6 +2648,19 @@
 		 */
 		getItem: function(value) {
 			return this.getElementWithValue(value, this.$control.children());
+		},
+
+		/**
+		 * Returns the jQuery element of the item
+		 * matching the given textContent.
+		 *
+		 * @param {string} value
+		 * @param {boolean} ignoreCase
+		 * @returns {object}
+		 */
+		getFirstItemMatchedByTextContent: function(textContent, ignoreCase) {
+			ignoreCase = (ignoreCase !== null && ignoreCase === true) ? true : false;
+			return this.getElementWithTextContent(textContent, ignoreCase, this.$dropdown_content.find('[data-selectable]'));
 		},
 
 		/**
@@ -2704,6 +2769,7 @@
 			i = self.items.indexOf(value);
 
 			if (i !== -1) {
+				self.trigger('item_before_remove', value, $item);
 				$item.remove();
 				if ($item.hasClass('active')) {
 					idx = self.$activeItems.indexOf($item[0]);
@@ -2943,7 +3009,7 @@
 				// Do not trigger blur while inside a blur event,
 				// this fixes some weird tabbing behavior in FF and IE.
 				// See #1164
-				if (!self.isBlurring) {
+				if (self.isBlurring) {
 					self.$control_input.blur(); // close keyboard on iOS
 				}
 			}
@@ -3600,6 +3666,23 @@
 	};
 
 
+	Selectize.define('auto_select_on_type', function(options) {
+		var self = this;
+
+		self.onBlur = (function() {
+			var originalBlur = self.onBlur;
+			return function(e) {
+				var $matchedItem = self.getFirstItemMatchedByTextContent(self.lastValue, true);
+				if (typeof $matchedItem.attr('data-value') !== 'undefined' && self.getValue() !== $matchedItem.attr('data-value'))
+				{
+					self.setValue($matchedItem.attr('data-value'));
+				}
+				return originalBlur.apply(this, arguments);
+			}
+		}());
+	});
+
+
 	Selectize.define("autofill_disable", function (options) {
 		var self = this;
 
@@ -3930,6 +4013,49 @@
 				return original.apply(this, arguments);
 			};
 		})();
+	});
+
+
+	Selectize.define('select_on_focus', function(options) {
+		var self = this;
+
+		self.on('focus', function() {
+			var originalFocus = self.onFocus;
+			return function(e) {
+				var value = self.getItem(self.getValue()).text();
+				self.clear();
+				self.setTextboxValue(value);
+				self.$control_input.select();
+				setTimeout( function () {
+					if (self.settings.selectOnTab) {
+						self.setActiveOption(self.getFirstItemMatchedByTextContent(value));
+					}
+					self.settings.score = null;
+				},0);
+				return originalFocus.apply(this, arguments);
+			};
+		}());
+
+		self.onBlur = (function() {
+			var originalBlur = self.onBlur;
+			return function(e) {
+				if (self.getValue() === "" && self.lastValidValue !== self.getValue()) {
+					self.setValue(self.lastValidValue);
+				}
+				setTimeout( function () {
+					self.settings.score = function() {
+						return function() {
+							return 1;
+						};
+					};
+				}, 0 );
+				return originalBlur.apply(this, arguments);
+			}
+		}());
+		self.settings.score = function() {
+			return function() { return 1; };
+		};
+
 	});
 
 

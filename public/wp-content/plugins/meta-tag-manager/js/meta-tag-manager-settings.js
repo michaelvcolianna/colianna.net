@@ -1,9 +1,9 @@
 jQuery(document).ready(function($){
 	//Meta Box Options
-	//$(".postbox > h2").click(function(){ $(this).parent().toggleClass('closed'); });
+	//$(".postbox > h2").on('click', function(){ $(this).parent().toggleClass('closed'); });
 	//$(".postbox").addClass('closed');
 	//Navigation Tabs
-	$('.tabs-active .nav-tab-wrapper .nav-tab').click(function(){
+	$('.tabs-active .nav-tab-wrapper .nav-tab').on('click', function(){
 		el = $(this);
 		elid = el.attr('id');
 		$('.mtm-menu-group').hide(); 
@@ -11,7 +11,7 @@ jQuery(document).ready(function($){
 		//$(".postbox").addClass('closed');
 		//open_close.text(EM.open_text);
 	});
-	$('.nav-tab-wrapper .nav-tab').click(function(){
+	$('.nav-tab-wrapper .nav-tab').on('click', function(){
 		$('.nav-tab-wrapper .nav-tab').removeClass('nav-tab-active');
 		$(this).addClass('nav-tab-active').blur();
 	});
@@ -31,8 +31,8 @@ jQuery(document).ready(function($){
 		//set to general tab by default, so we can also add clicked subsections
 		document.location = navUrl+"#builder";
 	}
-	$('.nav-tab-link').click(function(){ $($(this).attr('rel')).trigger('click'); }); //links to mimick tabs
-	$('input[type="submit"]').click(function(){
+	$('.nav-tab-link').on('click', function(){ $($(this).attr('rel')).trigger('click'); }); //links to mimick tabs
+	$('input[type="submit"]').on('click', function(){
 		var el = $(this).parents('.postbox').first();
 		var docloc = document.location.toString().split('#');
 		var newloc = docloc[0];
