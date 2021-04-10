@@ -7,12 +7,9 @@ interface Session_Storage_Interface {
 	/**
 	 * @return string
 	 */
-	public function get_session_id();
+	public function get_session_id(): string;
 	
-	/**
-	 * @return bool
-	 */
-	public function exists();
+	public function exists(): bool;
 	
 	public function refresh();
 	

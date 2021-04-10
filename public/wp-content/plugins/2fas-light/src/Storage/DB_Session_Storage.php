@@ -6,9 +6,8 @@ namespace TwoFAS\Light\Storage;
 use DateInterval;
 use DateTime;
 use Exception;
-use TwoFAS\Light\Http\Cookie;
-use TwoFAS\Light\Http\Session;
 use TwoFAS\Light\Helpers\Hash;
+use TwoFAS\Light\Http\Request\{Cookie, Session};
 use wpdb;
 
 class DB_Session_Storage implements Session_Storage_Interface {
@@ -36,10 +35,6 @@ class DB_Session_Storage implements Session_Storage_Interface {
 	 */
 	private $cached_variables = [];
 	
-	/**
-	 * @param Cookie     $cookie
-	 * @param DB_Wrapper $db
-	 */
 	public function __construct( Cookie $cookie, DB_Wrapper $db ) {
 		$this->cookie     = $cookie;
 		$this->db         = $db;

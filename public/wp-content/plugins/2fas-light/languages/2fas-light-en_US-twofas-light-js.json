@@ -1,0 +1,33 @@
+{
+    "translation-revision-date": "2021-03-24 10:18+0000",
+    "generator": "WP-CLI\/2.4.0",
+    "source": "assets\/js\/twofas_light.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "en-US",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Couldn't reload QR code.%sTry one more time!": [
+                "Couldn't reload the QR code.%sPlease try one more time!"
+            ],
+            "Two-factor authentication%shas been configured successfully.": [
+                "Two-Factor Authentication%shas been configured successfully."
+            ],
+            "Token is invalid :(%sCheck token and try one more time.": [
+                "Token is invalid :(%sPlease try one more time."
+            ],
+            "Something went wrong.%sTry one more time!": [
+                "Something went wrong.%sTry one more time!"
+            ],
+            "Trusted device%shas been removed": [
+                "Trusted device%shas been removed."
+            ],
+            "Couldn't remove trusted device.%sTry one more time!": [
+                "Couldn't remove trusted web browser\/device.%sTry one more time!"
+            ]
+        }
+    }
+}

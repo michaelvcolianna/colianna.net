@@ -54,7 +54,7 @@ class Login_Token implements JsonSerializable {
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'user_id' => $this->user_id,
 			'hash'    => $this->hash,
@@ -63,12 +63,7 @@ class Login_Token implements JsonSerializable {
 		];
 	}
 	
-	/**
-	 * @param string $json
-	 *
-	 * @return Login_Token
-	 */
-	public static function createFromJson( string $json ) {
+	public static function createFromJson( string $json ): self {
 		$object = json_decode( $json );
 		
 		if ( json_last_error() !== JSON_ERROR_NONE ) {

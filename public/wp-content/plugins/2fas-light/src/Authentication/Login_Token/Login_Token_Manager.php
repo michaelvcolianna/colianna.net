@@ -3,11 +3,12 @@ declare( strict_types=1 );
 
 namespace TwoFAS\Light\Authentication\Login_Token;
 
-use TwoFAS\Light\Exceptions\Login_Token_Not_Found_Exception;
-use TwoFAS\Light\Exceptions\Login_Token_Validation_Exception;
-use TwoFAS\Light\Exceptions\User_Not_Found_Exception;
+use Exception;
+use TwoFAS\Light\Exceptions\{Login_Token_Not_Found_Exception,
+	Login_Token_Validation_Exception,
+	User_Not_Found_Exception};
 use TwoFAS\Light\Helpers\Hash;
-use TwoFAS\Light\Http\Session;
+use TwoFAS\Light\Http\Request\Session;
 use TwoFAS\Light\Storage\User_Storage;
 
 class Login_Token_Manager {
@@ -24,10 +25,6 @@ class Login_Token_Manager {
 	 */
 	private $user_storage;
 	
-	/**
-	 * @param Session      $session
-	 * @param User_Storage $user_storage
-	 */
 	public function __construct( Session $session, User_Storage $user_storage ) {
 		$this->session      = $session;
 		$this->user_storage = $user_storage;
@@ -36,6 +33,7 @@ class Login_Token_Manager {
 	/**
 	 * @param string $context
 	 *
+	 * @throws Exception
 	 * @throws User_Not_Found_Exception
 	 */
 	public function generate_first_step_token( string $context ) {
@@ -43,6 +41,7 @@ class Login_Token_Manager {
 	}
 	
 	/**
+	 * @throws Exception
 	 * @throws Login_Token_Validation_Exception
 	 * @throws Login_Token_Not_Found_Exception
 	 */
@@ -88,6 +87,12 @@ class Login_Token_Manager {
 		$this->user_storage->delete_step_token();
 	}
 	
+	/**
+	 * @param int    $step
+	 * @param string $context
+	 *
+	 * @throws Exception
+	 */
 	private function create( int $step, string $context ) {
 		$login_token      = new Login_Token(
 			$this->user_storage->get_user_id(),

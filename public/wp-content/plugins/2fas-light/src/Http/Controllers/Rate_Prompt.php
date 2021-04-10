@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Http\Controllers;
 
-use TwoFAS\Light\Http\{Controller, Request};
 use TwoFAS\Light\Exceptions\DateTime_Creation_Exception;
 use TwoFAS\Light\Http\Code;
+use TwoFAS\Light\Http\Request\Request;
+use TwoFAS\Light\Http\Response\JSON_Response;
 use TwoFAS\Light\Rate_Plugin_Prompt\Rate_Plugin_Prompt;
-use TwoFAS\Light\Http\JSON_Response;
 
 class Rate_Prompt extends Controller {
 	

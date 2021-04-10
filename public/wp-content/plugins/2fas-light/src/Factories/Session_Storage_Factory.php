@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Factories;
 
-use TwoFAS\Light\Http\Request;
-use TwoFAS\Light\Storage\DB_Wrapper;
+use TwoFAS\Light\Http\Request\Request;
 use TwoFAS\Light\Storage\{DB_Session_Storage, In_Memory_Session_Storage, Session_Storage_Interface};
+use TwoFAS\Light\Storage\DB_Wrapper;
 
 class Session_Storage_Factory {
 
@@ -38,18 +38,12 @@ class Session_Storage_Factory {
 
 		return new In_Memory_Session_Storage();
 	}
-
-	/**
-	 * @return bool
-	 */
-	private function can_use_db_session_storage() {
+	
+	private function can_use_db_session_storage(): bool {
 		return $this->tables_exist();
 	}
-
-	/**
-	 * @return bool
-	 */
-	private function tables_exist() {
+	
+	private function tables_exist(): bool {
 		$table_sessions          = $this->get_table_full_name( DB_Session_Storage::TABLE_SESSIONS );
 		$table_session_variables = $this->get_table_full_name( DB_Session_Storage::TABLE_SESSION_VARIABLES );
 
@@ -58,13 +52,8 @@ class Session_Storage_Factory {
 
 		return ! is_null( $result1 ) && ! is_null( $result2 );
 	}
-
-	/**
-	 * @param string $table_name
-	 *
-	 * @return string
-	 */
-	private function get_table_full_name( $table_name ) {
+	
+	private function get_table_full_name( string $table_name ): string {
 		return $this->db->get_prefix() . $table_name;
 	}
 }

@@ -3,7 +3,7 @@ declare( strict_types=1 );
 
 namespace TwoFAS\Light\Core;
 
-use TwoFAS\Light\Http\Request;
+use TwoFAS\Light\Http\Request\Request;
 
 class Plugin_Compatibility {
 	

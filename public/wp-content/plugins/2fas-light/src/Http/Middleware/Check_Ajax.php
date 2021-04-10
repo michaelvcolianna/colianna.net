@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Http\Middleware;
 
-use TwoFAS\Light\Http\Request;
 use TwoFAS\Light\Helpers\Flash;
 use TwoFAS\Light\Http\Action_URL;
+use TwoFAS\Light\Http\Request\Request;
 
 class Check_Ajax extends Middleware {
 
@@ -18,11 +18,7 @@ class Check_Ajax extends Middleware {
 	 * @var Flash
 	 */
 	private $flash;
-
-	/**
-	 * @param Request $request
-	 * @param Flash   $flash
-	 */
+	
 	public function __construct( Request $request, Flash $flash ) {
 		$this->request = $request;
 		$this->flash   = $flash;

@@ -1,10 +1,64 @@
 @import 'variables';
 @import 'functions';
 
+// VARIABLES
+$cardBg: #fff;
+$fontColor: #000;
+$tableColor: #d4d4d9;
+$tableFontColor: #898989;
+$borderColor: #f1f1f1;
+
+h3 {
+  &.twofas-light-trusted-devices-header {
+    margin-bottom: 0;
+    max-height: 0;
+    overflow: hidden;
+
+    &.twofas-show {
+      max-height: 9999px;
+    }
+  }
+}
+
 .twofas-light-trusted-devices {
-  height: auto;
+  background: $cardBg;
+  border-radius: 4px;
+  max-height: 0;
+  padding: 0;
   overflow: hidden;
   width: 100%;
+
+  &.twofas-show {
+    margin-bottom: 51px;
+    margin-top: 17px;
+    max-height: 9999px;
+    padding: 45px 0 0;
+  }
+
+  &-desc {
+    text-align: center;
+
+    @media all and (max-width: 800px) {
+      padding: 0 20px;
+    }
+
+    h4 {
+      color: $fontColor;
+      font-size: px-to-rem(16);
+      font-weight: 600;
+      line-height: px-to-rem(20);
+      margin-bottom: 6px;
+    }
+
+    h5 {
+      color: $fontColor;
+      font-size: px-to-rem(14);
+      font-weight: 400;
+      line-height: px-to-rem(18);
+      margin-bottom: 45px;
+      margin-top: 0;
+    }
+  }
 
   &-remove {
     background: none;
@@ -35,265 +89,187 @@
     }
   }
 
-  table {
-    border-collapse: collapse;
-    width: 100%;
+  &-table {
+    padding: 0 39px 14px;
 
-    thead {
-      background: $tf-trusted-devices-th-background;
-      color: $tf-trusted-devices-th-color;
-      text-align: left;
-
-      @media all and (max-width: $screen-sm-max) {
-        display: none;
-      }
-
-      th {
-        font-size: px-to-rem(13);
-        font-weight: 300;
-      }
+    @media all and (max-width: 600px) {
+      padding: 0 20px 14px;
     }
 
-    td,
-    th {
-      height: 38px;
-      line-height: 38px;
-      padding: 0 15px;
+    table {
+      border-collapse: collapse;
+      width: 100%;
 
-      @media all and (max-width: 1100px) {
-        padding: 0 10px;
+      @media all and (max-width: 800px) {
+        display: block;
       }
 
-      @media all and (max-width: $screen-sm-max) {
-        height: auto;
-        overflow: hidden;
-        line-height: 22px;
-      }
-    }
+      thead {
+        border-bottom: 1px solid $tableColor;
+        border-top: 1px solid $tableColor;
 
-    tr {
-      @media all and (max-width: $screen-sm-max) {
-        padding: 15px 0;
+        @media all and (max-width: 800px) {
+          display: none;
+        }
 
-        &:not(.twofas-light-no-devices-row) {
-          float: left;
-          width: 49%;
-          margin-right: 2%;
-
-          &:nth-of-type(2n) {
-            margin-right: 0;
+        tr {
+          th {
+            color: $fontColor;
+            font-size: px-to-rem(16);
+            font-weight: 600;
+            height: 48px;
+            line-height: 48px;
+            padding: 0;
+            text-align: left;
           }
         }
       }
 
-      @media all and (max-width: $screen-xs-max) {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 15px;
-
-        &:last-of-type {
-          margin-bottom: 0;
-        }
-      }
-    }
-
-    td {
-      font-size: px-to-rem(15);
-
-      @media all and (max-width: $screen-sm-max) {
-        padding: 0 15px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        &::before {
-          font-weight: 700;
-          font-size: px-to-rem(13);
-          margin-right: 5px;
+      tbody {
+        @media all and (max-width: 800px) {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
         }
 
-        &.twofas-light-no-devices-column {
-          h5 {
-            line-height: 1.5;
-          }
-        }
+        tr {
+          color: $tableFontColor;
 
-        &:not(.twofas-light-no-devices-column) {
-          white-space: nowrap;
+          @media all and (max-width: 800px) {
+            border-bottom: 1px solid $borderColor;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            width: 100%;
 
-          &:nth-of-type(1) {
-            &::before {
-              content: 'Browser and device: ';
+            &:last-of-type {
+              border-bottom: 0;
+              margin-bottom: 0;
             }
           }
 
-          &:nth-of-type(2) {
-            &::before {
-              content: 'Added on: ';
+          &:last-of-type {
+            td {
+              padding-bottom: 0;
             }
           }
 
-          &:nth-of-type(3) {
-            &::before {
-              content: 'IP Address: ';
+          &.twofas-light-no-devices-row {
+            td {
+              h5 {
+                font-size: px-to-rem(16);
+                font-weight: 700;
+                text-align: center;
+              }
             }
           }
 
-          &:nth-of-type(4) {
-            &::before {
-              content: 'Action: ';
+          &.twofas-light-trusted-devices-subhead {
+            @media all and (max-width: 800px) {
+              display: none;
+            }
+
+            td {
+              font-size: px-to-rem(16);
+              font-weight: 600;
+              line-height: px-to-rem(20);
+              padding: 15px 0;
+            }
+          }
+
+          td {
+            padding-bottom: 10px;
+
+            @media all and (max-width: 800px) {
+              line-height: 1.3;
+              padding-bottom: 0;
+
+              &::before {
+                font-weight: 700;
+              }
+
+              &:nth-of-type(1) {
+                &::before {
+                  content: 'Browser and device: ';
+                }
+              }
+
+              &:nth-of-type(2) {
+                &::before {
+                  content: 'When: ';
+                }
+              }
+
+              &:nth-of-type(3) {
+                &::before {
+                  content: 'Date and time: ';
+                }
+              }
+
+              &:nth-of-type(4) {
+                &::before {
+                  content: 'IP Address: ';
+                }
+              }
+            }
+
+            &:last-of-type {
+              text-align: right;
+
+              @media all and (max-width: 800px) {
+                text-align: left;
+              }
+
+              span {
+                display: none;
+
+                @media all and (max-width: 800px) {
+                  color: $tf-theme-color;
+                  display: inline;
+                }
+              }
+
+              img {
+                display: inline-block;
+
+                @media all and (max-width: 800px) {
+                  display: none;
+                }
+              }
             }
           }
         }
       }
-
-      &:first-of-type {
-        .twofas-light-td-content {
-          border-left: none;
-        }
-      }
-
-      .twofas-light-td-content {
-        border-left: 1px solid $tf-trusted-devices-table-border;
-        display: inline;
-        height: 18px;
-        padding: 0 25px;
-
-        @media all and (max-width: 1100px) {
-          padding: 0 10px;
-        }
-
-        @media all and (max-width: $screen-sm-max) {
-          border-left: 0;
-          padding: 0;
-          font-size: px-to-rem(13);
-        }
-      }
-
-      .twofas-light-hour {
-        color: $tf-trusted-devices-hour-color;
-        margin-left: 15px;
-        font-size: px-to-rem(13);
-        display: none;
-
-        @media all and (max-width: $screen-sm-max) {
-          margin-left: 5px;
-        }
-      }
-
-      .twofas-light-trusted-device-country {
-        color: $tf-trusted-devices-hour-color;
-        font-size: px-to-rem(13);
-        display: none;
-        margin-right: 4px;
-
-        &:empty {
-          margin-right: 0;
-        }
-      }
-
-      .twofas-light-ip {
-        margin-left: -4px;
-      }
-
-      .twofas-light-visible {
-        display: inline-block;
-      }
-    }
-
-    tr {
-      border: 1px solid $tf-trusted-devices-table-border;
-    }
-  }
-
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    @media all and (max-width: $screen-sm-max) {
-      display: block;
-    }
-  }
-
-  h5 {
-    font-size: px-to-rem(20);
-    line-height: 60px;
-    font-weight: 700;
-    margin: 20px 0;
-    text-align: center;
-
-    @media all and (max-width: $screen-sm-max) {
-      font-size: px-to-rem(16);
     }
   }
 }
 
 .twofas-light-trusted-devices-help {
+  border-top: 1px solid $borderColor;
   display: block;
-  margin-bottom: 15px;
-  position: relative;
-  text-align: right;
+  padding: 22px 0;
+  text-align: center;
   width: 100%;
 
-  &-tooltip {
-    color: $tf-trusted-devices-help-link-color;
-    cursor: pointer;
-    display: inline-block;
+  a {
+    box-shadow: none;
+    color: $tf-theme-color;
     font-size: px-to-rem(14);
+    font-weight: 600;
     letter-spacing: .2px;
-
-    span {
-      display: inline-block;
-      vertical-align: middle;
-
-      &.twofas-light-icon {
-        transform: scale(.7);
-        transform-origin: center center;
-      }
-
-      &:not(.twofas-light-icon) {
-        border-bottom: 1px solid $tf-card-background;
-      }
-    }
+    line-height: px-to-rem(16);
+    outline: none;
 
     &:hover {
-      span:not(.twofas-light-icon) {
-        border-bottom: 1px solid $tf-trusted-devices-help-link-color;
-      }
-
-      + .twofas-light-trusted-devices-help-tooltip-content {
-        display: block;
-      }
+      color: darken($tf-theme-color, 5%);
     }
-  }
 
-  &-tooltip-content {
-    background: $tf-tooltip-background;
-    bottom: 100%;
-    color: $tf-tooltip-color;
-    display: none;
-    font-size: px-to-rem(12);
-    font-weight: 400;
-    line-height: px-to-rem(16);
-    margin-bottom: 10px;
-    max-width: 350px;
-    padding: 10px 15px;
-    position: absolute;
-    right: 0;
-    text-align: left;
-    width: 90%;
-
-    &::after {
-      border-color: $tf-tooltip-background transparent transparent transparent;
-      border-style: solid;
-      border-width: 10px 5px 0 5px;
-      content: '';
-      height: 0;
-      right: 50px;
-      position: absolute;
-      top: 100%;
-      width: 0;
+    &:focus,
+    &:active {
+      box-shadow: none;
+      color: $tf-theme-color;
+      outline: none;
     }
   }
 }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace TwoFAS\Light\Authentication;
 
 use Exception;
-use TwoFAS\Light\Exceptions\Handler\Error_Handler_Interface;
-use TwoFAS\Light\Http\{JSON_Response, Redirect_Response, View_Response, Not_Handled_Response};
 use TwoFAS\Light\Authentication\Handler\Login_Handler;
 use TwoFAS\Light\Authentication\Middleware\Middleware_Interface;
+use TwoFAS\Light\Exceptions\Handler\Error_Handler_Interface;
+use TwoFAS\Light\Http\Response\{JSON_Response, Not_Handled_Response, Redirect_Response, View_Response};
 use WP_Error;
 use WP_User;
 
@@ -69,7 +69,7 @@ class Login_Process {
 	}
 
 	/**
-	 * @param null|JSON_Response|Redirect_Response|View_Response|Not_Handled_Response $response
+	 * @param JSON_Response|Redirect_Response|View_Response|Not_Handled_Response|null $response
 	 *
 	 * @return bool
 	 */

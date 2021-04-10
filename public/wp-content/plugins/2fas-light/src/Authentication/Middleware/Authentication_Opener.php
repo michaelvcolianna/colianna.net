@@ -4,13 +4,12 @@ declare( strict_types=1 );
 namespace TwoFAS\Light\Authentication\Middleware;
 
 use Exception;
+use TwoFAS\Light\Events\Authentication_Expired;
+use TwoFAS\Light\Events\Login_Attempts_Reached;
 use TwoFAS\Light\Exceptions\Handler\Error_Handler_Interface;
-use TwoFAS\Light\Http\{JSON_Response, View_Response};
-use TwoFAS\Light\Exceptions\{
-	Authentication_Expired_Exception,
-	Login_Attempts_Reached_Exception,
-	Totp_Disabled_Exception
-};
+use TwoFAS\Light\Exceptions\Totp_Disabled_Exception;
+use TwoFAS\Light\Helpers\Dispatcher;
+use TwoFAS\Light\Http\Response\{JSON_Response, View_Response};
 use TwoFAS\Light\Http\Code;
 use TwoFAS\Light\Notifications\Notification;
 use TwoFAS\Light\Storage\{Authentication_Storage, Storage, User_Storage};
@@ -52,33 +51,26 @@ class Authentication_Opener extends Middleware {
 		try {
 			$authentication = $this->authentication_storage->get_authentication( $this->user_storage->get_user_id() );
 
-			try {
-				if ( ! $this->user_storage->is_totp_enabled() ) {
-					throw new Totp_Disabled_Exception();
-				}
-
-				if ( is_null( $authentication ) ) {
-					$authentication = $this->authentication_storage->open_authentication(
-						$this->user_storage->get_user_id() );
-				}
-
-				if ( $authentication->is_expired() ) {
-					throw new Authentication_Expired_Exception();
-				}
-
-				if ( $authentication->is_rejected() ) {
-					throw new Login_Attempts_Reached_Exception();
-				}
-
-			} catch ( Login_Attempts_Reached_Exception $e ) {
-				$this->authentication_storage->close_authentication( $authentication );
-
-				$response = $this->json_error( Notification::get( 'authentication-limit' ), Code::FORBIDDEN );
-			} catch ( Authentication_Expired_Exception $e ) {
-				$this->authentication_storage->close_authentication( $authentication );
-
-				$response = $this->json_error( Notification::get( 'authentication-expired' ), Code::FORBIDDEN );
+			if ( ! $this->user_storage->is_totp_enabled() ) {
+				throw new Totp_Disabled_Exception();
 			}
+
+			if ( is_null( $authentication ) ) {
+				$authentication = $this->authentication_storage->open_authentication( $this->user_storage->get_user_id() );
+			}
+
+			if ( $authentication->is_expired() ) {
+				Dispatcher::dispatch( new Authentication_Expired( $authentication ) );
+				
+				return $this->run_next( $user, $this->json_error( Notification::get( 'authentication-expired' ), Code::FORBIDDEN ) );
+			}
+
+			if ( $authentication->is_rejected() ) {
+				Dispatcher::dispatch( new Login_Attempts_Reached( $authentication ) );
+				
+				return $this->run_next( $user, $this->json_error( Notification::get( 'authentication-limit' ), Code::FORBIDDEN ) );
+			}
+			
 		} catch ( Exception $e ) {
 			$response = $this->error_handler->capture_exception( $e )->to_json( $e );
 		}

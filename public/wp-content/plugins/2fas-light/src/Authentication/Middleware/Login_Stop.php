@@ -3,18 +3,13 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Authentication\Middleware;
 
-use TwoFAS\Light\Http\JSON_Response;
-use TwoFAS\Light\Http\Redirect_Response;
-use TwoFAS\Light\Http\Request;
-use TwoFAS\Light\Http\View_Response;
 use TwoFAS\Light\Authentication\Login_Action;
 use TwoFAS\Light\Authentication\Login_Token\Login_Token_Manager;
 use TwoFAS\Light\Exceptions\DateTime_Creation_Exception;
 use TwoFAS\Light\Exceptions\User_Not_Found_Exception;
-use TwoFAS\Light\Http\Not_Handled_Response;
-use TwoFAS\Light\Storage\Authentication_Storage;
-use TwoFAS\Light\Storage\Storage;
-use TwoFAS\Light\Storage\User_Storage;
+use TwoFAS\Light\Http\Request\Request;
+use TwoFAS\Light\Http\Response\{Not_Handled_Response, Redirect_Response, View_Response, JSON_Response};
+use TwoFAS\Light\Storage\{Authentication_Storage, Storage, User_Storage};
 use WP_Error;
 use WP_User;
 
@@ -43,11 +38,6 @@ final class Login_Stop extends Middleware {
 	 */
 	private $request;
 	
-	/**
-	 * @param Storage             $storage
-	 * @param Login_Token_Manager $login_token_manager
-	 * @param Request             $request
-	 */
 	public function __construct( Storage $storage, Login_Token_Manager $login_token_manager, Request $request ) {
 		$this->user_storage           = $storage->get_user_storage();
 		$this->authentication_storage = $storage->get_authentication_storage();
@@ -56,8 +46,8 @@ final class Login_Stop extends Middleware {
 	}
 	
 	/**
-	 * @param WP_Error|WP_User                 $user
-	 * @param JSON_Response|View_Response|null $response
+	 * @param WP_Error|WP_User                                                                                    $user
+	 * @param JSON_Response|View_Response|Redirect_Response|Not_Handled_Response|null $response
 	 *
 	 * @return JSON_Response|Redirect_Response|View_Response|Not_Handled_Response|null
 	 *

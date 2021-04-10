@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Http\Controllers;
 
-use TwoFAS\Light\Http\{Controller, Request, JSON_Response};
 use TwoFAS\Light\Exceptions\User_Not_Found_Exception;
 use TwoFAS\Light\Helpers\Trusted_Devices;
+use TwoFAS\Light\Http\Request\Request;
+use TwoFAS\Light\Http\Response\JSON_Response;
 use TwoFAS\Light\Storage\Storage;
 use TwoFAS\Light\Templates\Twig;
 

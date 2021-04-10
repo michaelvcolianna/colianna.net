@@ -11,7 +11,7 @@ class Enqueue_Styles_Action implements Hook_Interface {
 	}
 
 	public function enqueue_styles() {
-		wp_enqueue_style( 'twofas-light', TWOFAS_LIGHT_PLUGIN_URL . '/assets/css/twofas_light.css', array(), TWOFAS_LIGHT_PLUGIN_VERSION );
+		wp_enqueue_style( 'twofas-light', TWOFAS_LIGHT_PLUGIN_URL . 'assets/css/twofas_light.css', array(), TWOFAS_LIGHT_PLUGIN_VERSION );
 		wp_enqueue_style( 'roboto', 'https://fonts.googleapis.com/css?family=Roboto' );
 	}
 }

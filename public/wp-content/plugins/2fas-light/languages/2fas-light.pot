@@ -1,0 +1,607 @@
+# Copyright (C) 2021 Two Factor Authentication Service Inc.
+# This file is distributed under the GPL2.
+msgid ""
+msgstr ""
+"Project-Id-Version: 2FAS Prime — Two Factor Authentication 3.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-plugin-secure\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-03-26T10:05:10+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: 2fas-light\n"
+
+#: 09/091368bd93f6b3dac59df7ef8874b9b276bb5f6b59fc983c6b139dc7acedf06f.php:44
+msgid "You are going to remove the trusted browser/device. %sPlease confirm to proceed."
+msgstr ""
+
+#: 09/091368bd93f6b3dac59df7ef8874b9b276bb5f6b59fc983c6b139dc7acedf06f.php:52
+#: 77/77036cde10e32cb4323e8f3ce97660571c8921ce60bc4d3a621e192ff20145f9.php:66
+#: 82/82bd91ca40de6068c126fb7d0eafc949c79331178d18f652a7ff128371b8b0a0.php:52
+#: a7/a788c33014779774f25ae517cddbc05233a926afbf2e6e3e9d66d8504b0518af.php:71
+msgid "Cancel"
+msgstr ""
+
+#: 09/091368bd93f6b3dac59df7ef8874b9b276bb5f6b59fc983c6b139dc7acedf06f.php:56
+msgid "Confirm"
+msgstr ""
+
+#: 6d/6d08fa868ab660614928a9fc854e17ed6baf6a5e31f5ebd37671b1e3e77cd940.php:44
+msgid "To add a new trusted web browser/device, please check the 'Remember browser' %sbox during the second step of the login process."
+msgstr ""
+
+#: 6d/6d08fa868ab660614928a9fc854e17ed6baf6a5e31f5ebd37671b1e3e77cd940.php:52
+#: bc/bc92e82360d81cea8889a577cb3aee1eb5f26a8e17179962c3da76ff5ed5320a.php:60
+msgid "OK"
+msgstr ""
+
+#: 7f/7f4d9380d4b97d10af6d227a32a40b0f0da9567a9e1cf0661f90a99cb93fc5c0.php:41
+msgid "Give us your feedback!"
+msgstr ""
+
+#: 7f/7f4d9380d4b97d10af6d227a32a40b0f0da9567a9e1cf0661f90a99cb93fc5c0.php:47
+msgid "Thank you for using 2FAS Prime and basically making your life safer! We would appreciate your opinion. Let us know and help us grow!"
+msgstr ""
+
+#: 7f/7f4d9380d4b97d10af6d227a32a40b0f0da9567a9e1cf0661f90a99cb93fc5c0.php:53
+msgid "No, thank you"
+msgstr ""
+
+#: 7f/7f4d9380d4b97d10af6d227a32a40b0f0da9567a9e1cf0661f90a99cb93fc5c0.php:57
+msgid "Ask me later"
+msgstr ""
+
+#: 7f/7f4d9380d4b97d10af6d227a32a40b0f0da9567a9e1cf0661f90a99cb93fc5c0.php:61
+msgid "Sure! Take me to wordpress.org"
+msgstr ""
+
+#: 10/10f0e26453e3392e0c04a7955fc08ba1b43804322028d8b958b8118a2d3bbeea.php:59
+msgid "Enter your one-time backup code:"
+msgstr ""
+
+#: 10/10f0e26453e3392e0c04a7955fc08ba1b43804322028d8b958b8118a2d3bbeea.php:85
+#: ce/cee2f54b5781fcc81eb87bc707e666378625ee7f0c5b04dcd13ad0bb0d0df214.php:99
+msgid "Log In"
+msgstr ""
+
+#: 10/10f0e26453e3392e0c04a7955fc08ba1b43804322028d8b958b8118a2d3bbeea.php:95
+msgid "How backup codes works?"
+msgstr ""
+
+#: 10/10f0e26453e3392e0c04a7955fc08ba1b43804322028d8b958b8118a2d3bbeea.php:117
+msgid "Log in with the 2FAS Token"
+msgstr ""
+
+#: 14/148116bc4c7373cec89445d503ae02f7d123c45833bddcc6ed4211003db58487.php:42
+msgid "Print your 2FAS offline codes"
+msgstr ""
+
+#: 14/148116bc4c7373cec89445d503ae02f7d123c45833bddcc6ed4211003db58487.php:57
+msgid "Backup codes"
+msgstr ""
+
+#: 14/148116bc4c7373cec89445d503ae02f7d123c45833bddcc6ed4211003db58487.php:88
+msgid "2FAS Prime - Two Factor Authentication"
+msgstr ""
+
+#: 21/210f513d5baa9e886f55cd7dd5b082173bc6e06b2f38ccbd78a9e2e9bf6f89f1.php:44
+msgid "This site is secured by 2FAS Prime"
+msgstr ""
+
+#: 22/224314e0a776b5d190037f681fcfe1cfb89bd6033d24fe02e8224f669d8b2341.php:49
+msgid "The QR - refresh"
+msgstr ""
+
+#: 22/224314e0a776b5d190037f681fcfe1cfb89bd6033d24fe02e8224f669d8b2341.php:53
+msgid "Refresh"
+msgstr ""
+
+#: 22/224314e0a776b5d190037f681fcfe1cfb89bd6033d24fe02e8224f669d8b2341.php:61
+msgid "Scan the QR code using your 2FAS mobile app."
+msgstr ""
+
+#: 22/224314e0a776b5d190037f681fcfe1cfb89bd6033d24fe02e8224f669d8b2341.php:66
+msgid "Alternatively, you can enter the Service Key manually%s%sClick here to see the Service Key%s"
+msgstr ""
+
+#: 26/26681d76a9403884ac91606cd73f486b3d131254decb258ad73a9f5651df0281.php:40
+#: 41/41858c55c7bcaa3b2f4f47650dcac14fdc9fa803090b25921189a8b21b8edb53.php:40
+msgid "2FAS Prime plugin security warning."
+msgstr ""
+
+#: 26/26681d76a9403884ac91606cd73f486b3d131254decb258ad73a9f5651df0281.php:45
+msgid ""
+"The plugin is not enabled network-wide on all networks of your multinetwork WordPress installation.\n"
+"\t\tThis means that users might be able to circumvent the two-factor login process by logging in via sites\n"
+"\t\ton which the plugin is not active. Please activate the plugin network-wide on all networks to resolve\n"
+"\t\tthis issue."
+msgstr ""
+
+#: 41/41858c55c7bcaa3b2f4f47650dcac14fdc9fa803090b25921189a8b21b8edb53.php:45
+msgid ""
+"The plugin is not enabled network-wide on your multisite WordPress installation. This means that users might be\n"
+"\t\table to circumvent the two-factor login process by logging in via sites on which the plugin is not active.\n"
+"\t\tPlease activate the plugin network-wide to resolve this issue."
+msgstr ""
+
+#: 42/42004fdf90460390ecc0f47ba827fcbbb817079be99ac701a96daf8d5f0945c0.php:44
+msgid "Enter following Service Key to your %s2FAS Authenticator App%sService Key:"
+msgstr ""
+
+#: 42/42004fdf90460390ecc0f47ba827fcbbb817079be99ac701a96daf8d5f0945c0.php:55
+msgid "To enter Service Key click '%s+%s' icon on the main screen of your 2FAS app and choose 'Enter code manually'."
+msgstr ""
+
+#: 42/42004fdf90460390ecc0f47ba827fcbbb817079be99ac701a96daf8d5f0945c0.php:66
+#: 52/527ce843e7fc12595b07f0226b8e60d2ca2d5d4a86808bba78eedcbf28c72276.php:55
+#: a7/a788c33014779774f25ae517cddbc05233a926afbf2e6e3e9d66d8504b0518af.php:59
+#: b6/b663edde15e6182647cc3781b47579e71165df28f2ce2fe1e089417204ad2eb8.php:55
+#: bc/bc92e82360d81cea8889a577cb3aee1eb5f26a8e17179962c3da76ff5ed5320a.php:47
+msgid "Close"
+msgstr ""
+
+#: 46/467510c0d65a47ee2936bf45010820ce7236876e22e22df035023f995e4571d4.php:42
+msgid "Two-factor authentication is not configured."
+msgstr ""
+
+#: 52/527ce843e7fc12595b07f0226b8e60d2ca2d5d4a86808bba78eedcbf28c72276.php:44
+msgid "Are you sure you want to generate new %sbackup codes?"
+msgstr ""
+
+#: 52/527ce843e7fc12595b07f0226b8e60d2ca2d5d4a86808bba78eedcbf28c72276.php:63
+msgid "Yes"
+msgstr ""
+
+#: 52/527ce843e7fc12595b07f0226b8e60d2ca2d5d4a86808bba78eedcbf28c72276.php:67
+msgid "No"
+msgstr ""
+
+#: 56/566154203108f77e2ad7d3d80735731ce815b3b239dbce7a0aae720ebac30117.php:40
+msgid "2FAS Prime plugin error."
+msgstr ""
+
+#: 60/6007fcccebd2869fa7910043b8c57be5a0226fb80b31afdcceeaef6a1201ca77.php:42
+msgid "Danger Zone"
+msgstr ""
+
+#: 60/6007fcccebd2869fa7910043b8c57be5a0226fb80b31afdcceeaef6a1201ca77.php:54
+msgid "Disable Two Factor authentication"
+msgstr ""
+
+#: 60/6007fcccebd2869fa7910043b8c57be5a0226fb80b31afdcceeaef6a1201ca77.php:58
+msgid "(not recommended)"
+msgstr ""
+
+#: 60/6007fcccebd2869fa7910043b8c57be5a0226fb80b31afdcceeaef6a1201ca77.php:64
+msgid "Two Factor Authentication"
+msgstr ""
+
+#: 60/6007fcccebd2869fa7910043b8c57be5a0226fb80b31afdcceeaef6a1201ca77.php:82
+msgid "Delete your current 2FAS Prime plugin configuration"
+msgstr ""
+
+#: 60/6007fcccebd2869fa7910043b8c57be5a0226fb80b31afdcceeaef6a1201ca77.php:87
+msgid "(It's recommended only in case you lose phone or access to your 2FAS app and want to restore %ssecond factor authentication)."
+msgstr ""
+
+#: 60/6007fcccebd2869fa7910043b8c57be5a0226fb80b31afdcceeaef6a1201ca77.php:110
+msgid "Click here to delete your configuration"
+msgstr ""
+
+#: 65/65ee4b39eae3a4ae4f806c3ffd5a3e022ad01b578e5f494eb6721bc50c97ced0.php:42
+msgid "WordPress plugin backup codes"
+msgstr ""
+
+#: 65/65ee4b39eae3a4ae4f806c3ffd5a3e022ad01b578e5f494eb6721bc50c97ced0.php:59
+#: 65/65ee4b39eae3a4ae4f806c3ffd5a3e022ad01b578e5f494eb6721bc50c97ced0.php:75
+msgid "Generate backup codes"
+msgstr ""
+
+#: 65/65ee4b39eae3a4ae4f806c3ffd5a3e022ad01b578e5f494eb6721bc50c97ced0.php:64
+#: 65/65ee4b39eae3a4ae4f806c3ffd5a3e022ad01b578e5f494eb6721bc50c97ced0.php:91
+msgid "Use backup codes to authenticate this WordPress account in case you%sloose your phone or can’t access your 2FAS mobile application."
+msgstr ""
+
+#: 65/65ee4b39eae3a4ae4f806c3ffd5a3e022ad01b578e5f494eb6721bc50c97ced0.php:86
+msgid "Your backup codes are active."
+msgstr ""
+
+#: 65/65ee4b39eae3a4ae4f806c3ffd5a3e022ad01b578e5f494eb6721bc50c97ced0.php:105
+msgid "%s backup code left"
+msgid_plural "%s backup codes left"
+msgstr[0] ""
+msgstr[1] ""
+
+#: 65/65ee4b39eae3a4ae4f806c3ffd5a3e022ad01b578e5f494eb6721bc50c97ced0.php:115
+msgid "Lost your backup codes?"
+msgstr ""
+
+#: 65/65ee4b39eae3a4ae4f806c3ffd5a3e022ad01b578e5f494eb6721bc50c97ced0.php:117
+msgid "Generate again"
+msgstr ""
+
+#: 77/77036cde10e32cb4323e8f3ce97660571c8921ce60bc4d3a621e192ff20145f9.php:43
+msgid "Are you sure you want to delete your 2FAS Prime configuration?"
+msgstr ""
+
+#: 77/77036cde10e32cb4323e8f3ce97660571c8921ce60bc4d3a621e192ff20145f9.php:47
+msgid "It's recommended only in case you lose your phone or access to your 2FAS app and want to restore Two Factor Authentication"
+msgstr ""
+
+#: 77/77036cde10e32cb4323e8f3ce97660571c8921ce60bc4d3a621e192ff20145f9.php:62
+msgid "Delete configuration"
+msgstr ""
+
+#: 82/82bd91ca40de6068c126fb7d0eafc949c79331178d18f652a7ff128371b8b0a0.php:44
+msgid "Are you sure you want to disable %s2FAS Prime plugin?"
+msgstr ""
+
+#: 82/82bd91ca40de6068c126fb7d0eafc949c79331178d18f652a7ff128371b8b0a0.php:56
+msgid "Yes, disable plugin"
+msgstr ""
+
+#: 89/89b819f74a35934e907e283e97fb884375588ca7b6f16b5934868fa6d3639ed1.php:42
+msgid "Enter 6-digit token generated by the 2FAS app and %sclick the 'Finish configuration' button."
+msgstr ""
+
+#: 89/89b819f74a35934e907e283e97fb884375588ca7b6f16b5934868fa6d3639ed1.php:58
+msgid "Token:"
+msgstr ""
+
+#: 92/9208bbeecc55319eea57a079b64ae60a1db3e8fd212b10710eb0b4ec32616535.php:55
+msgid "Download 2FAS Authenticator app from Google Play or AppStore to start using 2FA."
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:73
+msgid "In order to use the 2FAS Prime plugin, please deactivate the 2FAS Classic plugin."
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:92
+msgid "Follow these instructions to configure 2FAS security tokens correctly."
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:109
+msgid "Trusted web browsers on your devices"
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:121
+msgid "The following list contains all of your trusted browsers and devices."
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:126
+msgid "Logging in from the following web browsers/devices does not require Two Factor  %sAuthentication."
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:143
+msgid "How to add a new device?"
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:173
+msgid "Download 2FAS app"
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:181
+msgid "Scan the QR code"
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:189
+msgid "Enter 6-digit token"
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:218
+msgid "Back"
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:222
+msgid "Continue"
+msgstr ""
+
+#: 94/944e3df5f15d338da10ef91a9be159a328f2c0909049ab8e2e7b182b6f5d879b.php:226
+msgid "Finish configuration"
+msgstr ""
+
+#: 95/959f7679931518607b7a4b058f3aaf233f5fca9598621fd4b37193a55d0e5e80.php:54
+msgid "2FAS Prime plugin is running"
+msgstr ""
+
+#: 95/959f7679931518607b7a4b058f3aaf233f5fca9598621fd4b37193a55d0e5e80.php:58
+#: 95/959f7679931518607b7a4b058f3aaf233f5fca9598621fd4b37193a55d0e5e80.php:78
+msgid "Use tokens from 2FAS app to authenticate your WordPress account."
+msgstr ""
+
+#: 95/959f7679931518607b7a4b058f3aaf233f5fca9598621fd4b37193a55d0e5e80.php:74
+msgid "2FAS Prime plugin is disabled"
+msgstr ""
+
+#: a7/a788c33014779774f25ae517cddbc05233a926afbf2e6e3e9d66d8504b0518af.php:43
+msgid "Do you want to change the actual QR code?"
+msgstr ""
+
+#: a7/a788c33014779774f25ae517cddbc05233a926afbf2e6e3e9d66d8504b0518af.php:48
+msgid "If you have already scanned the QR code you will %sneed to scan the new one and remove the configuration %sbased on the previous QR code."
+msgstr ""
+
+#: a7/a788c33014779774f25ae517cddbc05233a926afbf2e6e3e9d66d8504b0518af.php:67
+msgid "Yes, proceed"
+msgstr ""
+
+#: b6/b663edde15e6182647cc3781b47579e71165df28f2ce2fe1e089417204ad2eb8.php:44
+msgid "Download, print or write down the following %scodes and keep them in a safe place."
+msgstr ""
+
+#: b6/b663edde15e6182647cc3781b47579e71165df28f2ce2fe1e089417204ad2eb8.php:64
+msgid "These codes are your backup."
+msgstr ""
+
+#: b6/b663edde15e6182647cc3781b47579e71165df28f2ce2fe1e089417204ad2eb8.php:69
+msgid "Use them to access this WordPress account in case%syou lose or damage your phone with the authenticator app."
+msgstr ""
+
+#: b6/b663edde15e6182647cc3781b47579e71165df28f2ce2fe1e089417204ad2eb8.php:77
+msgid "Download"
+msgstr ""
+
+#: b6/b663edde15e6182647cc3781b47579e71165df28f2ce2fe1e089417204ad2eb8.php:92
+msgid "Print"
+msgstr ""
+
+#: ce/cee2f54b5781fcc81eb87bc707e666378625ee7f0c5b04dcd13ad0bb0d0df214.php:59
+msgid "Enter your token:"
+msgstr ""
+
+#: ce/cee2f54b5781fcc81eb87bc707e666378625ee7f0c5b04dcd13ad0bb0d0df214.php:92
+msgid "Remember browser"
+msgstr ""
+
+#: ce/cee2f54b5781fcc81eb87bc707e666378625ee7f0c5b04dcd13ad0bb0d0df214.php:126
+msgid "Log in with the one-time backup code"
+msgstr ""
+
+#: ce/cee2f54b5781fcc81eb87bc707e666378625ee7f0c5b04dcd13ad0bb0d0df214.php:152
+msgid "Log in to another account"
+msgstr ""
+
+#: db/dbd633002eabb4a565d8cce8f93a046fa0ae847701cfd1537a001d91d91127d4.php:44
+msgid "How to use backup codes:"
+msgstr ""
+
+#: db/dbd633002eabb4a565d8cce8f93a046fa0ae847701cfd1537a001d91d91127d4.php:55
+msgid "Wrote down your backup codes"
+msgstr ""
+
+#: db/dbd633002eabb4a565d8cce8f93a046fa0ae847701cfd1537a001d91d91127d4.php:59
+msgid "Find your file or a piece of paper with printed backup codes."
+msgstr ""
+
+#: db/dbd633002eabb4a565d8cce8f93a046fa0ae847701cfd1537a001d91d91127d4.php:70
+msgid "Type a backup code"
+msgstr ""
+
+#: db/dbd633002eabb4a565d8cce8f93a046fa0ae847701cfd1537a001d91d91127d4.php:74
+msgid "Type the code during logging in when you're asked to use the 2FAS application token."
+msgstr ""
+
+#: db/dbd633002eabb4a565d8cce8f93a046fa0ae847701cfd1537a001d91d91127d4.php:85
+msgid "Keep your backup codes in a safe place"
+msgstr ""
+
+#: db/dbd633002eabb4a565d8cce8f93a046fa0ae847701cfd1537a001d91d91127d4.php:89
+msgid "Remember to keep your backup codes in a safe place."
+msgstr ""
+
+#: ea/eae88f24d0b13b0040e257fb1d61c8b55f476caae85429fea2f36bb1fa811362.php:46
+msgid "Added to trusted browsers and devices list"
+msgstr ""
+
+#: ea/eae88f24d0b13b0040e257fb1d61c8b55f476caae85429fea2f36bb1fa811362.php:50
+msgid "Last log in from this device"
+msgstr ""
+
+#: ea/eae88f24d0b13b0040e257fb1d61c8b55f476caae85429fea2f36bb1fa811362.php:67
+msgid "You don't have any trusted web browsers/devices."
+msgstr ""
+
+#: ea/eae88f24d0b13b0040e257fb1d61c8b55f476caae85429fea2f36bb1fa811362.php:77
+msgid "Browser on a device"
+msgstr ""
+
+#: ea/eae88f24d0b13b0040e257fb1d61c8b55f476caae85429fea2f36bb1fa811362.php:81
+msgid "When"
+msgstr ""
+
+#: ea/eae88f24d0b13b0040e257fb1d61c8b55f476caae85429fea2f36bb1fa811362.php:85
+msgid "Date and time"
+msgstr ""
+
+#: ea/eae88f24d0b13b0040e257fb1d61c8b55f476caae85429fea2f36bb1fa811362.php:89
+msgid "IP Address"
+msgstr ""
+
+#: ea/eae88f24d0b13b0040e257fb1d61c8b55f476caae85429fea2f36bb1fa811362.php:121
+msgid "No information"
+msgstr ""
+
+#: ea/eae88f24d0b13b0040e257fb1d61c8b55f476caae85429fea2f36bb1fa811362.php:137
+msgid "Remove"
+msgstr ""
+
+#: ea/eae88f24d0b13b0040e257fb1d61c8b55f476caae85429fea2f36bb1fa811362.php:143
+msgid "Remove trusted browser"
+msgstr ""
+
+#. Plugin Name of the plugin
+msgid "2FAS Prime — Two Factor Authentication"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/2fas-light/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Free, simple and secure token-based authentication for your WordPress. No registration required."
+msgstr ""
+
+#. Author of the plugin
+msgid "Two Factor Authentication Service Inc."
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://2fas.com"
+msgstr ""
+
+#. translators: %s: Minimum PHP version
+#: check.php:13
+msgid "2FAS Prime plugin requires a PHP version \">= 7.0.0\". You are running %s."
+msgstr ""
+
+#: check.php:29
+msgid "2FAS Prime plugin requires installing the following PHP extensions: %s."
+msgstr ""
+
+#. translators: %s: Minimum WordPress version
+#: check.php:37
+msgid "2FAS Prime plugin doesn’t support your version of WordPress. The minimum required version is %s."
+msgstr ""
+
+#: check.php:43
+msgid "2FAS plugin has been found as active, therefore light version of the plugin is disabled."
+msgstr ""
+
+#: check.php:48
+msgid "2FAS Prime plugin doesn't work properly with the following plugins: <strong>%s</strong>."
+msgstr ""
+
+#: src/Notifications/Notification.php:33
+msgid "CSRF token is invalid."
+msgstr ""
+
+#: src/Notifications/Notification.php:34
+msgid "Invalid AJAX request."
+msgstr ""
+
+#: src/Notifications/Notification.php:35
+msgid "Plugin data is inconsistent."
+msgstr ""
+
+#: src/Notifications/Notification.php:38
+msgid "Wrong token entered, please try again."
+msgstr ""
+
+#: src/Notifications/Notification.php:39
+msgid "Wrong backup code entered, please try again."
+msgstr ""
+
+#: src/Notifications/Notification.php:40
+msgid "TOTP secret is invalid."
+msgstr ""
+
+#: src/Notifications/Notification.php:43
+msgid "The trusted browser has been removed."
+msgstr ""
+
+#: src/Notifications/Notification.php:46
+msgid "Two-factor authentication has been enabled."
+msgstr ""
+
+#: src/Notifications/Notification.php:47
+msgid "Two-factor authentication has been disabled."
+msgstr ""
+
+#: src/Notifications/Notification.php:48
+msgid "TOTP is not configured."
+msgstr ""
+
+#: src/Notifications/Notification.php:49
+msgid "The configuration has been removed successfully."
+msgstr ""
+
+#: src/Notifications/Notification.php:50
+msgid "An error occurred while removing the 2FAS configuration."
+msgstr ""
+
+#: src/Notifications/Notification.php:51
+msgid "Two-factor authentication has been configured and enabled."
+msgstr ""
+
+#: src/Notifications/Notification.php:53
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: src/Notifications/Notification.php:54
+msgid "Something went wrong while connecting to the database."
+msgstr ""
+
+#: src/Notifications/Notification.php:55
+msgid "User has not been found."
+msgstr ""
+
+#: src/Notifications/Notification.php:56
+msgid "User is not logged in."
+msgstr ""
+
+#: src/Notifications/Notification.php:57
+msgid "Token has not been found."
+msgstr ""
+
+#: src/Notifications/Notification.php:58
+msgid "Token validation failed."
+msgstr ""
+
+#: src/Notifications/Notification.php:59
+msgid "2FAS plugin couldn't find a template."
+msgstr ""
+
+#: src/Notifications/Notification.php:60
+msgid "An error occurred in the 2FAS plugin while compiling the template."
+msgstr ""
+
+#: src/Notifications/Notification.php:61
+msgid "An error occurred in the 2FAS plugin while rendering the template."
+msgstr ""
+
+#: src/Notifications/Notification.php:62
+msgid "Your session has expired. Please log in again."
+msgstr ""
+
+#: src/Notifications/Notification.php:63
+msgid "Attempts limit exceeded. Your account has been blocked for 5 minutes."
+msgstr ""
+
+#: src/Notifications/Notification.php:64
+msgid "Authentication failed. Please log in again."
+msgstr ""
+
+#: src/Notifications/Notification.php:65
+msgid "To do this please enable 2FA."
+msgstr ""
+
+#: assets/js/twofas_light.js:287
+msgid "Couldn't reload QR code.%sPlease try one more time!"
+msgstr ""
+
+#: assets/js/twofas_light.js:320
+msgid "Two-factor authentication%shas been configured successfully."
+msgstr ""
+
+#: assets/js/twofas_light.js:334
+msgid "Token is invalid :(%sPlease try one more time."
+msgstr ""
+
+#: assets/js/twofas_light.js:336
+msgid "Something went wrong.%sPlease try one more time!"
+msgstr ""
+
+#: assets/js/twofas_light.js:376
+msgid "Trusted browser%shas been removed"
+msgstr ""
+
+#: assets/js/twofas_light.js:378
+msgid "Couldn't remove web browser/device.%sPlease try one more time!"
+msgstr ""
+
+#: assets/js/twofas_light.js:476
+msgid "Something went wrong.%sTry one more time!"
+msgstr ""

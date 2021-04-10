@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Authentication\Handler;
 
-use TwoFAS\Light\Http\{JSON_Response, Redirect_Response, View_Response};
 use TwoFAS\Light\Events\Trusted_Device_Login_Completed;
 use TwoFAS\Light\Helpers\Dispatcher;
+use TwoFAS\Light\Http\Response\{JSON_Response, Redirect_Response, View_Response};
 use TwoFAS\Light\Http\Code;
 use TwoFAS\Light\Storage\{Storage, Trusted_Devices_Storage};
 use WP_Error;

@@ -7,15 +7,9 @@ use Exception;
 use TwoFAS\Light\Events\View_Response_Created;
 use TwoFAS\Light\Exceptions\Handler\Error_Handler_Interface;
 use TwoFAS\Light\Helpers\Dispatcher;
-use TwoFAS\Light\Http\{
-	JSON_Response,
-	Redirect_Response,
-	Request,
-	Route,
-	View_Response,
-	No_Content
-};
+use TwoFAS\Light\Http\{Request\Request, Route};
 use TwoFAS\Light\Http\Middleware\Create_Response;
+use TwoFAS\Light\Http\Response\{JSON_Response, No_Content, View_Response, Redirect_Response};
 
 class Response_Factory {
 
@@ -43,14 +37,7 @@ class Response_Factory {
 	 * @var Error_Handler_Interface
 	 */
 	private $error_handler;
-
-	/**
-	 * @param Route                   $route
-	 * @param Controller_Factory      $controller_factory
-	 * @param Middleware_Factory      $middleware_factory
-	 * @param Request                 $request
-	 * @param Error_Handler_Interface $error_handler
-	 */
+	
 	public function __construct(
 		Route $route,
 		Controller_Factory $controller_factory,

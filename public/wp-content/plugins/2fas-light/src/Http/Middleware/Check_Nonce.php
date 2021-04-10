@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Http\Middleware;
 
-use TwoFAS\Light\Http\Request;
 use TwoFAS\Light\Helpers\Flash;
 use TwoFAS\Light\Http\Action_URL;
 use TwoFAS\Light\Http\Code;
+use TwoFAS\Light\Http\Request\Request;
 
 class Check_Nonce extends Middleware {
 	
@@ -59,7 +59,7 @@ class Check_Nonce extends Middleware {
 	}
 	
 	
-	private function check_ajax_nonce() {
+	private function check_ajax_nonce(): bool {
 		return false !== check_ajax_referer( 'twofas_light_ajax', 'security' );
 	}
 }

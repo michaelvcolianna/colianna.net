@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Storage;
 
-use TwoFAS\Light\Http\Cookie;
+use TwoFAS\Light\Http\Request\Cookie;
 
 class Storage {
 	
@@ -37,14 +37,6 @@ class Storage {
 	 */
 	private $trusted_devices_storage;
 	
-	/**
-	 * @param Cookie                    $cookie
-	 * @param Options_Storage           $options_storage
-	 * @param User_Storage              $user_storage
-	 * @param Session_Storage_Interface $session_storage
-	 * @param Authentication_Storage    $authentication_storage
-	 * @param Trusted_Devices_Storage   $trusted_devices_storage
-	 */
 	public function __construct(
 		Cookie $cookie,
 		Options_Storage $options_storage,

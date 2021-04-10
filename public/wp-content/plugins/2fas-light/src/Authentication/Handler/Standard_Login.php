@@ -3,69 +3,87 @@ declare( strict_types=1 );
 
 namespace TwoFAS\Light\Authentication\Handler;
 
-use TwoFAS\Light\Events\Standard_Login_Completed;
+use TwoFAS\Light\Authentication\Authentication;
+use TwoFAS\Light\Events\Authentication_Expired;
+use TwoFAS\Light\Events\Login_Attempt_Failed;
+use TwoFAS\Light\Events\Login_Attempts_Reached;
 use TwoFAS\Light\Exceptions\{Authentication_Expired_Exception,
 	Authentication_Not_Found_Exception,
 	DateTime_Creation_Exception,
 	Invalid_Totp_Token_Exception,
 	Login_Attempts_Reached_Exception,
-	User_Not_Found_Exception
-};
+	User_Not_Found_Exception,
+	Validation_Exception};
 use TwoFAS\Light\Helpers\Dispatcher;
-use TwoFAS\Light\Http\{JSON_Response, Redirect_Response, Request, View_Response};
 use TwoFAS\Light\Http\Code;
-use TwoFAS\Light\Http\Not_Handled_Response;
+use TwoFAS\Light\Http\Request\Request;
+use TwoFAS\Light\Http\Response\{JSON_Response, Not_Handled_Response, Redirect_Response, View_Response};
 use TwoFAS\Light\Notifications\Notification;
 use TwoFAS\Light\Storage\{Authentication_Storage, Storage};
-use TwoFAS\Light\Templates\Views;
-use TwoFAS\Light\Totp\{Token, Token_Checker};
 use WP_Error;
 use WP_User;
 
-/**
- * This class handles logging in if user manually enters a 2FA code.
- */
-final class Standard_Login extends Login_Handler {
+abstract class Standard_Login extends Login_Handler {
+	
+	/**
+	 * @var string
+	 */
+	protected $page;
 	
 	/**
 	 * @var Request
 	 */
-	private $request;
-	
-	/**
-	 * @var Token_Checker
-	 */
-	private $token_checker;
+	protected $request;
 	
 	/**
 	 * @var Authentication_Storage
 	 */
-	private $authentication_storage;
+	protected $authentication_storage;
 	
-	/**
-	 * @param Request       $request
-	 * @param Token_Checker $token_checker
-	 * @param Storage       $storage
-	 */
-	public function __construct( Request $request, Token_Checker $token_checker, Storage $storage ) {
+	public function __construct( Request $request, Storage $storage ) {
 		parent::__construct( $storage );
 		$this->request                = $request;
-		$this->token_checker          = $token_checker;
 		$this->authentication_storage = $storage->get_authentication_storage();
 	}
 	
 	/**
-	 * @param WP_Error|WP_User $user
+	 * @return Authentication
 	 *
-	 * @return bool
+	 * @throws Authentication_Not_Found_Exception
+	 * @throws DateTime_Creation_Exception
 	 */
-	public function supports( $user ): bool {
-		if ( $this->is_wp_user( $user ) ) {
-			return false;
+	protected function get_authentication(): Authentication {
+		$authentication = $this->authentication_storage->get_authentication( $this->get_user_id() );
+		
+		if ( is_null( $authentication ) ) {
+			throw new Authentication_Not_Found_Exception();
 		}
 		
-		return ! empty( $this->request->post( 'twofas_light_totp_token' ) );
+		return $authentication;
 	}
+	
+	/**
+	 * @param Authentication $authentication
+	 *
+	 * @throws Authentication_Expired_Exception
+	 * @throws Login_Attempts_Reached_Exception
+	 */
+	protected function check_authentication( Authentication $authentication ) {
+		if ( $authentication->is_expired() ) {
+			throw new Authentication_Expired_Exception();
+		}
+		
+		if ( $authentication->is_rejected() ) {
+			throw new Login_Attempts_Reached_Exception();
+		}
+	}
+	
+	/**
+	 * @return JSON_Response|Redirect_Response|View_Response|Not_Handled_Response
+	 *
+	 * @throws Invalid_Totp_Token_Exception
+	 */
+	abstract protected function check_code();
 	
 	/**
 	 * @param WP_Error|WP_User $user
@@ -77,46 +95,23 @@ final class Standard_Login extends Login_Handler {
 	 * @throws DateTime_Creation_Exception
 	 */
 	protected function handle( $user ) {
-		$authentication = $this->authentication_storage->get_authentication( $this->get_user_id() );
-		
-		if ( is_null( $authentication ) ) {
-			throw new Authentication_Not_Found_Exception();
-		}
-		
+		$authentication = $this->get_authentication();
 		try {
-			if ( $authentication->is_expired() ) {
-				throw new Authentication_Expired_Exception();
-			}
+			$this->check_authentication( $authentication );
+			return $this->check_code();
 			
-			if ( $authentication->is_rejected() ) {
-				throw new Login_Attempts_Reached_Exception();
-			}
-			
-			$totp_token = new Token( $this->request->post( 'twofas_light_totp_token' ) );
-			$this->token_checker->check( $totp_token );
-			
-			if ( ! $totp_token->accepted() ) {
-				$this->authentication_storage->reduce_authentications_attempts( $authentication );
-				
-				return $this->view_error( Views::TOTP_AUTHENTICATION_PAGE, Notification::get( 'token-invalid' ) );
-			}
-			
-			Dispatcher::dispatch( new Standard_Login_Completed( $this->get_user_id() ) );
-			
-			return $this->json( [ 'user_id' => $this->get_user_id() ], Code::OK );
 		} catch ( Login_Attempts_Reached_Exception $e ) {
-			$this->user_storage->block_user();
-			$this->authentication_storage->close_authentication( $authentication );
+			Dispatcher::dispatch( new Login_Attempts_Reached( $authentication ) );
 			
 			return $this->json_error( Notification::get( 'authentication-limit' ), Code::FORBIDDEN );
 		} catch ( Authentication_Expired_Exception $e ) {
-			$this->authentication_storage->close_authentication( $authentication );
+			Dispatcher::dispatch( new Authentication_Expired( $authentication ) );
 			
 			return $this->json_error( Notification::get( 'authentication-expired' ), Code::FORBIDDEN );
-		} catch ( Invalid_Totp_Token_Exception $e ) {
-			$this->authentication_storage->reduce_authentications_attempts( $authentication );
+		} catch ( Validation_Exception $e ) {
+			Dispatcher::dispatch( new Login_Attempt_Failed( $authentication ) );
 			
-			return $this->view_error( Views::TOTP_AUTHENTICATION_PAGE, Notification::get( 'token-invalid' ) );
+			return $this->view_error( $this->page, Notification::get( $e->get_label() ) );
 		}
 	}
 }

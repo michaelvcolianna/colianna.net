@@ -2,11 +2,9 @@
 
 namespace TwoFAS\Light\Http\Middleware;
 
-use TwoFAS\Light\Http\Controller;
-use TwoFAS\Light\Http\JSON_Response;
-use TwoFAS\Light\Http\Redirect_Response;
-use TwoFAS\Light\Http\Request;
-use TwoFAS\Light\Http\View_Response;
+use TwoFAS\Light\Http\Controllers\Controller;
+use TwoFAS\Light\Http\Request\Request;
+use TwoFAS\Light\Http\Response\{JSON_Response, View_Response, Redirect_Response};
 
 class Create_Response extends Middleware {
 
@@ -24,13 +22,8 @@ class Create_Response extends Middleware {
 	 * @var string
 	 */
 	private $method;
-
-	/**
-	 * @param Request    $request
-	 * @param Controller $controller
-	 * @param string     $method
-	 */
-	public function __construct( Request $request, Controller $controller, $method ) {
+	
+	public function __construct( Request $request, Controller $controller, string $method ) {
 		$this->request    = $request;
 		$this->controller = $controller;
 		$this->method     = $method;

@@ -6,8 +6,8 @@ namespace TwoFAS\Light\Storage;
 use DateInterval;
 use DateTime;
 use Exception;
-use TwoFAS\Light\Http\Session;
 use TwoFAS\Light\Helpers\Hash;
+use TwoFAS\Light\Http\Request\Session;
 
 class In_Memory_Session_Storage implements Session_Storage_Interface {
 	
@@ -26,6 +26,9 @@ class In_Memory_Session_Storage implements Session_Storage_Interface {
 	 */
 	private $variables = [];
 	
+	/**
+	 * @throws Exception
+	 */
 	public function __construct() {
 		$this->session_id = Hash::get_session_id();
 	}
@@ -129,7 +132,7 @@ class In_Memory_Session_Storage implements Session_Storage_Interface {
 	 *
 	 * @throws Exception
 	 */
-	private function get_expiry_date() {
+	private function get_expiry_date(): DateTime {
 		$now = new DateTime();
 		
 		return $now->add( new DateInterval( 'PT' . Session::ONE_HOUR_IN_SECONDS . 'S' ) );

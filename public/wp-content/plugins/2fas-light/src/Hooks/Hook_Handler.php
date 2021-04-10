@@ -9,13 +9,8 @@ class Hook_Handler {
 	 * @var Hook_Interface[]
 	 */
 	private $hooks = array();
-
-	/**
-	 * @param Hook_Interface $hook
-	 *
-	 * @return Hook_Handler
-	 */
-	public function add_hook( Hook_Interface $hook ) {
+	
+	public function add_hook( Hook_Interface $hook ): self {
 		$this->hooks[] = $hook;
 
 		return $this;

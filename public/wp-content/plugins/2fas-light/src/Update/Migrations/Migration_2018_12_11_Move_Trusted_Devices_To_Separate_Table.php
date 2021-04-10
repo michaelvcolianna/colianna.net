@@ -27,6 +27,9 @@ class Migration_2018_12_11_Move_Trusted_Devices_To_Separate_Table extends Migrat
 		return $this->do_not_run_on_fresh_install( $version );
 	}
 	
+	/**
+	 * @codeCoverageIgnore
+	 */
 	protected function introduced(): string {
 		return '3.0.0';
 	}

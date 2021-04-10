@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace TwoFAS\Light\Storage;
 
@@ -14,6 +14,7 @@ class User_Storage {
 	const STEP_TOKEN                             = 'twofas_light_step_token';
 	const USER_BLOCKED_UNTIL                     = 'twofas_light_user_blocked_until';
 	const USER_LAST_LOGIN_TIME                   = 'twofas_light_last_login_time';
+	const BACKUP_CODES                           = 'twofas_light_backup_codes';
 	const RATE_PROMPT_COUNTDOWN_START_FIELD_NAME = 'twofas_light_rate_prompt_countdown_start';
 	const USER_HID_RATE_PLUGIN_PROMPT            = 'twofas_light_hid_rate_plugin_prompt';
 	const TOTP_STATUS                            = 'twofas_light_totp_status';
@@ -32,6 +33,7 @@ class User_Storage {
 		self::STEP_TOKEN,
 		self::USER_BLOCKED_UNTIL,
 		self::USER_LAST_LOGIN_TIME,
+		self::BACKUP_CODES,
 		self::RATE_PROMPT_COUNTDOWN_START_FIELD_NAME,
 		self::USER_HID_RATE_PLUGIN_PROMPT
 	];
@@ -255,6 +257,27 @@ class User_Storage {
 	
 	public function set_rate_plugin_prompt_hidden() {
 		$this->set_user_meta( self::USER_HID_RATE_PLUGIN_PROMPT, 1 );
+	}
+	
+	public function set_backup_codes( array $backup_codes ) {
+		$this->set_user_meta( self::BACKUP_CODES, $backup_codes );
+	}
+	
+	/**
+	 * @return array|string|null
+	 */
+	public function get_backup_codes() {
+		return $this->get_user_meta( self::BACKUP_CODES );
+	}
+	
+	public function have_backup_codes(): bool {
+		$backup_codes = $this->get_backup_codes();
+		
+		if ( ! is_array( $backup_codes ) ) {
+			$backup_codes = [];
+		}
+		
+		return count( $backup_codes ) > 0;
 	}
 	
 	/**

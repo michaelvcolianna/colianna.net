@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace TwoFAS\Light\Helpers;
 
 use TwoFAS\Light\Exceptions\Invalid_Flash_Message_Type_Exception;
-use TwoFAS\Light\Http\Cookie;
+use TwoFAS\Light\Http\Request\Cookie;
 
 class Flash {
 	

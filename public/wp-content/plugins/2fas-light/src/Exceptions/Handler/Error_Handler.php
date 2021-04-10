@@ -6,18 +6,18 @@ namespace TwoFAS\Light\Exceptions\Handler;
 use Exception;
 use RuntimeException;
 use Twig\Error\{LoaderError, RuntimeError, SyntaxError};
-use TwoFAS\Light\Exceptions\Http_Exception;
-use TwoFAS\Light\Http\{JSON_Response, View_Response};
-use TwoFAS\Light\Exceptions\{Authentication_Expired_Exception,
-	Authentication_Failed_Exception,
+use TwoFAS\Light\Exceptions\{Authentication_Failed_Exception,
 	Authentication_Not_Found_Exception,
 	DB_Exception,
+	Invalid_Backup_Code_Exception,
+	Invalid_Totp_Token_Exception,
 	Login_Token_Not_Found_Exception,
 	Login_Token_Validation_Exception,
 	Migration_Exception,
-	Session_Exception,
 	Totp_Disabled_Exception,
 	User_Not_Found_Exception};
+use TwoFAS\Light\Exceptions\Http_Exception;
+use TwoFAS\Light\Http\Response\{JSON_Response, View_Response};
 use TwoFAS\Light\Http\Code;
 use TwoFAS\Light\Notifications\Notification;
 use TwoFAS\Light\Templates\Views;
@@ -39,12 +39,13 @@ class Error_Handler implements Error_Handler_Interface {
 	 * @var array
 	 */
 	private $dont_log = [
-		Authentication_Expired_Exception::class,
 		Authentication_Not_Found_Exception::class,
 		Authentication_Failed_Exception::class,
 		Login_Token_Not_Found_Exception::class,
 		User_Not_Found_Exception::class,
 		Totp_Disabled_Exception::class,
+		Invalid_Totp_Token_Exception::class,
+		Invalid_Backup_Code_Exception::class
 	];
 
 	public function __construct( Logger_Interface $logger, bool $logging_allowed ) {
@@ -77,18 +78,12 @@ class Error_Handler implements Error_Handler_Interface {
 
 		return new WP_Error( 'twofas_light_login_error', $response['message'] );
 	}
-
-	/**
-	 * @param Exception $e
-	 * @param string    $class
-	 *
-	 * @return string
-	 */
-	public function to_notification( Exception $e, $class = 'notice notice-error error' ): string {
+	
+	public function to_notification( Exception $e, string $css_class = 'notice notice-error error' ): string {
 		$response = $this->create_response( $e );
 
 		return "
-		<div class='{$class}'>
+		<div class='{$css_class}'>
 			<p>{$response['message']}</p>
 		</div>";
 	}
@@ -111,12 +106,8 @@ class Error_Handler implements Error_Handler_Interface {
 	}
 
 	private function create_response( Exception $e ): array {
-		if ( $e instanceof Authentication_Expired_Exception ) {
-			return $this->to_array( $this->get_message_by_key( 'authentication-expired' ), Code::FORBIDDEN );
-		}
-
 		if ( $e instanceof Authentication_Not_Found_Exception ) {
-			return $this->to_array( $this->get_message_by_key( 'authentication-not-found' ), Code::NOT_FOUND );
+			return $this->to_array( $this->get_message_by_key( 'authentication-failed' ), Code::NOT_FOUND );
 		}
 		
 		if ( $e instanceof Authentication_Failed_Exception ) {
@@ -149,10 +140,6 @@ class Error_Handler implements Error_Handler_Interface {
 
 		if ( $e instanceof RuntimeError ) {
 			return $this->to_array( $this->get_message_by_key( 'template-rendering' ), Code::INTERNAL_SERVER_ERROR );
-		}
-
-		if ( $e instanceof Session_Exception ) {
-			return $this->to_array( $this->map_message( $e ), Code::INTERNAL_SERVER_ERROR );
 		}
 
 		if ( $e instanceof DB_Exception ) {

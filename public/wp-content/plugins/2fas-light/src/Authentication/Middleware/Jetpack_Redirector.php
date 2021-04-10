@@ -4,7 +4,7 @@ declare( strict_types=1 );
 namespace TwoFAS\Light\Authentication\Middleware;
 
 use TwoFAS\Light\Authentication\Login_Token\{Login_Context, Login_Token_Manager};
-use TwoFAS\Light\Http\Request;
+use TwoFAS\Light\Http\Request\Request;
 use TwoFAS\Light\Storage\User_Storage;
 
 class Jetpack_Redirector extends Middleware {

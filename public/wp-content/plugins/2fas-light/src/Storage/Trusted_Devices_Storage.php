@@ -3,9 +3,9 @@ declare( strict_types=1 );
 
 namespace TwoFAS\Light\Storage;
 
-use TwoFAS\Light\Http\Request;
+use Exception;
 use TwoFAS\Light\Helpers\Hash;
-use TwoFAS\Light\Http\Cookie;
+use TwoFAS\Light\Http\Request\{Cookie, Request};
 
 class Trusted_Devices_Storage {
 	
@@ -55,6 +55,11 @@ class Trusted_Devices_Storage {
 		return ! is_null( $trusted_device_id );
 	}
 	
+	/**
+	 * @param int $user_id
+	 *
+	 * @throws Exception
+	 */
 	public function add_trusted_device( int $user_id ) {
 		$device_id    = self::TRUSTED_DEVICE_COOKIE_NAME_PREFIX . Hash::get_trusted_device_id();
 		$cookie_value = Hash::get_trusted_device_id();

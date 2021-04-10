@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Helpers;
 
-use TwoFAS\Light\Http\View_Response;
+use TwoFAS\Light\Http\Response\View_Response;
 use TwoFAS\Light\Storage\Storage;
 
 trait Trusted_Devices {

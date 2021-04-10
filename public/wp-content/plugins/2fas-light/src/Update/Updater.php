@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace TwoFAS\Light\Update;
 
 use LogicException;
-use TwoFAS\Light\Http\Request;
 use TwoFAS\Light\Exceptions\{DB_Exception, Migration_Exception};
+use TwoFAS\Light\Http\Request\Request;
 
 class Updater {
 	

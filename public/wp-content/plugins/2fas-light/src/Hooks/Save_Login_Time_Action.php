@@ -21,7 +21,7 @@ class Save_Login_Time_Action implements Hook_Interface {
 	}
 
 	public function register_hook() {
-		add_action( 'wp_login', [ $this, 'save' ] );
+		add_action( 'wp_login', [ $this, 'save' ], 10, 0 );
 	}
 
 	public function save() {

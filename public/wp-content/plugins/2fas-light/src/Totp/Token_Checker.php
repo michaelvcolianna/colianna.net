@@ -35,6 +35,6 @@ class Token_Checker {
 	public function check( Token $totp_token ) {
 		$totp_secret  = new Secret( $this->user_storage->get_totp_secret() );
 		$valid_tokens = $this->token_generator->generate_tokens( $totp_secret );
-		$totp_token->compare_with( $valid_tokens );
+		$totp_token->match( $valid_tokens );
 	}
 }

@@ -19,6 +19,9 @@ class Migration_0000_00_01_Create_Session_Tables extends Migration implements Ro
 		self::TABLE_SESSION_VARIABLES => '{prefix}twofas_light_session_variables',
 	];
 	
+	/**
+	 * @codeCoverageIgnore
+	 */
 	protected function introduced(): string {
 		return '3.0.0';
 	}

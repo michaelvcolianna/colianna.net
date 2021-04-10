@@ -50,11 +50,11 @@ class Jetpack_Interceptor extends Middleware {
 			}
 			
 			if ( $this->has_user_authenticated_with_jetpack_and_2fas_light_second_step( $user ) ) {
-				return $this->json( [ 'user_id' => $user->ID ], Code::OK );
+				return $this->json( [ 'user_id' => $user->ID ] );
 			}
 			
 			if ( $this->user_data->has_two_factor_enabled() ) {
-				return $this->json( [ 'user_id' => $user->ID ], Code::OK );
+				return $this->json( [ 'user_id' => $user->ID ] );
 			}
 		}
 		

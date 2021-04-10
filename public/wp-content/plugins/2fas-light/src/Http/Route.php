@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace TwoFAS\Light\Http;
 
 use TwoFAS\Light\Exceptions\{Method_Not_Allowed_Http_Exception, Not_Found_Http_Exception};
+use TwoFAS\Light\Http\Request\Request;
 
 class Route {
 

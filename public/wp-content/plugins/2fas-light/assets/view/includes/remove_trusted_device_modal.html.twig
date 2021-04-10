@@ -1,21 +1,19 @@
-<div class="twofas-light-modal-backdrop js-twofas-light-modal-remove-trusted-device">
-    <div class="twofas-light-modal-container">
-        <div class="twofas-light-modal-cell">
-            <div class="twofas-light-modal">
-                <div class="twofas-light-modal-header">
-                    <h6>Confirmation</h6>
-                </div>
-                <div class="twofas-light-modal-body">
-                    <div class="twofas-light-content-container">
-                        <div class="twofas-light-text-content">
-                            <p>You are going to remove trusted device. Please confirm to proceed.</p>
-                        </div>
-                        <div class="twofas-light-buttons">
-                            <a href="#" class="twofas-light-close-modal-btn js-twofas-light-modal-cancel">Cancel</a>
-                            <a href="#" class="twofas-light-confirm-modal-btn button button-primary js-twofas-light-remove-trusted-device-confirm">Confirm</a>
-                        </div>
-                    </div>
-                    <div class="clear-fix"></div>
+<div class="twofas-modal-backdrop js-twofas-modal-remove-trusted-device">
+    <div class="twofas-modal-container">
+        <div class="twofas-modal-cell">
+            <div class="twofas-modal">
+                <h5>
+                    {{
+                    sprintf(
+                        esc_html__('You are going to remove the trusted browser/device. %sPlease confirm to proceed.', '2fas-light'),
+                        '<br />'
+                    )|raw
+                    }}
+                </h5>
+
+                <div class="twofas-buttons">
+                    <a href="#" class="twofas-btn js-twofas-modal-cancel">{{ esc_html__( 'Cancel', '2fas-light' ) }}</a>
+                    <a href="#" class="twofas-btn-empty js-twofas-remove-trusted-device-confirm">{{ esc_html__( 'Confirm', '2fas-light' ) }}</a>
                 </div>
             </div>
         </div>

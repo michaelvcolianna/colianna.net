@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Events;
 
-use TwoFAS\Light\Http\View_Response;
+use TwoFAS\Light\Http\Response\View_Response;
 
 class Second_Step_Rendered implements Event_Interface {
 

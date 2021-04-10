@@ -4,9 +4,9 @@ namespace TwoFAS\Light\Hooks;
 
 use TwoFAS\Light\Authentication\Authentication;
 use TwoFAS\Light\Authentication\Login_Token\Login_Token_Manager;
-use TwoFAS\Light\Http\Session;
-use TwoFAS\Light\Storage\{Authentication_Storage, Storage, User_Storage};
 use TwoFAS\Light\Exceptions\DateTime_Creation_Exception;
+use TwoFAS\Light\Http\Request\Session;
+use TwoFAS\Light\Storage\{Authentication_Storage, Storage, User_Storage};
 
 class Clean_Login_Process_Action implements Hook_Interface {
 
@@ -29,12 +29,7 @@ class Clean_Login_Process_Action implements Hook_Interface {
 	 * @var Session
 	 */
 	private $session;
-
-	/**
-	 * @param Storage             $storage
-	 * @param Login_Token_Manager $login_token_manager
-	 * @param Session             $session
-	 */
+	
 	public function __construct( Storage $storage, Login_Token_Manager $login_token_manager, Session $session ) {
 		$this->authentication_storage = $storage->get_authentication_storage();
 		$this->user_storage           = $storage->get_user_storage();

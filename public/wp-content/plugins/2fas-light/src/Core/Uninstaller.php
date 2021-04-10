@@ -6,7 +6,7 @@ namespace TwoFAS\Light\Core;
 use Exception;
 use TwoFAS\Light\Exceptions\Handler\Error_Handler_Interface;
 use TwoFAS\Light\Exceptions\Migration_Exception;
-use TwoFAS\Light\Http\Cookie;
+use TwoFAS\Light\Http\Request\Cookie;
 use TwoFAS\Light\Storage\{Options_Storage, Storage, User_Storage};
 use TwoFAS\Light\Update\Migrator;
 

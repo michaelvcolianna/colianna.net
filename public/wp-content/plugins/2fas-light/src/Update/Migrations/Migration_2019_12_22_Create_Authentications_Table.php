@@ -17,6 +17,9 @@ class Migration_2019_12_22_Create_Authentications_Table extends Migration implem
 		self::TABLE_AUTHENTICATIONS => '{prefix}twofas_light_authentications',
 	];
 	
+	/**
+	 * @codeCoverageIgnore
+	 */
 	protected function introduced(): string {
 		return '3.0.0';
 	}

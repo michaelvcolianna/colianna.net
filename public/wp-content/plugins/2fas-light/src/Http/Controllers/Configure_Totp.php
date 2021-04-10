@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Http\Controllers;
 
-use TwoFAS\Light\Helpers\Dispatcher;
-use TwoFAS\Light\Http\{Controller, Request, JSON_Response};
 use TwoFAS\Light\Events\Totp_Configuration_Completed;
 use TwoFAS\Light\Exceptions\{Invalid_Totp_Token_Exception, Validation_Exception};
+use TwoFAS\Light\Helpers\Dispatcher;
 use TwoFAS\Light\Helpers\Trusted_Devices;
+use TwoFAS\Light\Http\Request\Request;
 use TwoFAS\Light\Http\Code;
+use TwoFAS\Light\Http\Response\JSON_Response;
 use TwoFAS\Light\Storage\Storage;
 use TwoFAS\Light\Templates\Twig;
 use TwoFAS\Light\Totp\{Secret, Token, Token_Generator};
@@ -44,7 +45,7 @@ class Configure_Totp extends Controller {
 			$totp_token  = new Token( $request->post( 'twofas_light_totp_token' ) );
 
 			$valid_tokens = $this->token_generator->generate_tokens( $totp_secret );
-			$totp_token->compare_with( $valid_tokens );
+			$totp_token->match( $valid_tokens );
 
 			if ( ! $totp_token->accepted() ) {
 				throw new Invalid_Totp_Token_Exception( 'Invalid TOTP token supplied' );

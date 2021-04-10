@@ -4,7 +4,7 @@ declare( strict_types=1 );
 namespace TwoFAS\Light\Authentication\Middleware;
 
 use TwoFAS\Light\Core\Plugin_Compatibility;
-use TwoFAS\Light\Http\Request;
+use TwoFAS\Light\Http\Request\Request;
 
 /**
  * This class redirects to a default WordPress login page
@@ -22,10 +22,6 @@ final class External_Login extends Middleware {
 	 */
 	private $request;
 	
-	/**
-	 * @param Plugin_Compatibility $plugin_compatibility
-	 * @param Request              $request
-	 */
 	public function __construct( Plugin_Compatibility $plugin_compatibility, Request $request ) {
 		$this->plugin_compatibility = $plugin_compatibility;
 		$this->request              = $request;

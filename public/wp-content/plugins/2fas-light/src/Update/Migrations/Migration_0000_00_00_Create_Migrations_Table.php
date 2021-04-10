@@ -17,6 +17,9 @@ class Migration_0000_00_00_Create_Migrations_Table extends Migration implements 
 		self::TABLE_MIGRATIONS => '{prefix}twofas_light_migrations',
 	];
 	
+	/**
+	 * @codeCoverageIgnore
+	 */
 	protected function introduced(): string {
 		return '3.0.0';
 	}

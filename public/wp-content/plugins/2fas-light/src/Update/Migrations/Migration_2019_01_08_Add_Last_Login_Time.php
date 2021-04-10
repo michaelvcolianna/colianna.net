@@ -9,6 +9,9 @@ use TwoFAS\Light\Update\Migration;
 
 class Migration_2019_01_08_Add_Last_Login_Time extends Migration {
 	
+	/**
+	 * @codeCoverageIgnore
+	 */
 	protected function introduced(): string {
 		return '3.0.0';
 	}

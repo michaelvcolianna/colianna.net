@@ -8,7 +8,7 @@ use DI\FactoryInterface;
 use DI\NotFoundException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use TwoFAS\Light\Http\Request;
+use TwoFAS\Light\Http\Request\Request;
 use WhichBrowser\Parser;
 
 /**
@@ -25,11 +25,7 @@ class Browser_Twig_Extension extends AbstractExtension {
 	 * @var FactoryInterface
 	 */
 	private $factory_interface;
-
-	/**
-	 * @param Request          $request
-	 * @param FactoryInterface $factory_interface
-	 */
+	
 	public function __construct( Request $request, FactoryInterface $factory_interface ) {
 		$this->request           = $request;
 		$this->factory_interface = $factory_interface;
@@ -50,7 +46,7 @@ class Browser_Twig_Extension extends AbstractExtension {
 	 * @throws DependencyException
 	 * @throws NotFoundException
 	 */
-	public function parse_browser( $user_agent ) {
+	public function parse_browser( string $user_agent ): string {
 		/** @var Parser $parser */
 		$parser = $this->factory_interface->make( Parser::class );
 

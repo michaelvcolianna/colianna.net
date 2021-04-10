@@ -7,6 +7,9 @@ use TwoFAS\Light\Update\Migration;
 
 class Migration_2020_10_27_Remove_Old_Fields extends Migration {
 	
+	/**
+	 * @codeCoverageIgnore
+	 */
 	protected function introduced(): string {
 		return '3.0.0';
 	}

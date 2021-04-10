@@ -86,7 +86,7 @@ class Authentication_Storage {
 		$this->delete( $authentication );
 	}
 
-	public function reduce_authentications_attempts( Authentication $authentication ) {
+	public function reduce_authentication_attempts( Authentication $authentication ) {
 		$table = $this->get_table_full_name( self::TABLE_AUTHENTICATIONS );
 
 		$this->db->update(

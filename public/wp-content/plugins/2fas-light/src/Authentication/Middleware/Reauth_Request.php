@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Authentication\Middleware;
 
-use TwoFAS\Light\Http\{Not_Handled_Response, Request, JSON_Response, Redirect_Response, View_Response};
 use TwoFAS\Light\Authentication\Login_Token\Login_Token_Manager;
 use TwoFAS\Light\Exceptions\{DateTime_Creation_Exception, User_Not_Found_Exception};
+use TwoFAS\Light\Http\Request\Request;
+use TwoFAS\Light\Http\Response\{Not_Handled_Response, View_Response, JSON_Response, Redirect_Response};
 use TwoFAS\Light\Storage\{Authentication_Storage, Storage, User_Storage};
-use WP_User;
 use WP_Error;
+use WP_User;
 
 final class Reauth_Request extends Middleware {
 
@@ -45,8 +46,8 @@ final class Reauth_Request extends Middleware {
 	}
 
 	/**
-	 * @param WP_Error|WP_User                 $user
-	 * @param JSON_Response|View_Response|null $response
+	 * @param WP_Error|WP_User                                                                                                                $user
+	 * @param JSON_Response|View_Response|Redirect_Response|Not_Handled_Response|null $response
 	 *
 	 * @return JSON_Response|Redirect_Response|View_Response|Not_Handled_Response
 	 *

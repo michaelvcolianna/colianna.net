@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace TwoFAS\Light\Http;
 
@@ -17,4 +17,6 @@ abstract class Action_Index {
 	const TWOFAS_ACTION_REMOVE_TRUSTED_DEVICE       = 'twofas-light-remove-trusted-device';
 	const TWOFAS_ACTION_HIDE_RATE_PLUGIN_PROMPT     = 'twofas-light-hide-notice';
 	const TWOFAS_ACTION_POSTPONE_RATE_PLUGIN_PROMPT = 'twofas-light-postpone-notice';
+	const TWOFAS_ACTION_GENERATE_BACKUP_CODES       = 'twofas-light-generate-backup-codes';
+	const TWOFAS_ACTION_PRINT_BACKUP_CODES          = 'twofas-light-print-backup-codes';
 }

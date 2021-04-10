@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Http\Controllers;
 
-use TwoFAS\Light\Http\{Controller, Request, JSON_Response};
+use TwoFAS\Light\Http\Request\Request;
+use TwoFAS\Light\Http\Response\JSON_Response;
 use TwoFAS\Light\Totp\{QR_Generator, Secret_Generator};
 
 class Reload_QR_Code extends Controller {

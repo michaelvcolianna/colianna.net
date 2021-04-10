@@ -3,30 +3,26 @@
 
 .twofas-light-logo-header {
   padding-top: 10px;
-  margin-bottom: 37px;
+  margin-bottom: 29px;
 
-  @media all and (max-width: $screen-md-max) {
-    margin-bottom: 30px;
+  @media all and (max-width: 782px) {
+    margin-bottom: 15px;
   }
 
-  @media all and (max-width: $screen-sm-max) {
-    margin-bottom: 25px;
-  }
-
-  @media all and (max-width: $screen-xs-max) {
-    margin-bottom: 20px;
+  @media all and (max-width: $screen-xs) {
     padding-top: 0;
   }
 
   h1 {
-    $logo-image-size: 43px;
-    $spacing-between-logo-and-title: 5px;
+    $logo-image-size: 35px;
+    $spacing-between-logo-and-title: 12px;
 
     font-size: 0;
     min-height: $logo-image-size;
     padding: 0;
 
-    img, .twofas-light-logo-header-title {
+    img,
+    .twofas-light-logo-header-title {
       display: inline-block;
       vertical-align: middle;
     }
@@ -37,26 +33,15 @@
     }
 
     .twofas-light-logo-header-title {
-      font-size: px-to-rem(22);
-      font-weight: 100;
-      line-height: px-to-rem(26);
+      font-size: px-to-rem(16);
+      font-weight: 500;
+      line-height: px-to-rem(20);
       margin-left: $spacing-between-logo-and-title;
       padding: 9px 0 4px;
       width: calc(100% - #{$logo-image-size} - #{$spacing-between-logo-and-title});
 
-      @media all and (max-width: $screen-sm-max) {
-        font-size: px-to-rem(20);
-        line-height: px-to-rem(24);
-      }
-
-      @media all and (max-width: $screen-xs-max) {
-        font-size: px-to-rem(18);
-        line-height: px-to-rem(22);
-      }
-
-      .twofas-light-classy-font {
-        font-family: 'Bilbo Swash Caps', cursive;
-        font-size: 120%;
+      @media all and (max-width: $screen-xs) {
+        font-size: px-to-rem(15);
       }
     }
   }

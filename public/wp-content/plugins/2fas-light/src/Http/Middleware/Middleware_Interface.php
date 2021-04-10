@@ -2,9 +2,7 @@
 
 namespace TwoFAS\Light\Http\Middleware;
 
-use TwoFAS\Light\Http\JSON_Response;
-use TwoFAS\Light\Http\Redirect_Response;
-use TwoFAS\Light\Http\View_Response;
+use TwoFAS\Light\Http\Response\{JSON_Response, Redirect_Response, View_Response};
 
 interface Middleware_Interface {
 

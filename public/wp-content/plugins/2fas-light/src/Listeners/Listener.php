@@ -14,7 +14,7 @@ abstract class Listener {
 	 *
 	 * @throws LogicException
 	 */
-	public function listen_for( $event ): Listener {
+	public function listen_for( string $event ): Listener {
 		if ( ! class_exists( $event ) ) {
 			throw new LogicException( 'Event ' . $event . ' does not exists' );
 		}

@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Http\Controllers;
 
-use TwoFAS\Light\Http\Controller;
-use TwoFAS\Light\Http\Request;
+use TwoFAS\Light\Http\Request\Request;
+use TwoFAS\Light\Http\Response\JSON_Response;
 use TwoFAS\Light\Storage\User_Storage;
-use TwoFAS\Light\Http\JSON_Response;
 
 class Enable_Totp extends Controller {
 
@@ -24,7 +23,7 @@ class Enable_Totp extends Controller {
 
 	public function enable( Request $request ): JSON_Response {
 		$this->user_storage->enable_totp();
-
+		
 		return $this->json(
 			[
 				'twofas_light_totp_status' => $this->user_storage->get_totp_status()

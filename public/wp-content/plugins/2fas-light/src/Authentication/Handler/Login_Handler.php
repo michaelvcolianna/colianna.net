@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Authentication\Handler;
 
-use TwoFAS\Light\Http\{JSON_Response, Redirect_Response, View_Response};
 use TwoFAS\Light\Exceptions\User_Not_Found_Exception;
-use TwoFAS\Light\Http\Not_Handled_Response;
+use TwoFAS\Light\Http\Response\{JSON_Response, View_Response, Not_Handled_Response};
 use TwoFAS\Light\Storage\{Storage, User_Storage};
 use WP_Error;
 use WP_User;
@@ -39,27 +38,27 @@ abstract class Login_Handler {
 	/**
 	 * @param WP_Error|WP_User $user
 	 *
-	 * @return JSON_Response|Redirect_Response|View_Response|Not_Handled_Response
+	 * @return JSON_Response|View_Response|Not_Handled_Response
 	 */
 	abstract protected function handle( $user );
 
 	/**
 	 * @param WP_Error|WP_User $user
 	 *
-	 * @return JSON_Response|Redirect_Response|View_Response|Not_Handled_Response
+	 * @return JSON_Response|View_Response|Not_Handled_Response
 	 */
 	public function authenticate( $user ) {
 		return $this->supports( $user ) ? $this->handle( $user ) : $this->fallback( $user );
 	}
 
-	public function then( Login_Handler $successor ): Login_Handler {
-		return $this->successor = $successor;
+	public function then( Login_Handler $successor ) {
+		$this->successor = $successor;
 	}
 
 	/**
 	 * @param WP_Error|WP_User $user
 	 *
-	 * @return JSON_Response|Redirect_Response|View_Response|Not_Handled_Response
+	 * @return JSON_Response|View_Response|Not_Handled_Response
 	 */
 	protected function fallback( $user ) {
 		if ( $this->successor ) {
@@ -116,7 +115,7 @@ abstract class Login_Handler {
 	 *
 	 * @return bool
 	 */
-	protected function is_wp_user( $user ) {
+	protected function is_wp_user( $user ): bool {
 		return $user instanceof WP_User;
 	}
 }

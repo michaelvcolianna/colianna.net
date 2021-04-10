@@ -1,9 +1,11 @@
 <div class="notice notice-error twofas-light-error-message">
-	<p><strong>2FAS Light plugin security warning</strong></p>
+	<p><strong>{{ esc_html__( '2FAS Prime plugin security warning.', '2fas-light' ) }}</strong></p>
 	<p>
-		The plugin is not enabled network-wide on all networks of your multinetwork WordPress installation.
+		{{
+		esc_html__('The plugin is not enabled network-wide on all networks of your multinetwork WordPress installation.
 		This means that users might be able to circumvent the two-factor login process by logging in via sites
 		on which the plugin is not active. Please activate the plugin network-wide on all networks to resolve
-		this issue.
+		this issue.', '2fas-light')
+		}}
 	</p>
 </div>

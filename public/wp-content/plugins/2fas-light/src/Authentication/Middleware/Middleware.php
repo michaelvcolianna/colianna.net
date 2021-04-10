@@ -5,11 +5,13 @@ namespace TwoFAS\Light\Authentication\Middleware;
 
 use TwoFAS\Light\Http\Code;
 use TwoFAS\Light\Http\Direct_URL;
-use TwoFAS\Light\Http\JSON_Response;
-use TwoFAS\Light\Http\Not_Handled_Response;
-use TwoFAS\Light\Http\Redirect_Response;
-use TwoFAS\Light\Http\Safe_Redirect_Response;
-use TwoFAS\Light\Http\View_Response;
+use TwoFAS\Light\Http\Response\{
+	JSON_Response,
+	Not_Handled_Response,
+	Redirect_Response,
+	Safe_Redirect_Response,
+	View_Response
+};
 use WP_Error;
 use WP_User;
 
@@ -29,7 +31,7 @@ abstract class Middleware implements Middleware_Interface {
 	
 	/**
 	 * @param WP_User|WP_Error                 $user
-	 * @param JSON_Response|View_Response|null $response
+	 * @param JSON_Response|View_Response|Redirect_Response|Not_Handled_Response|null $response
 	 *
 	 * @return JSON_Response|View_Response|Redirect_Response|Not_Handled_Response|null
 	 */

@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Http\Controllers;
 
-use TwoFAS\Light\Http\{Controller, Request, View_Response};
 use TwoFAS\Light\Http\Action_Index;
+use TwoFAS\Light\Http\Request\Request;
+use TwoFAS\Light\Http\Response\View_Response;
 use TwoFAS\Light\Rate_Plugin_Prompt\Rate_Plugin_Prompt;
 use TwoFAS\Light\Storage\{Storage, Trusted_Devices_Storage, User_Storage};
 use TwoFAS\Light\Totp\{QR_Generator, Secret_Generator};
@@ -60,6 +61,11 @@ class Show_Plugin_Page extends Controller {
 		$totp_secret     = $this->get_totp_secret();
 		$qr_code         = $this->qr_generator->generate_qr_code( $totp_secret );
 		$trusted_devices = $this->trusted_devices_storage->get_trusted_devices( $this->user_storage->get_user_id() );
+		$backup_codes    = $this->user_storage->get_backup_codes();
+		
+		if ( ! is_array( $backup_codes ) ) {
+			$backup_codes = [];
+		}
 		
 		return $this->view(
 			'plugin_main_page.html.twig',
@@ -68,6 +74,8 @@ class Show_Plugin_Page extends Controller {
 				'totp_secret'                          => $totp_secret,
 				'twofas_light_user_is_configured'      => $this->user_storage->is_totp_configured(),
 				'twofas_light_user_configuration_date' => $this->get_totp_secret_update_timestamp(),
+				'twofas_light_backup_codes_configured' => $this->user_storage->have_backup_codes(),
+				'twofas_light_backup_codes_count'      => count( $backup_codes ),
 				'twofas_light_menu_page'               => Action_Index::TWOFAS_LIGHT_ADMIN_PAGE_SLUG,
 				'twofas_light_totp_status'             => $this->user_storage->get_totp_status(),
 				'trusted_devices'                      => $trusted_devices,

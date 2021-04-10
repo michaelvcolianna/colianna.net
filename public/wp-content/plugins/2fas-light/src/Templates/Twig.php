@@ -7,7 +7,7 @@ use Exception;
 use Twig\Environment;
 use Twig\Error\{LoaderError, RuntimeError, SyntaxError};
 use TwoFAS\Light\Exceptions\Handler\Error_Handler_Interface;
-use TwoFAS\Light\Http\View_Response;
+use TwoFAS\Light\Http\Response\View_Response;
 
 class Twig {
 	

@@ -45,13 +45,8 @@ class DB_Wrapper {
 	public function get_row( string $query, string $output = OBJECT ) {
 		return $this->wpdb->get_row( $query, $output );
 	}
-
-	/**
-	 * @param string $query
-	 *
-	 * @return array
-	 */
-	public function get_col( string $query ) {
+	
+	public function get_col( string $query ): array {
 		return $this->wpdb->get_col( $query );
 	}
 
@@ -115,7 +110,7 @@ class DB_Wrapper {
 	 *
 	 * @return string
 	 */
-	public function prepare( string $sql, array $args ) {
+	public function prepare( string $sql, array $args ): string {
 		return $this->wpdb->prepare( $sql, $args );
 	}
 	

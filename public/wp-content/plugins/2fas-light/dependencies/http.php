@@ -2,15 +2,22 @@
 declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
+use TwoFAS\Light\Http\Request\{Cookie, Request};
+use TwoFAS\Light\Http\Route;
+use TwoFAS\Light\Http\Middleware\{
+	Check_Ajax,
+	Check_Nonce,
+	Check_Totp_Configured,
+	Check_Totp_Enabled,
+	Check_Logged_In
+};
 use TwoFAS\Light\Http\Middleware\Middleware_Bag;
-use TwoFAS\Light\Http\{Cookie, Route, Request};
-use TwoFAS\Light\Http\Middleware\{Check_Ajax, Check_Nonce, Check_Totp_Enabled, Check_Totp_Configured};
 use WhichBrowser\Parser;
 
 return [
 	Cookie::class         => DI\create()
 		->constructor( $_COOKIE ),
-	Request::class        => DI\create( TwoFAS\Light\Http\Request::class )
+	Request::class        => DI\create( Request::class )
 		->constructor(
 			$_GET,
 			$_POST,
@@ -32,6 +39,7 @@ return [
 		$middleware_bag->add_middleware( 'nonce', $c->get( Check_Nonce::class ) );
 		$middleware_bag->add_middleware( 'totp_enabled', $c->get( Check_Totp_Enabled::class ) );
 		$middleware_bag->add_middleware( 'totp_configured', $c->get( Check_Totp_Configured::class ) );
+		$middleware_bag->add_middleware( 'user_logged', $c->get( Check_Logged_In::class ) );
 
 		return $middleware_bag;
 	} )

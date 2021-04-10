@@ -1,16 +1,22 @@
 @import 'variables';
 @import 'functions';
 
-.twofas-light-rate-plugin-prompt {
+// VARIABLES
+$bg: #fff;
+$fontColor: #000;
+
+.twofas-rate-plugin-prompt {
   animation: slide-in .5s ease-in-out 3s 1 both;
-  background: $tf-rate-plugin-prompt-background;
-  color: $tf-rate-plugin-prompt-color;
+  background: $bg;
+  border-radius: 4px;
+  color: $fontColor;
   left: 50%;
   margin-left: 80px;
   max-width: 95%;
-  padding: 20px;
+  padding: 30px;
   position: fixed;
-  top: 32px;
+  text-align: center;
+  top: 40px;
   transform: translateX(-50%) translateY(-100%);
   transition: visibility 0s 0s;
   visibility: visible;
@@ -36,10 +42,11 @@
     margin-bottom: 15px;
 
     h6 {
-      font-size: px-to-rem(18);
+      font-size: px-to-rem(20);
       font-weight: 700;
-      margin: 0;
-      padding: 0;
+      line-height: px-to-rem(24);
+      margin-bottom: 6px;
+      margin-top: 0;
     }
   }
 
@@ -47,65 +54,23 @@
     margin-bottom: 15px;
 
     p {
-      font-size: px-to-rem(13);
-      letter-spacing: .3px;
-      line-height: 20px;
+      font-size: px-to-rem(14);
+      font-weight: 400;
+      line-height: px-to-rem(18);
       margin: 0;
     }
   }
 
   &-buttons {
-    text-align: right;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
 
-    @media all and (max-width: 500px) {
-      text-align: center;
-    }
-
-    .button {
-      cursor: pointer;
-
-      @media all and (max-width: 500px) {
-        display: block;
-        width: 100%;
-      }
-
-      &:active,
-      &:focus {
-        box-shadow: none;
-        outline: 0;
-      }
-
-      &.twofas-light-button-cancel {
-        background: none;
-        border: 0;
-        box-shadow: none;
-        font-size: 12px;
-        height: 28px;
-        letter-spacing: .3px;
-        line-height: 28px;
-        margin-bottom: 0;
-        margin-right: 5px;
-        padding: 0 5px;
-
-        @media all and (max-width: 500px) {
-          margin-bottom: 5px;
-          margin-right: 0;
-        }
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-
-      &.button-primary,
-      &.button-success {
-        font-size: px-to-rem(12);
-        font-weight: 700;
-
-        @media all and (max-width: 500px) {
-          margin-top: 5px;
-        }
-      }
+    a,
+    button {
+      margin-bottom: 6px;
     }
   }
 }

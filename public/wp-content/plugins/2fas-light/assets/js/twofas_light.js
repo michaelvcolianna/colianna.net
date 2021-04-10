@@ -1,148 +1,130 @@
 /* global twofas_light */
 
 (function( $ ) {
-	// ------------- CONFIG -------------
+	// ----------- TRANSLATIONS ------------
+	const { __, _x, _n, sprintf } = wp.i18n;
+
+	// ------------- CONFIG ----------------
 	var toastTime = 5000;
 
 	// ------------- VARIABLES -------------
-	var showQRBtn                  = $( '.js-twofas-light-show-qr-button' ),
-	    QRWrapper                  = $( '.js-twofas-light-qr-wrapper' ),
-	    reloadQRBtn                = $( '.js-twofas-light-reload-qr-button' ),
-	    QRimage                    = $( '.js-twofas-light-qr-image' ),
-	    privateKeyValue            = $( '.js-twofas-light-private-key-value' ),
-	    privateKeyElement          = $( '.js-twofas-light-private-key' ),
-	    showPrivateKeyLink         = $( '.js-twofas-light-show-private-key' ),
-	    notificationsWrapper       = $( '.js-twofas-light-notifications' ),
-	    totpSecretInput            = $( '.js-twofas-light-totp-secret-input' ),
-	    totpForm                   = $( '.js-twofas-light-totp-form' ),
-	    totpFormSubmitBtn          = $( '.js-twofas-light-totp-submit' ),
-	    totpToken                  = $( '#twofas-light-totp-token' ),
-	    wpNonce                    = $( '#_wpnonce' ),
-	    trustedDevicesWrapper      = $( '.js-twofas-light-trusted-devices-wrapper' ),
-	    trustedDeviceRemoveModal   = $( '.js-twofas-light-modal-remove-trusted-device' ),
-	    trustedDeviceRemoveConfirm = $( '.js-twofas-light-remove-trusted-device-confirm' ),
-	    totpSwitch                 = $( '.js-twofas-light-totp-switch' ),
-	    totpSwitchDesc             = $( '.js-twofas-light-totp-switch-desc' ),
-	    loginForm                  = $( '#twofas-light-loginform' ),
-	    wpSubmit                   = $( '#wp-submit' ),
-	    configWrapper              = $( '.js-twofas-light-config-wrapper' ),
-	    configWrapperButton        = $( '.js-twofas-light-config-wrapper-button' ),
-	    addAnotherDeviceButton     = $( '.js-twofas-light-add-another-device' ),
-	    configuredBox              = $( '.js-twofas-light-configured-box' ),
-	    configuredParagraph        = $( '.js-twofas-light-configured-paragraph' ),
-	    configuringNewParagraph    = $( '.js-twofas-light-configuring-new-paragraph' ),
-	    configuredBoxDate          = $( '.js-twofas-light-date-content' ),
-	    removeBar                  = $( '.js-twofas-light-remove-bar' ),
-	    removeConfiguration        = $( '.js-twofas-light-remove-config' ),
-	    removeBarForm              = $( '.js-twofas-light-remove-bar-form' ),
-	    configBarConfigured        = $( '.js-twofas-light-config-bar-configured' ),
-	    configBarNotConfigured     = $( '.js-twofas-light-config-bar-not-configured' ),
-	    modalConfirmation          = $( '.js-twofas-light-modal-confirmation' ),
-	    modalCancel                = $( '.js-twofas-light-modal-cancel' ),
-	    modalConfirm               = $( '.js-twofas-light-confirmation-confirm' ),
-	    modalRemoveConfig          = $( '.js-twofas-light-modal-remove-config' ),
-	    modalRemoveConfirm         = $( '.js-twofas-light-remove-config-confirm' ),
-	    ratePromptBox              = $( '.js-twofas-light-rate-plugin-prompt-box' ),
-	    closeRatePromptButton      = $( '.js-twofas-light-close-rate-prompt' ),
-	    postponeRatePromptButton   = $( '.js-twofas-light-postpone-rate-prompt' ),
-	    modalOpened                = false,
-	    modalOpenedName            = '',
-	    trustedDeviceObj           = null,
-	    trustedDeviceDeviceID      = null;
+	var reloadQRBtn                  = $( '.js-twofas-reload-qr-button' ),
+	    QRimage                      = $( '.js-twofas-qr-image' ),
+	    privateKeyValue              = $( '.js-twofas-private-key-value' ),
+	    showPrivateKeyLink           = $( '.js-twofas-show-private-key' ),
+	    notificationsWrapper         = $( '.js-twofas-light-notifications' ),
+	    totpSecretInput              = $( '.js-twofas-light-totp-secret-input' ),
+	    totpForm                     = $( '.js-twofas-light-totp-form' ),
+	    totpFormSubmitBtn            = $( '.js-twofas-totp-submit' ),
+	    totpToken                    = $( '#twofas-light-totp-token' ),
+	    backupCode                   = $( '#twofas_light_backup_code' ),
+	    wpNonce                      = $( '#_wpnonce' ),
+	    trustedDevicesBox            = $( '.js-twofas-light-trusted-devices-box' ),
+	    trustedDevicesWrapper        = $( '.js-twofas-light-trusted-devices-wrapper' ),
+	    trustedDeviceRemoveModal     = $( '.js-twofas-modal-remove-trusted-device' ),
+	    trustedDeviceRemoveConfirm   = $( '.js-twofas-remove-trusted-device-confirm' ),
+	    trustedHowToLink             = $( '.js-twofas-how-to-add-a-new-device' ),
+	    modalTrustedHowTo            = $( '.js-twofas-modal-how-to-add-a-new-device' ),
+	    totpSwitch                   = $( '.js-twofas-totp-switch' ),
+	    loginForm                    = $( '#twofas-light-loginform' ),
+	    wpSubmit                     = $( '#wp-submit' ),
+	    configSubheader              = $( '.js-twofas-configuration-subheader' ),
+	    configWrapper                = $( '.js-twofas-config-wrapper' ),
+	    configuredBox                = $( '.js-twofas-configured-box' ),
+	    configuredBoxContent         = $( '.js-twofas-configured-box-content' ),
+	    configuredBoxDate            = $( '.js-twofas-light-date-content' ),
+	    removeConfiguration          = $( '.js-twofas-remove-config' ),
+	    removeBarForm                = $( '.js-twofas-remove-bar-form' ),
+	    configBar                    = $( '.js-twofas-config-bar' ),
+	    modalPrivateKey              = $( '.js-twofas-modal-private-key' ),
+	    modalConfirmation            = $( '.js-twofas-modal-confirmation' ),
+	    modalCancel                  = $( '.js-twofas-modal-cancel' ),
+	    modalConfirm                 = $( '.js-twofas-confirmation-confirm' ),
+	    modalRemoveConfig            = $( '.js-twofas-modal-remove-config' ),
+	    modalRemoveConfirm           = $( '.js-twofas-remove-config-confirm' ),
+	    ratePromptBox                = $( '.js-twofas-rate-plugin-prompt-box' ),
+	    closeRatePromptButton        = $( '.js-twofas-close-rate-prompt' ),
+	    postponeRatePromptButton     = $( '.js-twofas-postpone-rate-prompt' ),
+	    stepBackButton               = $( '.js-twofas-step-back-btn' ),
+	    stepContinueButton           = $( '.js-twofas-step-continue-btn' ),
+	    stepCard                     = $( '.js-twofas-step-card' ),
+	    stepBreadcrumb               = $( '.js-twofas-step-breadcrumb' ),
+	    backupCodesBox               = $( '.js-twofas-backup-codes-box' ),
+	    backupCodesGenerateBtn       = $( '.js-twofas-generate-backup-codes' ),
+	    modalBackupCodes             = $( '.js-twofas-modal-backup-codes' ),
+	    modalBackupCodesConfirm      = $( '.js-twofas-modal-backup-codes-confirm' ),
+	    regenerateBackupCodesConfirm = $( '.js-twofas-regenerate-backup-codes-confirm' ),
+	    downloadBackupCodesBtn       = $( '.twofas-download-codes-link' ),
+	    dangerZoneBox                = $( '.js-twofas-danger-zone-box' ),
+	    totpToggleModal              = $( '.js-twofas-modal-toggle-totp' ),
+	    totpToggleConfirm            = $( '.js-twofas-toggle-totp-confirm' ),
+	    totpToggleCancel             = $( '.js-twofas-toggle-totp-cancel' ),
+	    howBackupCodesWorks          = $( '.js-twofas-how-backup-codes-works' ),
+	    modalHowBackupCodesWorks     = $( '.js-twofas-modal-backup-log-in' ),
+	    currentStep                  = 1,
+	    modalOpened                  = false,
+	    modalOpenedName              = '',
+	    trustedDeviceObj             = null,
+	    trustedDeviceDeviceID        = null;
 
 	// ------------- EVENTS -------------
-	showQRBtn.click( function( e ) {
-		showQRimage( e );
-	} );
-
-	showPrivateKeyLink.click( function( e ) {
-		showPrivateKey( e );
-	} );
-
-	reloadQRBtn.click( function() {
-		reloadQRCode();
-	} );
-
-	totpForm.submit( function( e ) {
-		submitTOTP( e );
-	} );
-
-	loginForm.submit( function() {
-		wpSubmit.prop( 'disabled', 'disabled' );
-	} );
-
-	addAnotherDeviceButton.click( function( e ) {
-		showConfigWrapper( e );
-	} );
-
-	removeConfiguration.click( function( e ) {
-		e.preventDefault();
-		showRemoveConfigModal();
-	} );
-
-	modalRemoveConfirm.click( function( e ) {
-		e.preventDefault();
-		removeBarForm.submit();
-	} );
-
-	modalCancel.click( function( e ) {
-		e.preventDefault();
+	showPrivateKeyLink.on( 'click', showPrivateKey);
+	reloadQRBtn.on( 'click', reloadQRCode);
+	totpFormSubmitBtn.on( 'click', submitTOTP);
+	totpForm.on( 'submit', submitTOTP);
+	loginForm.on( 'submit', disableWPSubmit);
+	removeConfiguration.on( 'click', showRemoveConfigModal);
+	modalRemoveConfirm.on( 'click', removeConfig);
+	modalCancel.on( 'click', modalCancelHandle);
+	modalConfirm.on( 'click', reloadQRCodeConfirmed);
+	closeRatePromptButton.on( 'click', closeRatePluginPrompt);
+	postponeRatePromptButton.on( 'click', postponeRatePluginPrompt);
+	trustedDeviceRemoveConfirm.on( 'click', removeTrustedDevice);
+	trustedHowToLink.on( 'click', openHowToTrustedModal);
+	backupCode.on( 'keyup', format_backup_code);
+	stepContinueButton.on( 'click', nextStep);
+	stepBackButton.on( 'click', previousStep);
+	backupCodesGenerateBtn.on( 'click', generateBackupCodes);
+	regenerateBackupCodesConfirm.on( 'click', function (event) {
 		closeModalConfirmation();
-	} );
+		generateBackupCodes(event);
+	});
+	totpToggleConfirm.on( 'click', disableTotp);
+	totpToggleCancel.on( 'click', cancelDisablingTotp );
+	howBackupCodesWorks.on( 'click', showHowBackupCodesWorksModal);
 
-	modalConfirm.click( function( e ) {
-		reloadQRCodeConfirmed( e );
-	} );
-
-	closeRatePromptButton.click( function() {
-		closeRatePluginPrompt();
-	} );
-
-	postponeRatePromptButton.click( function() {
-		postponeRatePluginPrompt();
-	} );
-
-	trustedDeviceRemoveConfirm.click( function( e ) {
-		removeTrustedDevice( e );
-	} );
-
-	$( document )
-		.on( 'click', '.js-twofas-light-remove-trusted-device', openRemoveTrustedDeviceModal );
-	$( document ).on( 'click', '.js-twofas-light-totp-switch', totpSwitchToggle );
-
-	$( document ).keyup( function( e ) {
-		if ( 27 === e.keyCode ) {
-			closeModalConfirmation();
-		}
-	} );
-
-	$( document ).mouseup( function( e ) {
-		if ( modalOpened ) {
-			modalBackdropHandle( e );
-		}
-	} );
+	$( document ).on( 'click', '.js-twofas-remove-trusted-device', openRemoveTrustedDeviceModal );
+	$( document ).on( 'click', '.js-twofas-totp-switch', totpSwitchToggle );
+	$( document ).on( 'click', '.js-twofas-regenerate-backup-codes', showRegenerateBackupCodesConfirm);
+	$( document ).on( 'keyup', closeModalOnEscKey);
+	$( document ).on( 'mouseup', checkModalBackdropHandle);
 
 	// ------------- FUNCTIONS -------------
-	function showQRimage( e ) {
-		e.preventDefault();
-		QRWrapper.addClass( 'twofas-light-qr-show' );
-	}
-
-	function hideQRimage() {
-		QRWrapper.removeClass( 'twofas-light-qr-show' );
-	}
-
-	function setTotpSwitchEnabled() {
+	function setTotpSwitchEnabled () {
 		totpSwitch.val( 'totp_enabled' );
-		totpSwitchDesc.html( 'Turn off two-factor authentication:' );
+		setCorrectConfiguredBoxContent( 'totp_enabled' );
+		backupCodesBox.addClass('twofas-show');
+		trustedDevicesBox.addClass('twofas-show');
 	}
 
-	function setTotpSwitchDisabled() {
+	function setTotpSwitchDisabled () {
 		totpSwitch.val( 'totp_disabled' );
-		totpSwitchDesc.html( 'Turn on two-factor authentication:' );
+		setCorrectConfiguredBoxContent( 'totp_disabled' );
+		backupCodesBox.removeClass('twofas-show');
+		trustedDevicesBox.removeClass('twofas-show');
 	}
 
-	function closeRatePluginPrompt() {
+	function setCorrectConfiguredBoxContent ( val ) {
+		configuredBoxContent.each(function () {
+			if ($(this).attr('data-totp-status') === val) {
+				$(this).addClass('twofas-show');
+			} else {
+				$(this).removeClass('twofas-show');
+			}
+		});
+	}
+
+	function closeRatePluginPrompt () {
 		ratePromptBox.addClass( 'closed' );
 
 		jQuery.ajax( {
@@ -157,7 +139,7 @@
 		} );
 	}
 
-	function postponeRatePluginPrompt() {
+	function postponeRatePluginPrompt () {
 		ratePromptBox.addClass( 'closed' );
 
 		jQuery.ajax( {
@@ -172,7 +154,7 @@
 		} );
 	}
 
-	function showTwofasToast( type, content ) {
+	function showTwofasToast ( type, content ) {
 		var notification, notificationObj,
 		    notificationTimeout = 0;
 
@@ -183,19 +165,19 @@
 		notificationObj = notificationObj.children().last();
 
 		setTimeout( function() {
-			notificationObj.addClass( 'twofas-light-show' );
+			notificationObj.addClass( 'twofas-show' );
 		}, 100 );
 
 		notificationTimeout = setTimeout( function() {
-			notificationObj.removeClass( 'twofas-light-show' );
+			notificationObj.removeClass( 'twofas-show' );
 
 			setTimeout( function() {
 				notificationObj.remove();
 			}, 1000 );
 		}, toastTime );
 
-		notificationObj.click( function() {
-			$( this ).removeClass( 'twofas-light-show' );
+		notificationObj.on( 'click', function() {
+			$( this ).removeClass( 'twofas-show' );
 			clearTimeout( notificationTimeout );
 
 			setTimeout( function() {
@@ -204,57 +186,50 @@
 		} );
 	}
 
-	function showPrivateKey( e ) {
+	function showPrivateKey ( e ) {
 		e.preventDefault();
-		privateKeyElement.addClass( 'twofas-light-show' );
+		showModal(modalPrivateKey, '.js-twofas-modal-private-key');
 	}
 
-	function showRemoveConfig() {
-		removeBar.slideDown( 500, function() {
-			removeBar.removeClass( 'twofas-light-non-configured' ).css( 'display', '' );
-		} );
+	function hideConfigBar () {
+		configBar.removeClass('twofas-show');
 	}
 
-	function showConfiguredConfigBar() {
-		configBarNotConfigured.slideUp( 500, function() {
-			configBarNotConfigured.removeClass( 'twofas-light-show' ).css( 'display', '' );
-
-			configBarConfigured.slideDown( 500, function() {
-				configBarConfigured.addClass( 'twofas-light-show' ).css( 'display', '' );
-			} );
-		} );
-	}
-
-	function setConfiguredBoxDateToNow() {
+	function setConfiguredBoxDateToNow () {
 		var currentTimestampInMs = Math.floor( Date.now() / 1000 );
 		configuredBoxDate.attr( 'data-timestamp-to-format', currentTimestampInMs );
 		formatLastPairedDeviceTimestamp();
 	}
 
-	function showConfiguredBox() {
+	function showConfiguredBox () {
 		setConfiguredBoxDateToNow();
-		if ( !configuredBox.hasClass( 'twofas-light-show' ) ) {
-			configuredBox.slideDown( 500, function() {
-				configuredBox.addClass( 'twofas-light-show' ).css( 'display', '' );
-			} );
+
+		if ( !configuredBox.hasClass( 'twofas-show' ) ) {
+			configuredBox.addClass( 'twofas-show' );
 		}
 	}
 
-	function closeModalConfirmation() {
+	function closeModalConfirmation () {
 		$( modalOpenedName ).animate( {
 			opacity: 0
 		}, 250, function() {
-			$( this ).removeClass( 'twofas-light-show' ).css( 'opacity', '' );
+			$( this ).removeClass( 'twofas-show' ).css( 'opacity', '' );
 			modalOpened = false;
 			modalOpenedName = '';
 		} );
 	}
 
-	function modalBackdropHandle( e ) {
+	function checkModalBackdropHandle ( e ) {
+		if ( modalOpened ) {
+			modalBackdropHandle( e );
+		}
+	}
+
+	function modalBackdropHandle ( e ) {
 		var modal;
 
 		if ( modalOpened ) {
-			modal = $( modalOpenedName ).find( '.twofas-light-modal' ).first();
+			modal = $( modalOpenedName ).find( '.twofas-modal' ).first();
 
 			if ( !modal.is( e.target ) && 0 === modal.has( e.target ).length ) {
 				closeModalConfirmation();
@@ -262,22 +237,31 @@
 		}
 	}
 
-	function reloadQRCode() {
-		modalConfirmation.addClass( 'twofas-light-show' ).animate( {
-			opacity: 1
-		}, 500, function() {
-			modalOpened = true;
-			modalOpenedName = '.js-twofas-light-modal-confirmation';
-		} );
+	function modalCancelHandle ( e ) {
+		e.preventDefault();
+		closeModalConfirmation();
 	}
 
-	function reloadQRCodeConfirmed( e ) {
+	function removeConfig ( e ) {
+		e.preventDefault();
+		removeBarForm.submit();
+	}
+
+	function closeModalOnEscKey ( e ) {
+		if ( 27 === e.keyCode ) {
+			closeModalConfirmation();
+		}
+	}
+
+	function reloadQRCode () {
+		showModal(modalConfirmation, '.js-twofas-modal-confirmation');
+	}
+
+	function reloadQRCodeConfirmed ( e ) {
 		e.preventDefault();
 		reloadQRBtn.prop( 'disabled', 'disabled' );
 
 		closeModalConfirmation();
-
-		QRWrapper.removeClass( 'twofas-light-qr-show' ).addClass( 'twofas-light-qr-loading' );
 
 		jQuery.ajax( {
 			url: twofas_light.ajax_url,
@@ -300,10 +284,9 @@
 			privateKeyValue.html( totpSecretValue );
 			totpSecretInput.attr( 'value', totpSecretValue );
 		} ).error( function() {
-			showTwofasToast( 'error', 'Couldn\'t reload QR code.<br />Try one more time!' );
+			showTwofasToast( 'error', sprintf(__('Couldn\'t reload QR code.%sPlease try one more time!', '2fas-light') ), '<br />');
 		} ).always( function() {
 			reloadQRBtn.prop( 'disabled', false );
-			QRWrapper.removeClass( 'twofas-light-qr-loading' ).addClass( 'twofas-light-qr-show' );
 		} );
 	}
 
@@ -314,6 +297,7 @@
 		e.preventDefault();
 
 		totpFormSubmitBtn.attr( 'disabled', true );
+		stepBackButton.attr( 'disabled' , true);
 
 		$.ajax( {
 			url: twofas_light.ajax_url,
@@ -333,14 +317,13 @@
 			replaceTrustedDevicesTableHtml( response[ 'twofas_light_trusted_devices' ] );
 			totpToken.val( '' );
 
-			showTwofasToast( 'success', 'Two-factor authentication<br />has been configured successfully.' );
-			hideQRimage();
+			showTwofasToast( 'success', sprintf(__('Two-factor authentication%shas been configured successfully.', '2fas-light'), '<br />' ));
 			hideConfigWrapper();
-			showRemoveConfig();
 			showConfiguredBox();
+			showDangerZone();
 
-			if ( !configBarConfigured.hasClass( 'twofas-light-show' ) ) {
-				showConfiguredConfigBar();
+			if ( configBar.hasClass( 'twofas-show' ) ) {
+				hideConfigBar();
 			}
 
 			setTotpSwitchEnabled();
@@ -348,31 +331,27 @@
 		} ).fail( function( response ) {
 			if ( response.status === 400 ) {
 				totpToken.val( '' );
-				showTwofasToast( 'error', 'Token is invalid :(<br />Check token and try one more time.' );
+				showTwofasToast( 'error', sprintf(__('Token is invalid :(%sPlease try one more time.', '2fas-light'), '<br />' ));
 			} else {
-				showTwofasToast( 'error', 'Something went wrong.<br />Try one more time!' );
+				showTwofasToast( 'error', sprintf(__('Something went wrong.%sPlease try one more time!', '2fas-light'), '<br />' ));
 			}
 		} ).always( function() {
 			totpFormSubmitBtn.attr( 'disabled', false );
+			stepBackButton.attr( 'disabled' , false);
 			return false;
 		} );
 	}
 
-	function openRemoveTrustedDeviceModal( e ) {
+	function openRemoveTrustedDeviceModal ( e ) {
 		e.preventDefault();
 
-		trustedDeviceObj = $( this );
-		trustedDeviceDeviceID = $( this ).attr( 'data-device' );
+		trustedDeviceObj        = $( this );
+		trustedDeviceDeviceID   = $( this ).attr( 'data-device' );
 
-		trustedDeviceRemoveModal.addClass( 'twofas-light-show' ).animate( {
-			opacity: 1
-		}, 500, function() {
-			modalOpened = true;
-			modalOpenedName = '.js-twofas-light-modal-remove-trusted-device';
-		} );
+		showModal(trustedDeviceRemoveModal, '.js-twofas-modal-remove-trusted-device');
 	}
 
-	function removeTrustedDevice( e ) {
+	function removeTrustedDevice ( e ) {
 		e.preventDefault();
 
 		closeModalConfirmation();
@@ -394,25 +373,82 @@
 
 			replaceTrustedDevicesTableHtml( response[ 'twofas_light_trusted_devices' ] );
 
-			showTwofasToast( 'success', 'Trusted device<br />has been removed' );
+			showTwofasToast( 'success', sprintf(__('Trusted browser%shas been removed', '2fas-light'), '<br />' ));
 		} ).error( function() {
-			showTwofasToast( 'error', 'Couldn\'t remove trusted device.<br />Try one more time!' );
+			showTwofasToast( 'error', sprintf(__('Couldn\'t remove web browser/device.%sPlease try one more time!', '2fas-light'), '<br />' ));
 		} ).always( function() {
 			trustedDeviceObj.attr( 'disabled', false );
 			trustedDeviceObj = trustedDeviceDeviceID = null;
 		} );
 	}
 
-	function totpSwitchToggle() {
+	function openHowToTrustedModal ( e ) {
+		e.preventDefault();
+		showModal(modalTrustedHowTo, '.js-twofas-modal-how-to-add-a-new-device');
+	}
+
+	function generateBackupCodes( e ) {
+		e.preventDefault();
+
+		$.ajax( {
+			url: twofas_light.ajax_url,
+			type: 'post',
+			data: {
+				page: twofas_light.twofas_light_menu_page,
+				twofas_light_action: 'twofas-light-generate-backup-codes',
+				action: 'twofas_light_ajax',
+				security: wpNonce.val()
+			},
+			dataType: 'json'
+		} ).done( function( response ) {
+			var codes = JSON.parse( JSON.stringify( response ) );
+			var modal_codes = $('.twofas-modal-codes');
+
+			downloadBackupCodesBtn.attr( 'href', 'data:text/plain;charset=utf-8,' + encodeURIComponent( codes.join( '\n' ) ) );
+			modal_codes.empty();
+
+			codes.forEach( function( code, index ) {
+				modal_codes.append('<h6>'+code+'</h6>');
+				$('.twofas-backup-codes-inputs').append('<input type="hidden" name="codes[' + index + ']" value="'+code+'" />');
+			});
+
+			showModal(modalBackupCodes, '.js-twofas-modal-backup-codes');
+			$('.twofas-backup-codes-box-new').removeClass( 'twofas-show' );
+			$('.twofas-backup-codes-box-current').addClass( 'twofas-show' );
+			$('.twofas-backup-codes-box-current-stats').find('h5').html('5 backup codes left');
+		} ).error( function (e) {
+			if (e && e.responseJSON && e.responseJSON.error && e.responseJSON.error === 'Cannot perform this action because second factor is disabled.') {
+				showTwofasToast( 'error', 'Cannot perform this action because <br />second factor is disabled.' );
+			} else {
+				showTwofasToast( 'error', 'Couldn\'t generate backup codes.<br />Try one more time!' );
+			}
+		} );
+	}
+
+	function totpSwitchToggle () {
 		totpSwitch.attr( 'disabled', true );
-		var action = '';
+		var action = 'twofas-light-totp-enable';
 
 		if ( 'totp_enabled' === totpSwitch.val() ) {
-			action = 'twofas-light-totp-disable';
-		} else {
-			action = 'twofas-light-totp-enable';
+			showModal(totpToggleModal, '.js-twofas-modal-toggle-totp');
+			return false;
 		}
 
+		totpChangeRequest(action);
+	}
+
+	function disableTotp () {
+		totpSwitch.attr( 'disabled', true );
+		totpChangeRequest('twofas-light-totp-disable');
+		closeModalConfirmation();
+	}
+
+	function cancelDisablingTotp ( e ) {
+		modalCancelHandle(e);
+		totpSwitch.attr( 'disabled', false );
+	}
+
+	function totpChangeRequest ( action ) {
 		$.ajax( {
 			url: twofas_light.ajax_url,
 			type: 'post',
@@ -437,77 +473,39 @@
 				setTotpSwitchDisabled();
 			}
 		} ).error( function() {
-			showTwofasToast( 'error', 'Something went wrong.<br />Try one more time!' );
+			showTwofasToast( 'error', sprintf(__('Something went wrong.%sTry one more time!', '2fas-light'), '<br />' ));
 		} ).always( function() {
 			totpSwitch.attr( 'disabled', false );
 		} );
 	}
 
-	function showConfigWrapper( e ) {
+	function hideConfigWrapper () {
+		configWrapper.removeClass( 'twofas-show' );
+		configSubheader.addClass( 'twofas-hidden' );
+		configuredBox.addClass( 'twofas-show' );
+		backupCodesBox.addClass( 'twofas-show' );
+		trustedDevicesBox.addClass( 'twofas-show' );
+	}
+
+	function showRemoveConfigModal ( e ) {
 		e.preventDefault();
-
-		configWrapperButton.slideUp( 400, function() {
-			configWrapperButton.removeClass( 'twofas-light-configured' ).css( 'display', '' );
-
-			configWrapper.slideDown( 1500, function() {
-				configWrapper.removeClass( 'twofas-light-configured' ).css( 'display', '' );
-			} );
-		} );
-
-		configuredParagraph.slideUp( 400, function() {
-			configuredBox.removeClass( 'twofas-light-configured' );
-			configuredParagraph.css( 'display', '' );
-
-			configuringNewParagraph.slideDown( 400, function() {
-				configuredBox.addClass( 'twofas-light-configuring-new' );
-				configuringNewParagraph.css( 'display', '' );
-			} );
-		} );
+		showModal(modalRemoveConfig, '.js-twofas-modal-remove-config');
 	}
 
-	function hideConfigWrapper() {
-		configWrapper.slideUp( 1500, function() {
-			configWrapper.addClass( 'twofas-light-configured' ).css( 'display', '' );
-
-			configWrapperButton.slideDown( 400, function() {
-				configWrapperButton.addClass( 'twofas-light-configured' ).css( 'display', '' );
-			} );
-		} );
-
-		configuringNewParagraph.slideUp( 400, function() {
-			configuredBox.removeClass( 'twofas-light-configuring-new' );
-			configuringNewParagraph.css( 'display', '' );
-
-			configuredParagraph.slideDown( 400, function() {
-				configuredBox.addClass( 'twofas-light-configured' );
-				configuredParagraph.css( 'display', '' );
-			} );
-		} );
-	}
-
-	function showRemoveConfigModal() {
-		modalRemoveConfig.addClass( 'twofas-light-show' ).animate( {
-			opacity: 1
-		}, 500, function() {
-			modalOpened = true;
-			modalOpenedName = '.js-twofas-light-modal-remove-config';
-		} );
-	}
-
-	function replaceTrustedDevicesTableHtml( html ) {
+	function replaceTrustedDevicesTableHtml ( html ) {
 		trustedDevicesWrapper.html( html );
 		formatTrustedDeviceAddedOnTimestamps();
 	}
 
-	function formatLastPairedDeviceTimestamp() {
+	function formatLastPairedDeviceTimestamp () {
 		formatDateFromTimestampAttribute( configuredBoxDate.filter( '[data-timestamp-to-format]' ) );
 	}
 
-	function formatTrustedDeviceAddedOnTimestamps() {
+	function formatTrustedDeviceAddedOnTimestamps () {
 		formatDateFromTimestampAttribute( trustedDevicesWrapper.find( 'table tbody [data-timestamp-to-format]' ) );
 	}
 
-	function formatDateFromTimestampAttribute( jqCollection ) {
+	function formatDateFromTimestampAttribute ( jqCollection ) {
 		return jqCollection.each( function() {
 			var timestampInSeconds = $( this ).attr( 'data-timestamp-to-format' );
 
@@ -520,7 +518,7 @@
 		} );
 	}
 
-	function convertDateToString( date ) {
+	function convertDateToString ( date ) {
 		var yyyy  = date.getFullYear(),
 		    month = padWithZeroIfOneDigit( date.getMonth() + 1 ),
 		    dd    = padWithZeroIfOneDigit( date.getDate() ),
@@ -531,8 +529,108 @@
 		return yyyy + '-' + month + '-' + dd + ' ' + hh + ':' + min + ':' + ss;
 	}
 
-	function padWithZeroIfOneDigit( number ) {
+	function padWithZeroIfOneDigit ( number ) {
 		return number < 10 ? '0' + number : number;
+	}
+
+	function format_backup_code() {
+		var n = 4;
+		var t = this.value.replace(/-/g, '').toUpperCase();
+		var s = this.selectionStart;
+		var b = t.substr(0, n);
+		var m = t.substr(4, 4);
+		var e = t.substr(8, 4);
+		if (m.length) {
+			if (e.length) {
+				this.value = [b, m, e].join('-');
+			} else {
+				this.value = [b, m].join('-');
+			}
+			if (s <= n) this.setSelectionRange(s, s);
+			if (s === n+1) this.setSelectionRange(s+1, s+1);
+		} else this.value = b;
+	}
+
+	function showCorrectStep () {
+		if (currentStep > 3) {
+			currentStep = 3;
+		}
+
+		if (currentStep < 1) {
+			currentStep = 1;
+		}
+
+		stepCard.each(function() { $(this).addClass('hidden'); });
+		$('.js-twofas-step-card[data-step="'+ currentStep +'"]').removeClass('hidden');
+
+		stepBreadcrumb.each(function() { $(this).removeClass('active'); });
+		$('.js-twofas-step-breadcrumb[data-step="'+ currentStep +'"]').addClass('active');
+
+		switch (currentStep) {
+			case 1: {
+				stepBackButton.addClass('hidden');
+				stepContinueButton.removeClass('hidden');
+				totpFormSubmitBtn.addClass('hidden');
+
+				break;
+			}
+
+			case 2: {
+				stepBackButton.removeClass('hidden');
+				stepContinueButton.removeClass('hidden');
+				totpFormSubmitBtn.addClass('hidden');
+
+				break;
+			}
+
+			case 3: {
+				stepBackButton.removeClass('hidden');
+				stepContinueButton.addClass('hidden');
+				totpFormSubmitBtn.removeClass('hidden');
+				totpToken.trigger('focus');
+
+				break;
+			}
+
+			default: break;
+		}
+	}
+
+	function previousStep () {
+		currentStep--;
+		showCorrectStep();
+	}
+
+	function nextStep () {
+		currentStep++;
+		showCorrectStep();
+	}
+
+	function showRegenerateBackupCodesConfirm ( e ) {
+		e.preventDefault();
+		showModal(modalBackupCodesConfirm, '.js-twofas-modal-backup-codes-confirm');
+	}
+
+	function showModal ( modalElement, modalClass ) {
+		modalElement.addClass( 'twofas-show' ).animate( {
+			opacity: 1
+		}, 500, function() {
+			modalOpened = true;
+			modalOpenedName = modalClass;
+		} );
+	}
+
+	function disableWPSubmit () {
+		wpSubmit.prop( 'disabled', 'disabled' );
+	}
+
+	function showDangerZone () {
+		dangerZoneBox.addClass('twofas-show');
+	}
+
+	function showHowBackupCodesWorksModal ( e ) {
+		e.preventDefault();
+		showModal(modalHowBackupCodesWorks, '.js-twofas-modal-backup-log-in');
 	}
 
 	// ------------- PAGE SETUP AFTER LOAD -------------

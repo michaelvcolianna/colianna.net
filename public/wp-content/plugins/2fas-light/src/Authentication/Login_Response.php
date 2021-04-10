@@ -1,100 +1,127 @@
 <?php
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace TwoFAS\Light\Authentication;
 
-use TwoFAS\Light\Http\Request;
-use TwoFAS\Light\Exceptions\User_Not_Found_Exception;
-use TwoFAS\Light\Storage\Storage;
+use Exception;
+use TwoFAS\Light\Core\Plugin;
+use TwoFAS\Light\Exceptions\Handler\Error_Handler_Interface;
+use TwoFAS\Light\Helpers\Flash;
+use TwoFAS\Light\Http\{Code, Direct_URL, Request\Request};
+use TwoFAS\Light\Http\Response\{JSON_Response, Redirect_Response, Safe_Redirect_Response, View_Response, Not_Handled_Response};
+use TwoFAS\Light\Templates\Twig;
+use WP_Error;
+use WP_User;
 
 class Login_Response {
-
-	const WP_LOGIN_REDIRECT_TO         = 'redirect_to';
-	const WP_LOGIN_REMEMBER_ME         = 'rememberme';
-	const WP_LOGIN_TEST_COOKIE         = 'testcookie';
-	const WP_LOGIN_INTERIM_LOGIN       = 'interim-login';
-	const WP_LOGIN_CUSTOMIZE_LOGIN     = 'customize-login';
-	const TWOFAS_LOGIN_REMEMBER_DEVICE = 'twofas_light_remember_device';
-
+	
 	/**
-	 * @var array
+	 * @var WP_User|WP_Error|null
 	 */
-	private $data = [];
-
+	private $response;
+	
 	/**
-	 * @param string $key
-	 * @param mixed  $value
+	 * @var Error_Handler_Interface
 	 */
-	public function set( string $key, $value ) {
-		$this->data[ $key ] = $value;
+	private $error_handler;
+	
+	/**
+	 * @var Request
+	 */
+	private $request;
+	
+	/**
+	 * @var Flash
+	 */
+	private $flash;
+	
+	/**
+	 * @var Twig
+	 */
+	private $twig;
+	
+	/**
+	 * @param Request                 $request
+	 * @param Flash                   $flash
+	 * @param Twig                    $twig
+	 * @param Error_Handler_Interface $error_handler
+	 */
+	public function __construct( Request $request, Flash $flash, Twig $twig, Error_Handler_Interface $error_handler ) {
+		$this->request       = $request;
+		$this->flash         = $flash;
+		$this->twig          = $twig;
+		$this->error_handler = $error_handler;
 	}
-
+	
 	/**
-	 * @param Request $request
-	 */
-	public function set_from_request( Request $request ) {
-		$redirect_to = $request->request( self::WP_LOGIN_REDIRECT_TO );
-		$remember_me = $request->post( self::WP_LOGIN_REMEMBER_ME );
-
-		if ( empty( $remember_me ) ) {
-			$remember_me = $request->get( self::WP_LOGIN_REMEMBER_ME );
-		}
-
-		$test_cookie     = $request->post( self::WP_LOGIN_TEST_COOKIE );
-		$interim_login   = $request->request( self::WP_LOGIN_INTERIM_LOGIN );
-		$customize_login = $request->request( self::WP_LOGIN_CUSTOMIZE_LOGIN );
-		$remember_device = $request->post( self::TWOFAS_LOGIN_REMEMBER_DEVICE );
-
-		if ( ! empty( $redirect_to ) ) {
-			$this->set( 'redirect_to', $redirect_to );
-		}
-
-		if ( ! empty( $remember_me ) ) {
-			$this->set( 'rememberme', $remember_me );
-		}
-
-		if ( ! empty( $test_cookie ) ) {
-			$this->set( 'testcookie', $test_cookie );
-		}
-
-		if ( ! empty( $interim_login ) ) {
-			$this->set( 'interim_login', $interim_login );
-		}
-
-		if ( ! empty( $customize_login ) ) {
-			$this->set( 'customize_login', $customize_login );
-		}
-
-		if ( ! empty( $remember_device ) ) {
-			$this->set( 'remember_device', $remember_device );
-		}
-	}
-
-	/**
-	 * @param Storage $storage
+	 * @param JSON_Response|Redirect_Response|View_Response|Not_Handled_Response|null $response
 	 *
-	 * @throws User_Not_Found_Exception
+	 * @return WP_Error|WP_User|void
 	 */
-	public function set_from_storage( Storage $storage ) {
-		$user_storage = $storage->get_user_storage();
-
-		$this->set( 'is_totp_enabled', $user_storage->is_totp_enabled() );
-	}
-
-	/**
-	 * @param string $key
-	 *
-	 * @return mixed
-	 */
-	public function get( string $key ) {
-		if ( ! array_key_exists( $key, $this->data ) ) {
-			return null;
+	public function process( $response ) {
+		if ( $this->should_response_be_changed( $response ) ) {
+			$this->flash->add_message( 'error', $response->get_body()['error'] );
+			$response = $this->safe_redirect();
 		}
-
-		return $this->data[ $key ];
+		
+		if ( $response instanceof JSON_Response ) {
+			$status_code = $response->get_status_code();
+			$body        = $response->get_body();
+			
+			if ( Code::OK === $status_code ) {
+				$this->response = new WP_User( $body['user_id'] );
+			} else {
+				$this->response = $this->error( $body['error'] );
+			}
+		}
+		
+		if ( $response instanceof Redirect_Response ) {
+			$response->redirect();
+		}
+		
+		if ( $response instanceof View_Response ) {
+			try {
+				echo $this->twig->try_render( $response->get_template(), $response->get_data() );
+				Plugin::terminate();
+			} catch ( Exception $e ) {
+				return $this->error_handler->capture_exception( $e )->to_wp_error( $e );
+			}
+		}
 	}
-
-	public function get_all(): array {
-		return $this->data;
+	
+	public function should_response_be_returned(): bool {
+		return ! is_null( $this->response );
+	}
+	
+	/**
+	 * @return WP_Error|WP_User|null
+	 */
+	public function get_response() {
+		return $this->response;
+	}
+	
+	private function should_response_be_changed( $response ): bool {
+		return $this->is_jetpack_sso_login()
+		       && $response instanceof JSON_Response
+		       && Code::OK !== $response->get_status_code();
+	}
+	
+	private function is_jetpack_sso_login(): bool {
+		return did_action( 'jetpack_sso_handle_login' ) > 0;
+	}
+	
+	private function safe_redirect(): Safe_Redirect_Response {
+		$login_url     = wp_login_url();
+		$interim_login = $this->request->request( 'interim-login' );
+		
+		if ( $interim_login ) {
+			$login_url = add_query_arg( 'interim-login', '1', $login_url );
+		}
+		
+		return new Safe_Redirect_Response( new Direct_URL ( $login_url ) );
+	}
+	
+	private function error( string $message ): WP_Error {
+		return new WP_Error( 'twofas_light_login_error', $message );
 	}
 }

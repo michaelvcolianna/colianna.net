@@ -5,7 +5,7 @@ namespace TwoFAS\Light\Factories;
 
 use LogicException;
 use Psr\Container\ContainerInterface;
-use TwoFAS\Light\Http\Controller;
+use TwoFAS\Light\Http\Controllers\Controller;
 
 class Controller_Factory {
 

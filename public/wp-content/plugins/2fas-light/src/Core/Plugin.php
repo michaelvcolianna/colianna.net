@@ -6,10 +6,8 @@ namespace TwoFAS\Light\Core;
 use Exception;
 use TwoFAS\Light\Factories\Response_Factory;
 use TwoFAS\Light\Hooks\Hook_Handler;
-use TwoFAS\Light\Http\JSON_Response;
-use TwoFAS\Light\Http\Redirect_Response;
-use TwoFAS\Light\Http\Request;
-use TwoFAS\Light\Http\View_Response;
+use TwoFAS\Light\Http\Request\Request;
+use TwoFAS\Light\Http\Response\{JSON_Response, Redirect_Response, View_Response};
 use TwoFAS\Light\Update\Updater;
 
 class Plugin {

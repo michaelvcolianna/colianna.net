@@ -18,32 +18,20 @@ class Token {
 	 */
 	private $accepted = false;
 	
-	/**
-	 * @param string $value
-	 */
 	public function __construct( string $value ) {
 		$this->validate_format( $value );
 		$this->value = $value;
 	}
 	
-	/**
-	 * @return string
-	 */
 	public function get(): string {
 		return $this->value;
 	}
 	
-	/**
-	 * @return bool
-	 */
 	public function accepted(): bool {
 		return $this->accepted;
 	}
 	
-	/**
-	 * @param array $others
-	 */
-	public function compare_with( array $others ) {
+	public function match( array $others ) {
 		foreach ( $others as $token ) {
 			if ( ! $token instanceof Token ) {
 				throw new LogicException();

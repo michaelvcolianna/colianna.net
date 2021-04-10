@@ -26,8 +26,8 @@ class Setup_User_Storage_Action implements Hook_Interface {
 	}
 	
 	public function register_hook() {
-		add_filter( 'authenticate', [ $this, 'set_wp_user' ], 99 );
-		add_action( 'jetpack_sso_handle_login', [ $this, 'set_wp_user' ], 99 );
+		add_filter( 'authenticate', [ $this, 'set_wp_user' ], PHP_INT_MAX );
+		add_action( 'jetpack_sso_handle_login', [ $this, 'set_wp_user' ], 100 );
 	}
 	
 	/**

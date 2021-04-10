@@ -17,6 +17,9 @@ class Migration_2018_11_30_Create_Trusted_Devices_Table extends Migration implem
 		self::TABLE_DEVICES => '{prefix}twofas_light_trusted_devices',
 	];
 	
+	/**
+	 * @codeCoverageIgnore
+	 */
 	protected function introduced(): string {
 		return '3.0.0';
 	}

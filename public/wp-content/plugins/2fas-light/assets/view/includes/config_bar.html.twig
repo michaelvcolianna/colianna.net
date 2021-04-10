@@ -1,15 +1,3 @@
-<div class="twofas-light-config-bar">
-    <div class="twofas-light-config-bar-configured js-twofas-light-config-bar-configured{{ 'totp_enabled' == twofas_light_totp_status or 'totp_disabled' == twofas_light_totp_status ? ' twofas-light-show' }}">
-        <span class="twofas-light-config-bar-description js-twofas-light-totp-switch-desc">{{ 'totp_enabled' == twofas_light_totp_status ? 'Turn off two-factor authentication:' : 'Turn on two-factor authentication:' }}</span>
-        <div class="twofas-light-config-bar-switch">
-            <input id="twofas-light-totp-switch" class="twofas-light-totp-switch js-twofas-light-totp-switch" type="checkbox" value="{{ twofas_light_totp_status }}" />
-            <label for="twofas-light-totp-switch">
-                <span class="twofas-light-totp-switch-indicator"></span>
-            </label>
-        </div>
-    </div>
-    <div class="twofas-light-config-bar-not-configured js-twofas-light-config-bar-not-configured{{ 'totp_enabled' != twofas_light_totp_status and 'totp_disabled' != twofas_light_totp_status ? ' twofas-light-show' }}">
-        <div class="twofas-light-icon twofas-light-icon-totp-info twofas-light-icon-totp-info-dims"></div>
-        <span class="twofas-light-config-bar-description">Two-factor authentication is not configured.</span>
-    </div>
+<div class="twofas-config-bar js-twofas-config-bar{{ 'totp_enabled' != twofas_light_totp_status and 'totp_disabled' != twofas_light_totp_status ? ' twofas-show' }}">
+    <span class="twofas-config-bar-description">{{ esc_html__('Two-factor authentication is not configured.', '2fas-light') }}</span>
 </div>

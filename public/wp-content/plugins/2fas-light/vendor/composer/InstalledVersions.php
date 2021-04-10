@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '365fa139f5071111df87589441869d48c5ee6d61',
+    'reference' => 'cf8383f667d3c80d9a0f3eb27eb80110cd1e550e',
     'name' => 'twofas/wp-plugin-secure',
   ),
   'versions' => 
@@ -71,12 +71,12 @@ private static $installed = array (
     ),
     'nikic/php-parser' => 
     array (
-      'pretty_version' => 'v4.10.2',
-      'version' => '4.10.2.0',
+      'pretty_version' => 'v4.10.4',
+      'version' => '4.10.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '658f1be311a230e0907f5dfe0213742aff0596de',
+      'reference' => 'c6d052fc58cb876152f89f532b95a8d7907e7f0e',
     ),
     'php-di/invoker' => 
     array (
@@ -193,15 +193,6 @@ private static $installed = array (
       ),
       'reference' => '18772e0190734944277ee97a02a9a6c6555fcd94',
     ),
-    'twofas/encryption' => 
-    array (
-      'pretty_version' => 'v4.0.0',
-      'version' => '4.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '7be586110b276bd1059093ff5aa0fb6bf6f14913',
-    ),
     'twofas/wp-plugin-secure' => 
     array (
       'pretty_version' => 'dev-master',
@@ -209,16 +200,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '365fa139f5071111df87589441869d48c5ee6d61',
+      'reference' => 'cf8383f667d3c80d9a0f3eb27eb80110cd1e550e',
     ),
     'whichbrowser/parser' => 
     array (
-      'pretty_version' => 'v2.0.42',
-      'version' => '2.0.42.0',
+      'pretty_version' => 'v2.1.1',
+      'version' => '2.1.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '4899110cd2f87b01e04ced62dbb9dec541031dee',
+      'reference' => 'da24adc4f4f26002673d236e69b91a10f2fd594c',
     ),
   ),
 );

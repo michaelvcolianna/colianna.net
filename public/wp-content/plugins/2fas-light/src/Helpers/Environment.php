@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Helpers;
 
-class Environment implements Environment_Interface {
+class Environment {
 	
 	public function get_wordpress_version(): string {
 		return get_bloginfo( 'version' );

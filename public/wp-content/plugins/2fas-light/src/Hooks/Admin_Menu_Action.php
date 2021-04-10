@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Hooks;
 
-use TwoFAS\Light\Http\View_Response;
+use TwoFAS\Light\Http\Response\View_Response;
 use TwoFAS\Light\Templates\Twig;
 
 class Admin_Menu_Action implements Hook_Interface {
@@ -16,12 +16,12 @@ class Admin_Menu_Action implements Hook_Interface {
 	/**
 	 * @var string
 	 */
-	private $menu_name = '2FAS Light';
+	private $menu_name = '2FAS Prime';
 	
 	/**
 	 * @var string
 	 */
-	private $menu_title = '2FAS Light';
+	private $menu_title = '2FAS Prime';
 	
 	/**
 	 * @var string
@@ -63,7 +63,7 @@ class Admin_Menu_Action implements Hook_Interface {
 			$this->capability,
 			$this->menu_id,
 			[ $this, 'render' ],
-			TWOFAS_LIGHT_PLUGIN_URL . '/assets/img/icon.svg'
+			TWOFAS_LIGHT_PLUGIN_URL . 'assets/img/icon.svg'
 		);
 	}
 	

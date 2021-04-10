@@ -6,7 +6,7 @@
 
 <form method="post" action="{{ login_form_action_url }}" id="twofas-light-loginform" class="twofas-light-login-form">
     <p class="login-username">
-        <label for="twofas_code">Enter your token:</label>
+        <label for="twofas_code">{{ esc_html__( 'Enter your token:', '2fas-light' ) }}</label>
         <input type="text"
                name="twofas_light_totp_token"
                id="twofas_code"
@@ -18,30 +18,7 @@
                required="required"
                autofocus="autofocus"/>
     </p>
-
-    {% if rememberme is not empty %}
-        <input name="rememberme" type="hidden" value="{{ rememberme }}"/>
-    {% endif %}
-
-    {% if redirect_to is not empty %}
-        <input name="redirect_to" type="hidden" value="{{ redirect_to }}"/>
-    {% endif %}
-
-    {% if testcookie is not empty %}
-        <input name="testcookie" type="hidden" value="{{ testcookie }}"/>
-    {% endif %}
-
-    {% if interim_login is not empty %}
-        <input name="interim-login" type="hidden" value="{{ interim_login }}"/>
-    {% endif %}
-
-    {% if customize_login is not empty %}
-        <input name="customize-login" type="hidden" value="{{ customize_login }}"/>
-    {% endif %}
-
-    {% if twofas_light_login_redirect is not empty %}
-        <input name="twofas_light_login_redirect" type="hidden" value="{{ twofas_light_login_redirect }}"/>
-    {% endif %}
+    {% include "includes/authentication_hidden_inputs.html.twig" %}
 
     <input type="hidden" name="twofas_light_action" value="{{ actions['verify_totp_code'] }}"/>
 
@@ -50,17 +27,27 @@
                name="twofas_light_remember_device"
                id="twofas_light_device_checkbox"
                 {{ remember_device ? 'checked' : '' }} />
-        <label for="twofas_light_device_checkbox">Remember device</label>
+        <label for="twofas_light_device_checkbox">{{ esc_html__( 'Remember browser', '2fas-light' ) }}</label>
     </p>
 
     <p class="submit">
-        <input class="button button-primary button-large" type="submit" name="wp-submit" id="wp-submit" value="Log In"/>
+        <input class="button button-primary button-large" type="submit" name="wp-submit" id="wp-submit" value="{{ esc_attr__( 'Log In', '2fas-light' ) }}"/>
     </p>
 </form>
 <div class="twofas-light-login-nav">
     <div class="twofas-light-login-nav-wrapper">
         <div class="twofas-light-table-wrapper">
             <div class="twofas-light-login-nav-message">
+                {% if offline_codes_count > 0 %}
+                    <form method="post" action="{{ login_url }}" class="twofas-light-login-nav-form">
+                        <div>
+                            {% include "includes/authentication_hidden_inputs.html.twig" %}
+                            <input type="hidden" name="twofas_light_action" value="{{ actions['log_in_with_backup_code'] }}"/>
+                        </div>
+
+                        <input type="submit" class="button-link" value="{{ esc_attr__('Log in with the one-time backup code', '2fas-light') }}"/>
+                    </form>
+                {% endif %}
                 <section class="twofas-login-another-account">
                     <form action="{{ login_url }}" method="post" class="twofas-light-login-nav-form">
                         {% if interim_login %}

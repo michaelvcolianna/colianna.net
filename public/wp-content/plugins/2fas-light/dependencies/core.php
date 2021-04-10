@@ -7,16 +7,13 @@ use Twig\Environment as Twig_Environment;
 use Twig\Loader\{FilesystemLoader, LoaderInterface};
 use Twig\RuntimeLoader\ContainerRuntimeLoader;
 use Twig\TwigFunction;
-use TwoFAS\Light\Helpers\Environment_Interface;
 use TwoFAS\Light\Exceptions\Handler\{Error_Handler_Interface, Logger_Interface};
-use TwoFAS\Light\Http\Request;
-use TwoFAS\Light\Storage\DB_Wrapper;
 use TwoFAS\Light\Exceptions\Handler\{Error_Handler, Null_Logger};
 use TwoFAS\Light\Factories\Session_Storage_Factory;
-use TwoFAS\Light\Helpers\{Environment, Flash};
-use TwoFAS\Light\Helpers\URL;
-use TwoFAS\Light\Helpers\Time;
+use TwoFAS\Light\Helpers\{Flash, Time, URL};
+use TwoFAS\Light\Http\Request\Request;
 use TwoFAS\Light\Storage\{Session_Storage_Interface, User_Storage};
+use TwoFAS\Light\Storage\DB_Wrapper;
 use TwoFAS\Light\Templates\Browser_Twig_Extension;
 
 /**
@@ -56,7 +53,6 @@ return [
 	Error_Handler_Interface::class   => DI\autowire( Error_Handler::class )
 		->constructor( DI\get(Logger_Interface::class) )
 		->constructorParameter('logging_allowed', true),
-	Environment_Interface::class     => DI\autowire( Environment::class ),
 	QrCodeInterface::class           => DI\autowire( QrCode::class ),
 	User_Storage::class              => DI\factory(
 		function ( ContainerInterface $c ) {

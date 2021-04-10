@@ -3,7 +3,13 @@ declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
 use TwoFAS\Light\Exceptions\Handler\Error_Handler_Interface;
-use TwoFAS\Light\Authentication\Handler\{Handler_Builder, Login_Handler, Standard_Login, Trusted_Device_Login};
+use TwoFAS\Light\Authentication\Handler\{
+	Handler_Builder,
+	Login_Handler,
+	Totp_Login,
+	Backup_Login,
+	Trusted_Device_Login
+};
 use TwoFAS\Light\Authentication\Login_Process;
 use TwoFAS\Light\Authentication\Middleware\{
 	Authentication_Opener,
@@ -23,8 +29,7 @@ use TwoFAS\Light\Authentication\Middleware\{
 };
 
 return [
-	'BeforeMiddleware'   => DI\factory(
-		function ( ContainerInterface $c ) {
+	'BeforeMiddleware'   => DI\factory( function ( ContainerInterface $c ) {
 			$builder = new Middleware_Builder();
 			$builder
 				->add_middleware( $c->get( Login_Stop::class ) )
@@ -39,8 +44,7 @@ return [
 			
 			return $builder->build();
 		} ),
-	'AfterMiddleware'    => DI\factory(
-		function ( ContainerInterface $c ) {
+	'AfterMiddleware'    => DI\factory( function ( ContainerInterface $c ) {
 			$builder = new Middleware_Builder();
 			$builder
 				->add_middleware( $c->get( Authentication_Opener::class ) )
@@ -50,12 +54,12 @@ return [
 			
 			return $builder->build();
 		} ),
-	Login_Handler::class => DI\factory(
-		function ( ContainerInterface $c ) {
+	Login_Handler::class => DI\factory( function ( ContainerInterface $c ) {
 			$builder = new Handler_Builder();
 			$builder
 				->add_handler( $c->get( Trusted_Device_Login::class ) )
-				->add_handler( $c->get( Standard_Login::class ) );
+				->add_handler( $c->get( Totp_Login::class ) )
+				->add_handler( $c->get( Backup_Login::class ) );
 			
 			return $builder->build();
 		} ),

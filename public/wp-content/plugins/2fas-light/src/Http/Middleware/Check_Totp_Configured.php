@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Http\Middleware;
 
-use TwoFAS\Light\Http\Request;
 use TwoFAS\Light\Helpers\Flash;
 use TwoFAS\Light\Http\{Action_Index, Action_URL, Code};
+use TwoFAS\Light\Http\Request\Request;
 use TwoFAS\Light\Notifications\Notification;
 use TwoFAS\Light\Storage\User_Storage;
 

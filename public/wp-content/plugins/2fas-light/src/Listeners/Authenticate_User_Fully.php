@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Listeners;
 
+use Exception;
 use TwoFAS\Light\Authentication\Login_Token\Login_Token_Manager;
-use TwoFAS\Light\Events\Login_Completed;
-use TwoFAS\Light\Exceptions\Authentication_Failed_Exception;
-use TwoFAS\Light\Exceptions\Login_Token_Not_Found_Exception;
+use TwoFAS\Light\Events\User_Interface;
+use TwoFAS\Light\Exceptions\{Authentication_Failed_Exception, Login_Token_Not_Found_Exception};
 
 class Authenticate_User_Fully extends Listener {
 	
@@ -23,12 +23,13 @@ class Authenticate_User_Fully extends Listener {
 	}
 	
 	/**
-	 * @param Login_Completed $event
+	 * @param User_Interface $event
 	 *
+	 * @throws Exception
 	 * @throws Authentication_Failed_Exception
 	 * @throws Login_Token_Not_Found_Exception
 	 */
-	public function handle( Login_Completed $event ) {
+	public function handle( User_Interface $event ) {
 		$login_token = $this->login_token_manager->get();
 		
 		if ( is_null( $login_token ) ) {

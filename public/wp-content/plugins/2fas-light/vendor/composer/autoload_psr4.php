@@ -8,7 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'WhichBrowser\\' => array($vendorDir . '/whichbrowser/parser/src', $vendorDir . '/whichbrowser/parser/tests/src'),
     'TwoFAS\\Light\\' => array($baseDir . '/src'),
-    'TwoFAS\\Encryption\\' => array($vendorDir . '/twofas/encryption/src', $vendorDir . '/twofas/encryption/tests'),
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
     'Symfony\\Polyfill\\Util\\' => array($vendorDir . '/symfony/polyfill-util'),
     'Symfony\\Polyfill\\Php56\\' => array($vendorDir . '/symfony/polyfill-php56'),

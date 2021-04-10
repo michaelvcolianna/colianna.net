@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace TwoFAS\Light\Hooks;
 
-use TwoFAS\Light\Http\Request;
+use TwoFAS\Light\Http\Request\Request;
 use TwoFAS\Light\Templates\Twig;
 
 class Login_Footer_Action implements Hook_Interface {
@@ -17,11 +17,7 @@ class Login_Footer_Action implements Hook_Interface {
 	 * @var Request
 	 */
 	private $request;
-
-	/**
-	 * @param Twig    $twig
-	 * @param Request $request
-	 */
+	
 	public function __construct( Twig $twig, Request $request ) {
 		$this->twig    = $twig;
 		$this->request = $request;
