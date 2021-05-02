@@ -99,6 +99,9 @@ You can either use it privately or for commercial usage without any fees.
 
 == Changelog ==
 
+= 3.2 (Apr. 26, 2021) =
+* Added admin settings page (can set 2FA obligatory for user roles and turn off trusted devices feature)
+
 = 3.1.1 (Apr. 6, 2021) =
 * Fixed path in checking conflicted plugins
 * Fixed typo in text

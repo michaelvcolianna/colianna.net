@@ -5,9 +5,8 @@ namespace TwoFAS\Light\Authentication\Middleware;
 
 use TwoFAS\Light\Authentication\{Login_Action, Template_Data};
 use TwoFAS\Light\Events\Second_Step_Rendered;
-use TwoFAS\Light\Exceptions\Handler\Error_Handler_Interface;
 use TwoFAS\Light\Helpers\Dispatcher;
-use TwoFAS\Light\Http\Request\{Request, Session};
+use TwoFAS\Light\Http\Request\Request;
 use TwoFAS\Light\Http\Response\{JSON_Response, View_Response};
 use TwoFAS\Light\Storage\Storage;
 use TwoFAS\Light\Templates\Views;
@@ -23,11 +22,6 @@ final class Login_Template extends Middleware {
 	private $request;
 	
 	/**
-	 * @var Session
-	 */
-	private $session;
-	
-	/**
 	 * @var Template_Data
 	 */
 	private $template_data;
@@ -36,11 +30,6 @@ final class Login_Template extends Middleware {
 	 * @var Storage
 	 */
 	private $storage;
-	
-	/**
-	 * @var Error_Handler_Interface
-	 */
-	private $error_handler;
 	
 	/**
 	 * @var array
@@ -54,24 +43,14 @@ final class Login_Template extends Middleware {
 	];
 	
 	/**
-	 * @param Request                 $request
-	 * @param Template_Data           $template_data
-	 * @param Storage                 $storage
-	 * @param Session                 $session
-	 * @param Error_Handler_Interface $error_handler
+	 * @param Request          $request
+	 * @param Storage          $storage
+	 * @param Template_Data    $template_data
 	 */
-	public function __construct(
-		Request $request,
-		Template_Data $template_data,
-		Storage $storage,
-		Session $session,
-		Error_Handler_Interface $error_handler
-	) {
-		$this->request       = $request;
-		$this->template_data = $template_data;
-		$this->storage       = $storage;
-		$this->session       = $session;
-		$this->error_handler = $error_handler;
+	public function __construct( Request $request, Storage $storage, Template_Data $template_data ) {
+		$this->request          = $request;
+		$this->storage          = $storage;
+		$this->template_data    = $template_data;
 	}
 	
 	/**
@@ -118,6 +97,10 @@ final class Login_Template extends Middleware {
 	}
 	
 	private function get_template(): string {
+		if ( $this->can_display_configuration_template() ) {
+			return Views::CONFIGURATION_AUTHENTICATION_PAGE;
+		}
+		
 		if ( $this->can_display_totp_template() ) {
 			return Views::TOTP_AUTHENTICATION_PAGE;
 		}
@@ -127,6 +110,15 @@ final class Login_Template extends Middleware {
 		}
 		
 		return Views::TOTP_AUTHENTICATION_PAGE;
+	}
+	
+	private function can_display_configuration_template(): bool {
+		$user_storage    = $this->storage->get_user_storage();
+		$options_storage = $this->storage->get_options();
+		
+		return ! $user_storage->is_totp_enabled()
+		       && ! $user_storage->is_totp_configured()
+		       && $options_storage->has_obligatory_role( $user_storage->get_roles() );
 	}
 	
 	private function can_display_totp_template(): bool {

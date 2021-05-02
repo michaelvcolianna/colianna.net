@@ -52,6 +52,7 @@ class Notification {
 			// General errors
 			'default'                       => __( 'Something went wrong. Please try again.', '2fas-light' ),
 			'db-error'                      => __( 'Something went wrong while connecting to the database.', '2fas-light' ),
+			'forbidden'                     => __('You do not have sufficient permissions to perform this action.', '2fas-light'),
 			'user-not-found'                => __( 'User has not been found.', '2fas-light' ),
 			'user-not-logged-in'            => __( 'User is not logged in.', '2fas-light' ),
 			'login-token-not-found'         => __( 'Token has not been found.', '2fas-light' ),

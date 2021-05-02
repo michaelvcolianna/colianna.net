@@ -5,6 +5,7 @@ namespace TwoFAS\Light\Exceptions\Handler;
 
 use Exception;
 use RuntimeException;
+use UnexpectedValueException;
 use Twig\Error\{LoaderError, RuntimeError, SyntaxError};
 use TwoFAS\Light\Exceptions\{Authentication_Failed_Exception,
 	Authentication_Not_Found_Exception,
@@ -15,7 +16,8 @@ use TwoFAS\Light\Exceptions\{Authentication_Failed_Exception,
 	Login_Token_Validation_Exception,
 	Migration_Exception,
 	Totp_Disabled_Exception,
-	User_Not_Found_Exception};
+	User_Not_Found_Exception,
+	Validation_Exception};
 use TwoFAS\Light\Exceptions\Http_Exception;
 use TwoFAS\Light\Http\Response\{JSON_Response, View_Response};
 use TwoFAS\Light\Http\Code;
@@ -45,7 +47,9 @@ class Error_Handler implements Error_Handler_Interface {
 		User_Not_Found_Exception::class,
 		Totp_Disabled_Exception::class,
 		Invalid_Totp_Token_Exception::class,
-		Invalid_Backup_Code_Exception::class
+		Invalid_Backup_Code_Exception::class,
+		UnexpectedValueException::class,
+		Validation_Exception::class
 	];
 
 	public function __construct( Logger_Interface $logger, bool $logging_allowed ) {
@@ -141,7 +145,15 @@ class Error_Handler implements Error_Handler_Interface {
 		if ( $e instanceof RuntimeError ) {
 			return $this->to_array( $this->get_message_by_key( 'template-rendering' ), Code::INTERNAL_SERVER_ERROR );
 		}
-
+		
+		if ( $e instanceof Validation_Exception ) {
+			return $this->to_array( $e->getMessage(), Code::BAD_REQUEST );
+		}
+		
+		if ( $e instanceof UnexpectedValueException ) {
+			return $this->to_array( $e->getMessage(), Code::BAD_REQUEST );
+		}
+		
 		if ( $e instanceof DB_Exception ) {
 			return $this->to_array( $e->getMessage(), Code::INTERNAL_SERVER_ERROR );
 		}

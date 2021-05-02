@@ -24,7 +24,8 @@ use TwoFAS\Light\Hooks\{Action_Links_Filter,
 	Regenerate_Session_Action,
 	Save_Login_Time_Action,
 	Setup_User_Storage_Action,
-	Delete_Expired_Trusted_Devices_Action
+	Delete_Expired_Trusted_Devices_Action,
+	Update_Option_User_Roles_Action
 };
 
 return [
@@ -54,7 +55,8 @@ return [
 				->add_hook( $c->get( Multisite_Setup_Validation_Action::class ) )
 				->add_hook( $c->get( Network_Setup_Validation_Action::class ) )
 				->add_hook( $c->get( Jetpack_User_Data_Action::class ) )
-				->add_hook( $c->get( Login_Notices_Filter::class ) );
+				->add_hook( $c->get( Login_Notices_Filter::class ) )
+				->add_hook( $c->get( Update_Option_User_Roles_Action::class ) );
 			
 			return $hook_handler;
 		} )

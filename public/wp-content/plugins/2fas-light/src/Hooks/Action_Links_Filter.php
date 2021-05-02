@@ -20,7 +20,7 @@ class Action_Links_Filter implements Hook_Interface {
 	}
 
 	private function create_link(): string {
-		$url = admin_url( 'admin.php?page=' . Action_Index::TWOFAS_LIGHT_ADMIN_PAGE_SLUG );
+		$url = admin_url( 'admin.php?page=' . Action_Index::TWOFAS_PERSONAL_SETTINGS );
 
 		return '<a href="' . $url . '">Settings</a>';
 	}

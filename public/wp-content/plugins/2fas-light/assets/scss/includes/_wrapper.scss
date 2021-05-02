@@ -61,12 +61,14 @@
   }
 
   a {
+    box-shadow: none;
     outline: none;
     text-decoration: none;
 
     &:hover,
     &:active,
     &:focus {
+      box-shadow: none;
       outline: none;
       text-decoration: none;
     }

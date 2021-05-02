@@ -8,7 +8,8 @@ use TwoFAS\Light\Authentication\Handler\{
 	Login_Handler,
 	Totp_Login,
 	Backup_Login,
-	Trusted_Device_Login
+	Trusted_Device_Login,
+	Login_Configuration
 };
 use TwoFAS\Light\Authentication\Login_Process;
 use TwoFAS\Light\Authentication\Middleware\{
@@ -25,7 +26,9 @@ use TwoFAS\Light\Authentication\Middleware\{
 	Second_Factor_Status_Check,
 	Spammer_Login_Check,
 	SSL,
-	Step_Token_Generator
+	Step_Token_Generator,
+	Trusted_Devices_Allowed_Check,
+	Configuration_Remover
 };
 
 return [
@@ -37,6 +40,8 @@ return [
 				->add_middleware( $c->get( Spammer_Login_Check::class ) )
 				->add_middleware( $c->get( Second_Factor_Status_Check::class ) )
 				->add_middleware( $c->get( Blocked_Account_Check::class ) )
+				->add_middleware( $c->get( Trusted_Devices_Allowed_Check::class ) )
+				->add_middleware( $c->get( Configuration_Remover::class ) )
 				->add_middleware( $c->get( Jetpack_Interceptor::class ) )
 				->add_middleware( $c->get( Step_Token_Generator::class ) )
 				->add_middleware( $c->get( SSL::class ) )
@@ -57,6 +62,7 @@ return [
 	Login_Handler::class => DI\factory( function ( ContainerInterface $c ) {
 			$builder = new Handler_Builder();
 			$builder
+				->add_handler( $c->get( Login_Configuration::class ) )
 				->add_handler( $c->get( Trusted_Device_Login::class ) )
 				->add_handler( $c->get( Totp_Login::class ) )
 				->add_handler( $c->get( Backup_Login::class ) );

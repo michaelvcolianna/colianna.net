@@ -31,7 +31,7 @@
 
                 <div class="twofas-modal-buttons horizontal">
                     <a href="#" class="twofas-btn twofas-download-codes-link" download="2fas_backup_codes.txt">{{ esc_html__('Download', '2fas-light') }}</a>
-                    <form action="{{ create_url(constant('TwoFAS\\Light\\Http\\Action_Index::TWOFAS_LIGHT_ADMIN_PAGE_SLUG'), constant('TwoFAS\\Light\\Http\\Action_Index::TWOFAS_ACTION_PRINT_BACKUP_CODES')) }}"
+                    <form action="{{ create_url(constant('TwoFAS\\Light\\Http\\Action_Index::TWOFAS_PERSONAL_SETTINGS'), constant('TwoFAS\\Light\\Http\\Action_Index::TWOFAS_ACTION_PRINT_BACKUP_CODES')) }}"
                           method="post" target="_blank" rel="noreferrer noopener">
                         {{ create_form_nonce(constant('TwoFAS\\Light\\Http\\Action_Index::TWOFAS_ACTION_PRINT_BACKUP_CODES')) | raw }}
                         <div class="twofas-backup-codes-inputs"></div>

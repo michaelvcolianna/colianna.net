@@ -25,7 +25,9 @@ class Enqueue_Scripts_Action implements Hook_Interface {
 			'twofas_light',
 			[
 				'ajax_url' => admin_url( 'admin.php' ),
-				'twofas_light_menu_page' => Action_Index::TWOFAS_LIGHT_ADMIN_PAGE_SLUG
+				'login_url' =>  wp_login_url(),
+				'twofas_light_personal_settings' => Action_Index::TWOFAS_PERSONAL_SETTINGS,
+				'twofas_light_admin_settings' => Action_Index::TWOFAS_ADMIN_SETTINGS
 			] );
 		wp_set_script_translations( 'twofas-light-js', '2fas-light', TWOFAS_LIGHT_PLUGIN_PATH . 'languages' );
 	}

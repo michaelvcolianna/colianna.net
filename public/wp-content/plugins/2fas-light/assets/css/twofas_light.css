@@ -62,11 +62,13 @@
 }
 
 .twofas-light-wrapper a {
+  box-shadow: none;
   outline: none;
   text-decoration: none;
 }
 
 .twofas-light-wrapper a:hover, .twofas-light-wrapper a:active, .twofas-light-wrapper a:focus {
+  box-shadow: none;
   outline: none;
   text-decoration: none;
 }
@@ -1748,6 +1750,313 @@ body.login .twofas-light-view-renderer-error-container {
   }
 }
 
+.twofas-admin-settings {
+  width: 100%;
+}
+
+.twofas-admin-settings-buttons {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+  width: 100%;
+}
+
+.twofas-admin-settings .twofas-card-body {
+  max-width: 100%;
+  padding: 0;
+}
+
+.twofas-admin-settings .twofas-card-body-content {
+  padding: 22px 40px 0px;
+}
+
+@media all and (max-width: 960px) {
+  .twofas-admin-settings .twofas-card-body-content {
+    padding: 22px 30px 0;
+  }
+}
+
+@media all and (max-width: 800px) {
+  .twofas-admin-settings .twofas-card-body-content {
+    padding: 22px 20px 0;
+  }
+}
+
+@media all and (max-width: 680px) {
+  .twofas-admin-settings .twofas-card-body-content {
+    padding: 20px 20px 0;
+  }
+}
+
+.twofas-admin-settings .twofas-card-body-content table {
+  border-bottom: 1px solid #d4d4d9;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+@media all and (max-width: 680px) {
+  .twofas-admin-settings .twofas-card-body-content table {
+    border-bottom: 0;
+    display: block;
+  }
+
+  .twofas-admin-settings .twofas-card-body-content table tbody,
+            .twofas-admin-settings .twofas-card-body-content table tr {
+    display: block;
+  }
+
+  .twofas-admin-settings .twofas-card-body-content table tr {
+    border-bottom: 1px solid #d4d4d9;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .twofas-admin-settings .twofas-card-body-content table tr:last-of-type {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .twofas-admin-settings .twofas-card-body-content table td {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 22px;
+    width: 100%;
+  }
+}
+
+@media all and (max-width: 680px) {
+  .twofas-admin-settings .twofas-card-body-content table thead {
+    display: none;
+  }
+}
+
+.twofas-admin-settings .twofas-card-body-content table thead tr {
+  vertical-align: bottom;
+}
+
+.twofas-admin-settings .twofas-card-body-content table thead tr th {
+  border-bottom: 1px solid #d4d4d9;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  padding: 0 5px 23px;
+}
+
+@media all and (max-width: 960px) {
+  .twofas-admin-settings .twofas-card-body-content table thead tr th {
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+  }
+}
+
+.twofas-admin-settings .twofas-card-body-content table thead tr th:first-of-type {
+  color: #898989;
+}
+
+.twofas-admin-settings .twofas-card-body-content table tbody tr:first-of-type td {
+  padding-top: 34px;
+}
+
+@media all and (max-width: 960px) {
+  .twofas-admin-settings .twofas-card-body-content table tbody tr:first-of-type td {
+    padding-top: 25px;
+  }
+}
+
+@media all and (max-width: 680px) {
+  .twofas-admin-settings .twofas-card-body-content table tbody tr:first-of-type td {
+    padding-top: 0;
+  }
+}
+
+.twofas-admin-settings .twofas-card-body-content table tbody tr td {
+  color: #000;
+  font-size: 0.875rem;
+  line-height: 1.0625rem;
+  padding-bottom: 34px;
+  text-align: center;
+}
+
+@media all and (max-width: 960px) {
+  .twofas-admin-settings .twofas-card-body-content table tbody tr td {
+    padding-bottom: 25px;
+  }
+}
+
+@media all and (max-width: 680px) {
+  .twofas-admin-settings .twofas-card-body-content table tbody tr td {
+    margin-bottom: 5px;
+    padding-bottom: 0;
+    text-align: left;
+  }
+
+  .twofas-admin-settings .twofas-card-body-content table tbody tr td::before {
+    content: attr(data-rwd-desc);
+  }
+
+  .twofas-admin-settings .twofas-card-body-content table tbody tr td:nth-of-type(1) {
+    font-weight: 700;
+  }
+
+  .twofas-admin-settings .twofas-card-body-content table tbody tr td:nth-of-type(4) {
+    margin-bottom: 0;
+  }
+
+  .twofas-admin-settings .twofas-card-body-content table tbody tr td::before {
+    margin-right: 5px;
+  }
+
+  .twofas-admin-settings .twofas-card-body-content table tbody tr td p {
+    display: inline;
+  }
+}
+
+.twofas-admin-settings .twofas-card-body-content table tr th:first-of-type,
+        .twofas-admin-settings .twofas-card-body-content table tr td:first-of-type {
+  text-align: left;
+}
+
+.twofas-admin-settings .twofas-card-body-content table tr th:last-of-type,
+        .twofas-admin-settings .twofas-card-body-content table tr td:last-of-type {
+  text-align: right;
+}
+
+@media all and (max-width: 680px) {
+  .twofas-admin-settings .twofas-card-body-content table tr th:last-of-type,
+            .twofas-admin-settings .twofas-card-body-content table tr td:last-of-type {
+    text-align: left;
+  }
+}
+
+.twofas-admin-settings .twofas-card-body-footer {
+  border-top: 1px solid #f1f1f1;
+  padding: 22px 0;
+}
+
+@media all and (max-width: 960px) {
+  .twofas-admin-settings .twofas-card-body-footer {
+    padding: 18px 0;
+  }
+}
+
+.twofas-admin-settings .twofas-card-body-footer p {
+  color: #898989;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1rem;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+@media all and (max-width: 960px) {
+  .twofas-admin-settings .twofas-card-body-footer p {
+    font-size: 0.75rem;
+  }
+}
+
+.twofas-admin-settings .twofas-card-body-footer p a {
+  color: #ED1C24;
+}
+
+.twofas-admin-settings h3 {
+  margin-bottom: 23px;
+}
+
+.checkbox-container {
+  display: inline-block;
+}
+
+.checkbox-container input[type='checkbox'] {
+  display: none;
+}
+
+.checkbox-container input:checked + label .unchecked {
+  display: none;
+}
+
+.checkbox-container input:checked + label .checked {
+  display: flex;
+}
+
+.checkbox-container label {
+  border-radius: 50%;
+  display: block;
+  height: 22px;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 22px;
+}
+
+.checkbox-container label .unchecked {
+  border: 2px solid #d4d4d9;
+  border-radius: 50%;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.checkbox-container label .checked {
+  align-items: center;
+  background-color: #ED1C24;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  display: none;
+  height: 100%;
+  justify-content: center;
+  padding: 3px;
+  text-align: center;
+  width: 100%;
+}
+
+.twofas-login-configuration-step {
+  margin-left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+}
+
+.twofas-login-configuration-step .twofas-card {
+  width: 95%;
+}
+
+.twofas-login-configuration-step form {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  font-weight: unset;
+  margin-left: unset;
+  margin-top: unset;
+  overflow: unset;
+  padding: 0;
+}
+
+.twofas-login-configuration-step form input[type="text"] {
+  background-color: transparent;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="none" height="2" viewBox="0 0 195 2" width="195" xmlns="http://www.w3.org/2000/svg"><g fill="%23ed1c24"><rect height="2" rx="1" width="29.5246"/><rect height="2" rx="1" width="28.1514" x="33.6443"/><rect height="2" rx="1" width="29.5246" x="65.9155"/><rect height="2" rx="1" width="29.5246" x="99.5598"/><rect height="2" rx="1" width="28.1514" x="133.204"/><rect height="2" rx="1" width="29.5246" x="165.475"/></g></svg>');
+  background-size: 195px 2px;
+  background-position: bottom left;
+  background-repeat: no-repeat;
+  line-height: 29px;
+  margin: 0 -18.5px 0 0;
+  min-height: unset;
+  padding: 0 0 0 8px;
+  width: 213.5px;
+}
+
+.twofas-light-wrapper + #backtoblog {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
 .twofas-card-body-1 {
   display: flex;
   flex-direction: row;
@@ -2006,6 +2315,19 @@ body.login .twofas-light-view-renderer-error-container {
 
 .twofas-light-login-footer:hover .twofas-light-login-footer-tooltip {
   display: inline;
+}
+
+.twofas-light-login-footer.twofas-login-configuration-footer {
+  bottom: auto;
+  position: relative;
+  margin-right: 30px;
+  right: auto;
+  text-align: right;
+}
+
+.twofas-light-login-footer.twofas-login-configuration-footer .twofas-light-login-footer-tooltip {
+  position: absolute;
+  right: 35px;
 }
 
 .twofas-light-login-footer .twofas-light-login-footer-tooltip {

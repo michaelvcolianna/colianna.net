@@ -9,7 +9,9 @@ use TwoFAS\Light\Http\Middleware\{
 	Check_Nonce,
 	Check_Totp_Configured,
 	Check_Totp_Enabled,
-	Check_Logged_In
+	Check_Logged_In,
+	Check_User_Is_Admin,
+	Create_User
 };
 use TwoFAS\Light\Http\Middleware\Middleware_Bag;
 use WhichBrowser\Parser;
@@ -40,6 +42,8 @@ return [
 		$middleware_bag->add_middleware( 'totp_enabled', $c->get( Check_Totp_Enabled::class ) );
 		$middleware_bag->add_middleware( 'totp_configured', $c->get( Check_Totp_Configured::class ) );
 		$middleware_bag->add_middleware( 'user_logged', $c->get( Check_Logged_In::class ) );
+		$middleware_bag->add_middleware( 'user_created', $c->get( Create_User::class ) );
+		$middleware_bag->add_middleware( 'admin', $c->get( Check_User_Is_Admin::class ) );
 
 		return $middleware_bag;
 	} )

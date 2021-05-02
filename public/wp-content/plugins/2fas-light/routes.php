@@ -2,7 +2,8 @@
 
 use TwoFAS\Light\Http\Action_Index;
 use TwoFAS\Light\Http\Controllers\{
-	Show_Plugin_Page,
+	Personal_Settings_Page,
+	Admin_Settings_Page,
 	Configure_Totp,
 	Remove_Configuration,
 	Reload_QR_Code,
@@ -11,14 +12,16 @@ use TwoFAS\Light\Http\Controllers\{
 	Remove_Trusted_Device,
 	Generate_Backup_Codes,
 	Print_Backup_Codes,
-	Rate_Prompt
+	Rate_Prompt,
+	Update_Obligatory_Roles,
+	Update_Remember_Browser_Allowed_Roles
 };
 
 return [
 	'routes' => [
-		Action_Index::TWOFAS_LIGHT_ADMIN_PAGE_SLUG => [
+		Action_Index::TWOFAS_PERSONAL_SETTINGS => [
 			Action_Index::TWOFAS_ACTION_DEFAULT => [
-				'controller' => Show_Plugin_Page::class,
+				'controller' => Personal_Settings_Page::class,
 				'action'     => 'show_page',
 				'method'     => [ 'GET' ],
 				'middleware' => ['user_logged']
@@ -39,7 +42,7 @@ return [
 				'controller' => Reload_QR_Code::class,
 				'action'     => 'reload',
 				'method'     => [ 'POST' ],
-				'middleware' => ['user_logged', 'nonce', 'ajax']
+				'middleware' => ['user_created', 'ajax']
 			],
 			Action_Index::TWOFAS_ACTION_TOTP_ENABLE => [
 				'controller' => Enable_Totp::class,
@@ -82,6 +85,26 @@ return [
 				'action'     => 'print',
 				'method'     => [ 'POST' ],
 				'middleware' => ['user_logged', 'nonce', 'totp_configured', 'totp_enabled']
+			],
+		],
+		Action_Index::TWOFAS_ADMIN_SETTINGS => [
+			Action_Index::TWOFAS_ACTION_DEFAULT => [
+				'controller' => Admin_Settings_Page::class,
+				'action'     => 'show_page',
+				'method'     => [ 'GET' ],
+				'middleware' => ['user_logged', 'admin']
+			],
+			Action_Index::TWOFAS_ACTION_UPDATE_OBLIGATORY_ROLES => [
+				'controller' => Update_Obligatory_Roles::class,
+				'action'     => 'update',
+				'method'     => [ 'POST' ],
+				'middleware' => ['user_logged', 'ajax', 'nonce', 'admin']
+			],
+			Action_Index::TWOFAS_ACTION_UPDATE_REMEMBER_BROWSER_ALLOWED_ROLES => [
+				'controller' => Update_Remember_Browser_Allowed_Roles::class,
+				'action'     => 'update',
+				'method'     => [ 'POST' ],
+				'middleware' => ['user_logged', 'ajax', 'nonce', 'admin']
 			],
 		],
 	]

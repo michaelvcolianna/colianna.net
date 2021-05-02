@@ -22,6 +22,7 @@
 
     <input type="hidden" name="twofas_light_action" value="{{ actions['verify_totp_code'] }}"/>
 
+    {% if remember_browser_allowed %}
     <p class="forgetmenot">
         <input type="checkbox"
                name="twofas_light_remember_device"
@@ -29,6 +30,7 @@
                 {{ remember_device ? 'checked' : '' }} />
         <label for="twofas_light_device_checkbox">{{ esc_html__( 'Remember browser', '2fas-light' ) }}</label>
     </p>
+    {% endif %}
 
     <p class="submit">
         <input class="button button-primary button-large" type="submit" name="wp-submit" id="wp-submit" value="{{ esc_attr__( 'Log In', '2fas-light' ) }}"/>

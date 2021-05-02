@@ -10,8 +10,8 @@
         </h4>
 
         <div class="twofas-card-body-3-content-totp-token">
-            <form action="{{ create_url(constant('TwoFAS\\Light\\Http\\Action_Index::TWOFAS_LIGHT_ADMIN_PAGE_SLUG'), constant('TwoFAS\\Light\\Http\\Action_Index::TWOFAS_ACTION_CONFIGURE_TOTP')) }}" method="post" class="twofas-light-totp-form js-twofas-light-totp-form">
-                {{ create_form_nonce(constant('TwoFAS\\Light\\Http\\Action_Index::TWOFAS_ACTION_CONFIGURE_TOTP')) | raw }}
+            <form action="#" method="post" class="twofas-light-totp-form js-twofas-light-totp-form">
+                {{ form_nonce|raw }}
                 <label for="twofas-light-totp-token">{{ esc_html__( 'Token:', '2fas-light' ) }}</label>
 
                 <input id="twofas-light-totp-token"
@@ -27,6 +27,7 @@
                 />
 
                 <input class="js-twofas-light-totp-secret-input" name="twofas-light[totp-secret]" type="hidden" value="{{ totp_secret }}" />
+                {% include "includes/authentication_hidden_inputs.html.twig" %}
             </form>
         </div>
     </div>

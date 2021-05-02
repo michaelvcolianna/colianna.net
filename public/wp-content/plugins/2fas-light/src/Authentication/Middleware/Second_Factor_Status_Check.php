@@ -35,7 +35,8 @@ final class Second_Factor_Status_Check extends Middleware {
 	public function handle( $user, $response = null ) {
 		if ( $this->is_wp_user( $user )
 		     && $this->user_storage->is_wp_user_set()
-		     && ( ! $this->user_storage->is_totp_enabled() || ! $this->user_storage->is_totp_configured() ) ) {
+		     && ( ! $this->user_storage->is_totp_enabled() || ! $this->user_storage->is_totp_configured() )
+			 && ! $this->options_storage->has_obligatory_role( $user->roles ) ) {
 			return $this->json( [ 'user_id' => $user->ID ] );
 		}
 		

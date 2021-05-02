@@ -27,6 +27,6 @@ class Remove_Configuration extends Controller {
 	public function remove( Request $request ): Redirect_Response {
 		Dispatcher::dispatch( new Totp_Configuration_Removed( $this->user_storage->get_user_id() ) );
 		
-		return new Redirect_Response( new Action_URL( Action_Index::TWOFAS_LIGHT_ADMIN_PAGE_SLUG ) );
+		return new Redirect_Response( new Action_URL( Action_Index::TWOFAS_PERSONAL_SETTINGS ) );
 	}
 }

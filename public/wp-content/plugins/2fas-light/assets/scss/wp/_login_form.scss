@@ -15,6 +15,19 @@
     }
   }
 
+  &.twofas-login-configuration-footer {
+    bottom: auto;
+    position: relative;
+    margin-right: 30px;
+    right: auto;
+    text-align: right;
+
+    .twofas-light-login-footer-tooltip {
+      position: absolute;
+      right: 35px;
+    }
+  }
+
   .twofas-light-login-footer-tooltip {
     display: none;
     width: 250px;

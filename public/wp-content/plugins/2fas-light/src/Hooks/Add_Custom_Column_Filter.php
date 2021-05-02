@@ -46,7 +46,7 @@ class Add_Custom_Column_Filter implements Hook_Interface {
 		/** @var User_Storage $user_storage */
 		$user_storage = $this->user_factory->make( User_Storage::class );
 		if ( current_user_can( Capabilities::ADMIN ) && $user_storage->get_user_id() === $user->ID ) {
-			$url             = URL::create( Action_Index::TWOFAS_LIGHT_ADMIN_PAGE_SLUG );
+			$url             = URL::create( Action_Index::TWOFAS_PERSONAL_SETTINGS );
 			$actions['2fas'] = '<a href="' . esc_url( $url ) . '" aria-label="' . esc_attr(
 					__( 'Edit your 2FAS settings', '2fas' ) ) . '">2FAS</a>';
 		}

@@ -6,6 +6,8 @@ namespace TwoFAS\Light\Authentication;
 use TwoFAS\Light\Exceptions\User_Not_Found_Exception;
 use TwoFAS\Light\Http\Request\Request;
 use TwoFAS\Light\Storage\Storage;
+use TwoFAS\Light\Totp\QR_Generator;
+use TwoFAS\Light\Totp\Secret_Generator;
 
 class Template_Data {
 	
@@ -17,9 +19,28 @@ class Template_Data {
 	const TWOFAS_LOGIN_REMEMBER_DEVICE = 'twofas_light_remember_device';
 	
 	/**
+	 * @var QR_Generator
+	 */
+	private $qr_generator;
+	
+	/**
+	 * @var Secret_Generator
+	 */
+	private $secret_generator;
+	
+	/**
 	 * @var array
 	 */
 	private $data = [];
+	
+	/**
+	 * @param QR_Generator     $qr_generator
+	 * @param Secret_Generator $secret_generator
+	 */
+	public function __construct( QR_Generator $qr_generator, Secret_Generator $secret_generator ) {
+		$this->qr_generator     = $qr_generator;
+		$this->secret_generator = $secret_generator;
+	}
 	
 	/**
 	 * @param string $key
@@ -68,6 +89,10 @@ class Template_Data {
 		if ( ! empty( $remember_device ) ) {
 			$this->set( 'remember_device', $remember_device );
 		}
+		
+		if ( $request->has_twofas_param( 'totp-secret' ) ) {
+			$this->set( 'totp_secret', $request->get_twofas_param( 'totp-secret' ) );
+		}
 	}
 	
 	/**
@@ -76,11 +101,23 @@ class Template_Data {
 	 * @throws User_Not_Found_Exception
 	 */
 	public function set_from_storage( Storage $storage ) {
-		$user_storage = $storage->get_user_storage();
-		$backup_codes = $user_storage->get_backup_codes();
+		$user_storage    = $storage->get_user_storage();
+		$options_storage = $storage->get_options();
+		$backup_codes    = $user_storage->get_backup_codes();
+		$user_roles      = $user_storage->get_roles();
 		
 		$this->set( 'is_totp_enabled', $user_storage->is_totp_enabled() );
 		$this->set( 'offline_codes_count', is_array( $backup_codes ) ? count( $backup_codes ) : 0 );
+		$this->set( 'remember_browser_allowed', $options_storage->has_remember_browser_allowed_role( $user_roles ) );
+		
+		if ( ! $user_storage->is_totp_enabled()
+		     && ! $user_storage->is_totp_configured()
+		     && $options_storage->has_obligatory_role( $user_storage->get_roles() ) ) {
+			
+			$totp_secret = $this->get('totp_secret') ?? $this->secret_generator->generate_totp_secret();
+			$this->set( 'totp_secret', $totp_secret );
+			$this->set( 'qr_code', $this->qr_generator->generate_qr_code( $totp_secret ) );
+		}
 	}
 	
 	/**

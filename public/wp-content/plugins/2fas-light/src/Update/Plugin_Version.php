@@ -53,7 +53,7 @@ class Plugin_Version {
 	
 	private function is_fresh_installation(): bool {
 		$not_allowed_options = [
-			Options_Storage::TWOFAS_PLUGIN_VERSION,
+			Options_Storage::PLUGIN_VERSION,
 		];
 		
 		foreach ( $not_allowed_options as $option ) {
@@ -67,7 +67,7 @@ class Plugin_Version {
 	
 	private function is_initial_release(): bool {
 		$required_options = [
-			Options_Storage::TWOFAS_PLUGIN_VERSION,
+			Options_Storage::PLUGIN_VERSION,
 		];
 		
 		foreach ( $required_options as $option ) {

@@ -17,6 +17,7 @@
 	    totpForm                     = $( '.js-twofas-light-totp-form' ),
 	    totpFormSubmitBtn            = $( '.js-twofas-totp-submit' ),
 	    totpToken                    = $( '#twofas-light-totp-token' ),
+	    totpConfigurationSubmitBtn   = $( '.js-twofas-totp-login-configuration-submit' ),
 	    backupCode                   = $( '#twofas_light_backup_code' ),
 	    wpNonce                      = $( '#_wpnonce' ),
 	    trustedDevicesBox            = $( '.js-twofas-light-trusted-devices-box' ),
@@ -45,6 +46,7 @@
 	    ratePromptBox                = $( '.js-twofas-rate-plugin-prompt-box' ),
 	    closeRatePromptButton        = $( '.js-twofas-close-rate-prompt' ),
 	    postponeRatePromptButton     = $( '.js-twofas-postpone-rate-prompt' ),
+	    stepCancelButton             = $( '.js-twofas-step-cancel-btn' ),
 	    stepBackButton               = $( '.js-twofas-step-back-btn' ),
 	    stepContinueButton           = $( '.js-twofas-step-continue-btn' ),
 	    stepCard                     = $( '.js-twofas-step-card' ),
@@ -61,17 +63,49 @@
 	    totpToggleCancel             = $( '.js-twofas-toggle-totp-cancel' ),
 	    howBackupCodesWorks          = $( '.js-twofas-how-backup-codes-works' ),
 	    modalHowBackupCodesWorks     = $( '.js-twofas-modal-backup-log-in' ),
+	    modalLoginConfigurationStep  = $( '.js-twofas-modal-login-configuration-step'),
+	    roleCheckBox                 = $('input[type="checkbox"][name^="role"]'),
+	    rolesSaveButton              = $('.js-twofas-save-roles'),
+	    rolesCancelButton            = $('.js-twofas-cancel-roles'),
+	    roleState          = {
+		    initialized: false,
+		    current: null,
+		    changed: null,
+		    update: function( roles ) {
+			    this.current = roles;
+		    },
+		    change: function ( roles ) {
+		    	if (JSON.stringify(roles) !== JSON.stringify(this.current)) {
+				    this.changed = roles;
+			    } else {
+				    this.changed = null;
+			    }
+		    }
+	    },
+
 	    currentStep                  = 1,
 	    modalOpened                  = false,
 	    modalOpenedName              = '',
 	    trustedDeviceObj             = null,
 	    trustedDeviceDeviceID        = null;
 
+		stepBreadcrumb.each(function() {
+			if ($( this ).hasClass('active')) {
+				currentStep = $(this).data('step');
+			}
+		});
+
 	// ------------- EVENTS -------------
 	showPrivateKeyLink.on( 'click', showPrivateKey);
 	reloadQRBtn.on( 'click', reloadQRCode);
-	totpFormSubmitBtn.on( 'click', submitTOTP);
-	totpForm.on( 'submit', submitTOTP);
+	if (totpConfigurationSubmitBtn.length >0) {
+		totpConfigurationSubmitBtn.on( 'click', submitLoginConfigurationTOTP);
+	} else {
+		totpFormSubmitBtn.on( 'click', submitTOTP);
+		totpForm.on( 'submit', submitTOTP);
+	}
+	totpToken.on('keypress', validateInput);
+	totpToken.on('keyup', validateToken);
 	loginForm.on( 'submit', disableWPSubmit);
 	removeConfiguration.on( 'click', showRemoveConfigModal);
 	modalRemoveConfirm.on( 'click', removeConfig);
@@ -92,12 +126,15 @@
 	totpToggleConfirm.on( 'click', disableTotp);
 	totpToggleCancel.on( 'click', cancelDisablingTotp );
 	howBackupCodesWorks.on( 'click', showHowBackupCodesWorksModal);
+	roleCheckBox.on( 'click', changeRoles);
 
 	$( document ).on( 'click', '.js-twofas-remove-trusted-device', openRemoveTrustedDeviceModal );
 	$( document ).on( 'click', '.js-twofas-totp-switch', totpSwitchToggle );
 	$( document ).on( 'click', '.js-twofas-regenerate-backup-codes', showRegenerateBackupCodesConfirm);
 	$( document ).on( 'keyup', closeModalOnEscKey);
 	$( document ).on( 'mouseup', checkModalBackdropHandle);
+	$( document ).on( 'ready', showLoginConfigurationStepModal);
+	$( document ).on( 'ready', showCorrectStep);
 
 	// ------------- FUNCTIONS -------------
 	function setTotpSwitchEnabled () {
@@ -131,7 +168,7 @@
 			url: twofas_light.ajax_url,
 			type: 'post',
 			data: {
-				page: twofas_light.twofas_light_menu_page,
+				page: twofas_light.twofas_light_personal_settings,
 				twofas_light_action: 'twofas-light-hide-notice',
 				action: 'twofas_light_ajax',
 				security: wpNonce.val()
@@ -146,7 +183,7 @@
 			url: twofas_light.ajax_url,
 			type: 'post',
 			data: {
-				page: twofas_light.twofas_light_menu_page,
+				page: twofas_light.twofas_light_personal_settings,
 				twofas_light_action: 'twofas-light-postpone-notice',
 				action: 'twofas_light_ajax',
 				security: wpNonce.val()
@@ -267,7 +304,7 @@
 			url: twofas_light.ajax_url,
 			type: 'post',
 			data: {
-				page: twofas_light.twofas_light_menu_page,
+				page: twofas_light.twofas_light_personal_settings,
 				twofas_light_action: 'twofas-light-reload-qr-code',
 				action: 'twofas_light_ajax',
 				security: wpNonce.val()
@@ -303,7 +340,7 @@
 			url: twofas_light.ajax_url,
 			type: 'post',
 			data: {
-				page: twofas_light.twofas_light_menu_page,
+				page: twofas_light.twofas_light_personal_settings,
 				twofas_light_action: 'twofas-light-configure-totp',
 				twofas_light_totp_secret: totpSecretValue,
 				twofas_light_totp_token: totpTokenValue,
@@ -342,6 +379,11 @@
 		} );
 	}
 
+	function submitLoginConfigurationTOTP( e ) {
+		totpForm.action = twofas_light.login_url;
+		totpForm.submit();
+	}
+
 	function openRemoveTrustedDeviceModal ( e ) {
 		e.preventDefault();
 
@@ -362,7 +404,7 @@
 			type: 'post',
 			data: {
 				device_id: trustedDeviceDeviceID,
-				page: twofas_light.twofas_light_menu_page,
+				page: twofas_light.twofas_light_personal_settings,
 				twofas_light_action: 'twofas-light-remove-trusted-device',
 				action: 'twofas_light_ajax',
 				security: wpNonce.val()
@@ -394,7 +436,7 @@
 			url: twofas_light.ajax_url,
 			type: 'post',
 			data: {
-				page: twofas_light.twofas_light_menu_page,
+				page: twofas_light.twofas_light_personal_settings,
 				twofas_light_action: 'twofas-light-generate-backup-codes',
 				action: 'twofas_light_ajax',
 				security: wpNonce.val()
@@ -453,7 +495,7 @@
 			url: twofas_light.ajax_url,
 			type: 'post',
 			data: {
-				page: twofas_light.twofas_light_menu_page,
+				page: twofas_light.twofas_light_personal_settings,
 				twofas_light_action: action,
 				action: 'twofas_light_ajax',
 				security: wpNonce.val()
@@ -477,6 +519,70 @@
 		} ).always( function() {
 			totpSwitch.attr( 'disabled', false );
 		} );
+	}
+
+	function changeRoles() {
+		var roles = {};
+		roles.obligatory = getObligatoryRoles();
+		roles.trusted = getTrustedBrowsersRoles();
+		roleState.change(roles);
+		if (roleState.changed !== null) {
+			rolesCancelButton.attr( 'disabled', false );
+			rolesSaveButton.attr( 'disabled', false );
+			rolesSaveButton.on( 'click', saveRoles);
+			rolesCancelButton.on( 'click', function( event ) {
+				event.preventDefault();
+				markRoles(roleState.current);
+				changeRoles();
+			});
+		} else {
+			rolesCancelButton.attr( 'disabled', true );
+			rolesSaveButton.attr( 'disabled', true );
+			rolesSaveButton.off( 'click' );
+			rolesCancelButton.off( 'click');
+		}
+	}
+
+	function saveRoles( e ) {
+		e.preventDefault();
+		rolesCancelButton.attr( 'disabled', true );
+		rolesSaveButton.attr( 'disabled', true );
+		var roles = {};
+		roles.obligatory = getObligatoryRoles();
+		roles.trusted = getTrustedBrowsersRoles();
+
+		$.when(
+			$.ajax( {
+				url: twofas_light.ajax_url,
+				type: 'post',
+				data: {
+					page: twofas_light.twofas_light_admin_settings,
+					twofas_light_action: 'twofas-light-update-obligatory-roles',
+					action: 'twofas_light_ajax',
+					security: wpNonce.val(),
+					obligatory_roles: roles.obligatory
+				},
+				dataType: 'json'
+			} ),
+			$.ajax( {
+				url: twofas_light.ajax_url,
+				type: 'post',
+				data: {
+					page: twofas_light.twofas_light_admin_settings,
+					twofas_light_action: 'twofas-light-update-remember-browser-allowed-roles',
+					action: 'twofas_light_ajax',
+					security: wpNonce.val(),
+					remember_browser_allowed_roles: roles.trusted
+				},
+				dataType: 'json'
+			} )
+		).then( function () {
+			roleState.update( roles );
+			showTwofasToast( 'success', __('Roles has been updated', '2fas-light'));
+		}, function () {
+			markRoles( roleState.current );
+			showTwofasToast( 'error', sprintf(__('Something went wrong.%sTry one more time!', '2fas-light'), '<br />' ));
+		});
 	}
 
 	function hideConfigWrapper () {
@@ -551,6 +657,22 @@
 		} else this.value = b;
 	}
 
+	function validateInput( e ) {
+		var pattern = /\d/;
+
+		return pattern.test(e.key)
+	}
+
+	function validateToken() {
+		var pattern = /\d{6}/;
+
+		if (pattern.test(totpToken.val())) {
+			totpFormSubmitBtn.prop('disabled', false);
+		} else {
+			totpFormSubmitBtn.prop('disabled', 'disabled');
+		}
+	}
+
 	function showCorrectStep () {
 		if (currentStep > 3) {
 			currentStep = 3;
@@ -572,6 +694,10 @@
 				stepContinueButton.removeClass('hidden');
 				totpFormSubmitBtn.addClass('hidden');
 
+				if (stepCancelButton.length > 0) {
+					stepCancelButton.removeClass('hidden');
+				}
+
 				break;
 			}
 
@@ -579,6 +705,10 @@
 				stepBackButton.removeClass('hidden');
 				stepContinueButton.removeClass('hidden');
 				totpFormSubmitBtn.addClass('hidden');
+
+				if (stepCancelButton.length > 0) {
+					stepCancelButton.addClass('hidden');
+				}
 
 				break;
 			}
@@ -588,6 +718,11 @@
 				stepContinueButton.addClass('hidden');
 				totpFormSubmitBtn.removeClass('hidden');
 				totpToken.trigger('focus');
+				validateToken();
+
+				if (stepCancelButton.length > 0) {
+					stepCancelButton.addClass('hidden');
+				}
 
 				break;
 			}
@@ -633,7 +768,52 @@
 		showModal(modalHowBackupCodesWorks, '.js-twofas-modal-backup-log-in');
 	}
 
+	function unmarkRoles() {
+		$( 'input:checkbox[name^="role"]' ).each( function() {
+			$( this ).prop( 'checked', false );
+		} );
+	}
+
+	function markRoles( roles ) {
+		unmarkRoles();
+
+		$.each( roles.obligatory, function( index, roleKey ) {
+			$( 'input:checkbox[name="role-obligatory"][value="' + roleKey + '"]' ).prop( 'checked', true );
+		} );
+
+		$.each( roles.trusted, function( index, roleKey ) {
+			$( 'input:checkbox[name="role-trusted"][value="' + roleKey + '"]' ).prop( 'checked', true );
+		} );
+	}
+
+	function getObligatoryRoles() {
+		return $( 'input:checkbox[name="role-obligatory"]:checked' ).map( function() {
+			return this.value;
+		} ).get();
+	}
+
+	function getTrustedBrowsersRoles() {
+		return $( 'input:checkbox[name="role-trusted"]:checked' ).map( function() {
+			return this.value;
+		} ).get();
+	}
+
+	function showLoginConfigurationStepModal() {
+		if (modalLoginConfigurationStep.length > 0) {
+			showModal(modalLoginConfigurationStep, '.js-twofas-modal-login-configuration-step');
+		}
+	}
+
 	// ------------- PAGE SETUP AFTER LOAD -------------
 	formatLastPairedDeviceTimestamp();
 	formatTrustedDeviceAddedOnTimestamps();
+
+	if ( !roleState.initialized ) {
+		var roles = {};
+		roles.obligatory = getObligatoryRoles();
+		roles.trusted = getTrustedBrowsersRoles();
+		roleState.current = roles;
+		roleState.initialized = true;
+	}
+
 })( jQuery );
