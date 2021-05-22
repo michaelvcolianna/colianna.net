@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '5333706ff86d118e320d4cbd7d9039ef14fb2e7d',
+    'reference' => '67ee02b4f74c7a3bc0bfc670d49f92f0c0d00762',
     'name' => 'twofas/wp-plugin-secure',
   ),
   'versions' => 
@@ -200,7 +200,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '5333706ff86d118e320d4cbd7d9039ef14fb2e7d',
+      'reference' => '67ee02b4f74c7a3bc0bfc670d49f92f0c0d00762',
     ),
     'whichbrowser/parser' => 
     array (
