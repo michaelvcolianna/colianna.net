@@ -1,7 +1,7 @@
 {% if twofas_light_login_error is not null %}
-    {{ login_header(esc_html__('Configure two-factor authentication', '2fas-light'), '', twofas_light_login_error) }}
+    {{ login_header(esc_html__('Configure Two Factor Authentication', '2fas-light'), '', twofas_light_login_error) }}
 {% else %}
-    {{ login_header(esc_html__('Configure two-factor authentication', '2fas-light'), '') }}
+    {{ login_header(esc_html__('Configure Two Factor Authentication', '2fas-light'), '') }}
 {% endif %}
 
 <div class="twofas-light-wrapper">

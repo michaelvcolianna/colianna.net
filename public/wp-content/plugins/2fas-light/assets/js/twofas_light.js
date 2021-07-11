@@ -415,7 +415,7 @@
 
 			replaceTrustedDevicesTableHtml( response[ 'twofas_light_trusted_devices' ] );
 
-			showTwofasToast( 'success', sprintf(__('Trusted browser%shas been removed', '2fas-light'), '<br />' ));
+			showTwofasToast( 'success', sprintf(__('The trusted browser%shas been removed', '2fas-light'), '<br />' ));
 		} ).error( function() {
 			showTwofasToast( 'error', sprintf(__('Couldn\'t remove web browser/device.%sPlease try one more time!', '2fas-light'), '<br />' ));
 		} ).always( function() {

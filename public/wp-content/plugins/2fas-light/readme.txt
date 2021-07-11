@@ -3,7 +3,7 @@ Contributors: 2fas
 Tags: 2FA, 2 factor authentication, 2-fa, 2-step verification, 2fa wordpress, two factor authentication, security, multifactor authentication, google authenticator, token, otp, totp
 Requires at least: 5.0
 Tested up to: 5.7
-Requires PHP: 7.0
+Requires PHP: 7.2
 Stable tag: trunk
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -98,6 +98,11 @@ You can either use it privately or for commercial usage without any fees.
 3. Configuring the Two-Factor Authentication in the 2FAS Prime plugin
 
 == Changelog ==
+
+= 3.3 (Jun, 21, 2021) =
+* Minimum required PHP version is now 7.2
+* Fixed bug in Time class
+* Update dependencies
 
 = 3.2.1 (May, 20, 2021) =
 * Fixed bug in Trusted Devices Hook

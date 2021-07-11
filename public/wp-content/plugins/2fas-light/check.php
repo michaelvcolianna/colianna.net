@@ -7,10 +7,10 @@
 $issues = [];
 $missingExtensions = [];
 
-if (! ( PHP_VERSION_ID >= 70000 ) ) {
+if (! ( PHP_VERSION_ID >= 70200 ) ) {
 	$issues[] = sprintf(
 	/* translators: %s: Minimum PHP version */
-		__( '2FAS Prime plugin requires a PHP version ">= 7.0.0". You are running %s.', '2fas-light' ),
+		__( '2FAS Prime plugin requires a PHP version ">= 7.2.0". You are running %s.', '2fas-light' ),
 		PHP_VERSION
 	);
 }
@@ -40,7 +40,7 @@ if ( version_compare( get_bloginfo( 'version' ), TWOFAS_LIGHT_WP_MINIMUM_VERSION
 }
 
 if ( twofas_light_full_plugin_active() ) {
-	$issues[] = __('2FAS plugin has been found as active, therefore light version of the plugin is disabled.', '2fas-light');
+	$issues[] = __('2FAS Classic plugin is active, therefore the Prime version of the plugin is disabled. There can be only one active 2FAS plugin. You can resolve this issue by disabling 2FAS Classic plugin.', '2fas-light');
 }
 
 if( TWOFAS_LIGHT_CHECK_CONFLICTED_PLUGINS && $conflicted_plugins = twofas_light_get_conflicted_plugins()) {

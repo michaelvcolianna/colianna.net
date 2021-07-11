@@ -89,8 +89,8 @@ class Time {
 		if ( ! is_null( $offset ) && ! is_numeric( $offset ) ) {
 			throw new LogicException( 'Incorrect gmt offset' );
 		}
-		$hours   = (int) $offset;
-		$minutes = ( $offset - floor( $offset ) ) * 60;
+		$hours   = (float) $offset;
+		$minutes = ( (float)$offset - floor( (float)$offset ) ) * 60;
 		$offset  = sprintf( '%+03d:%02d', $hours, $minutes );
 		
 		return new DateTimeZone( $offset );
