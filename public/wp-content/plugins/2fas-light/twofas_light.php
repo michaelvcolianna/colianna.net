@@ -3,7 +3,7 @@
  * Plugin Name:       2FAS Prime — Two Factor Authentication
  * Plugin URI:        https://wordpress.org/plugins/2fas-light/
  * Description:       Free, simple and secure token-based authentication for your WordPress. No registration required.
- * Version:           3.3
+ * Version:           3.3.1
  * Requires PHP:      7.2
  * Requires at least: 5.0
  * Author:            Two Factor Authentication Service Inc.

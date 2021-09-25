@@ -5,7 +5,7 @@
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '7f252044f168ba65538096151046329ccb84a593',
+        'reference' => '6b2da0cef311d25a4661c633bdfc94b7bdb432ba',
         'name' => 'twofas/wp-plugin-secure',
         'dev' => false,
     ),
@@ -157,7 +157,7 @@
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '7f252044f168ba65538096151046329ccb84a593',
+            'reference' => '6b2da0cef311d25a4661c633bdfc94b7bdb432ba',
             'dev_requirement' => false,
         ),
         'whichbrowser/parser' => array(
