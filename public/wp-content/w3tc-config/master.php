@@ -1,5 +1,5 @@
 <?php exit; ?>{
-    "version": "2.1.7",
+    "version": "2.2.0",
     "cluster.messagebus.debug": false,
     "cluster.messagebus.enabled": false,
     "cluster.messagebus.sns.region": "",
@@ -937,6 +937,10 @@
     "plugin.license_key": "",
     "plugin.type": "",
     "jquerymigrate.disabled": false,
+    "imageservice": {
+        "compression": "lossy",
+        "auto": "enabled"
+    },
     "minify.css.combine": false,
     "common.support": "",
     "fragmentcache": {

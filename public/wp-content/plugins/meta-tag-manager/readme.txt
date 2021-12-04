@@ -1,29 +1,43 @@
 === Meta Tag Manager ===
 Contributors: netweblogic
-Tags: google, SEO, yahoo, tags, webmaster tools, meta, meta tags, ogp, open graph, twitter cards
+Tags: google, SEO, yahoo, tags, webmaster tools, meta, meta tags, meta-tags, og, ogp, open graph, twitter cards, schema, rich-snippets, structured-data
 Text Domain: meta-tag-manager
 Requires at least: 3.6
-Tested up to: 5.7
-Stable tag: 2.2
+Tested up to: 5.8.1
+Stable tag: 3.0.2
 
 Easily add and manage custom meta tags to various parts of your site or on individual posts, such as Yahoo and Google verification tags.
 
 == Description ==
 
-<blockquote>Meta Tag Manager 2.0 is a complete rewrite with many improvments on the first versions. Whilst there are many improvements, this first rewrite isn't a great departure from the original plugin, although it adds some fundemental improvements. 
+<blockquote>Meta Tag Manager 3.0 builds on the great success of 2.0 and also marks the launch of our <a href="https://metatagmanager.com/gopro/?utm_source=plugin-readme&utm_medium=plugin&utm_campaign=plugin">new Pro Add-on</a>. Since 2009 we've provided a freely available, regularly maintained plugin with support and we hope to continue doing so for many years to come!
 
 We have plenty of ideas of what to add to the plugin, we'd love to hear your suggestions too, please let us know on our <a href="https://wordpress.org/support/plugin/meta-tag-manager">support forums</a>.</blockquote>
 
 Meta Tags Manager is a simple, lightweight plugin which allows you to add custom meta tags to your site. Features include:
 
 * Supports meta tags including the name, property, http-equiv, charset and itemprop attributes.
+* Choose from predefined types, such as 'name="keyword"' or create your own by typing it in.
 * Add meta tags to specific posts, choose what Custom Post Types to support from our settings page.
 * Add global meta tags that will display on specific CPTs, Taxonomies, your front page or your whole site.
+* Automatically add Open Graph details to your home page.
+* Automatically add Schema and Structured Data to your home page.
+* Add Google Sitelinks and Sitelinks Search markup.
+* Easily add verification codes for services like Facebook, Google Webmaster Tools, Bing Webmaster Tools, Yandex and more (or... create your own custom meta tags!).
 
 Use cases include:
 
 * Adding Google and Yahoo site verification tags
 * Adding additional open graph, twitter card or other social media meta info not supported by other SEO/Meta plugins
+
+<a href="https://metatagmanager.com/gopro/?utm_source=plugin-readme&utm_medium=plugin&utm_campaign=plugin">Go Pro</a> for many newly added features, including:
+
+* Dynamic placeholders to include data about the page being displayed, such as page title, comment count, thumbnail URLs and more!
+* Additional contexts to add global meta tags, as well as exclusion rules for finer-grained controls.
+* Shortcode support within meta descriptions, allowing for more dynamic data insertion with plugins such as ACF
+* Unique tag detaction of Meta Tag Manager tags with hierarchical precedence, avoid creating duplicate meta tags.
+* Taxonomy support - create meta tags for individual taxonomy term pages such as a single tag or category.
+* More to come! Go Pro now and get an early-bird discount of up to 50%!
 
 == Installation ==
 
@@ -69,6 +83,43 @@ Please visit our <a href="https://wordpress.org/support/plugin/meta-tag-manager"
 3. If enabled you can add meta tags to a specific post in it's own meta box
 
 == Changelog ==
+= 3.0.2 =
+* fixed bug preventing settings from saving if schema settings are not selected
+* added backward compatibility to 4.9 by allowing determine_locale() > get_locale() fallback
+
+= 3.0.1 =
+* fixed issues with schema settings saving
+* fixed open graph twitter test link
+* fixed some admin notice dismiss issues
+
+= 3.0 =
+* added open graph settings and support for home page
+* added twitter card open graph settings and support for home page
+* added schema / structured data / rich snippets front-page support
+* added easy site verification settings
+* added SCRIPT_DEBUG and MTM_DEBUG constant checks to decide whether to load non-minified files
+* moved context checking for a tag into MTM_Tag functions,
+* added Meta_Tag_Manager::is_archive()
+* fixed Meta_Tag_Manager::is_archive_page() to account for static posts page
+* added multiple actions and filters to MTM_Builder output
+* added multiple actions and filters to MTM_Tag object
+* fixed Array PHP caused by potentially non-existent contexts in a meta tag admin panel
+* added extra sanitization/validation of submitted context list in a tag
+* added MTM_Builder::get_contexts_list() to remove redundant code when excluding
+* tweaked JS and display issues for showing context lists in header of admin meta tag card
+* fixed css aesthetic issue when clicking a selectize active item turing grey
+* tweaked context selectize js to be more flexible and reusable for other context fields
+* moved admin-related files into admin folder
+* moved settings tab sections into dedicated files
+* moved handling of setting saving to Meta_Tag_Manager_Admin with a redirect instead of saving on same page load
+
+= 2.3 =
+* added multiple filters and actions for easier extension
+* added use of overridable MTM_Tag::get_content() during the output() method
+* fixed empty choice of post types resulting in 'Array' default selection value
+* fixed display/functionality issues of MTM editor in post editors when no custom post types are chosen for MTM inclusion on settings page
+* added facebook-domain-verification name type selection
+
 = 2.2 =
 * updated jQuery scripts to remove deprecated functions in jQuery 3.5
 * updated selectize.js library to 0.13.3

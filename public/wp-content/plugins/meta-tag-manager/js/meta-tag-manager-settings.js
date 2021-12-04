@@ -29,8 +29,9 @@ jQuery(document).ready(function($){
 		}
 	}else{
 		//set to general tab by default, so we can also add clicked subsections
-		document.location = navUrl+"#builder";
+		document.location = navUrl+"#custom-meta-tags";
 	}
+	$('.tabs-active .nav-tab-wrapper .nav-tab.nav-tab-active').trigger('click');
 	$('.nav-tab-link').on('click', function(){ $($(this).attr('rel')).trigger('click'); }); //links to mimick tabs
 	$('input[type="submit"]').on('click', function(){
 		var el = $(this).parents('.postbox').first();
@@ -44,5 +45,72 @@ jQuery(document).ready(function($){
 			}
 		}
 		document.location = newloc;
+	});
+
+	// settings trigger
+	$('.mtm-settings-binary-trigger').on('change', function(){
+		var el = $(this);
+		if( el.prop('checked') ){
+			$(el.data('trigger-content')).show();
+		}else{
+			$(el.data('trigger-content')).hide();
+		}
+	}).trigger('change');
+
+	// image uploader
+
+	jQuery(document).ready( function($) {
+
+		$('.mtm-image-upload input.mtm-image-upload-submit').on('click', function(e) {
+			e.preventDefault();
+			var wrap = $(this).closest('.mtm-image-upload');
+			var image_frame;
+			if(image_frame){
+				image_frame.open();
+			}
+			image_frame = wp.media({
+				title: 'Select Media',
+				multiple : false,
+				library : {
+					type : 'image',
+				}
+			});
+			image_frame.on('close',function() {
+				// get selections and save to hidden input plus other AJAX stuff etc.
+				var selection =  image_frame.state().get('selection');
+				var gallery_ids = new Array();
+				var my_index = 0;
+				selection.each(function(attachment) {
+					gallery_ids[my_index] = attachment['id'];
+					my_index++;
+				});
+				var ids = gallery_ids.join(",");
+				wrap.find('.mtm-image-upload-input').val(ids);
+				// refresh image
+				var data = {
+					action: wrap.data('action'),
+					id: ids
+				};
+				jQuery.get( ajaxurl, data, function (response) {
+					if (response.success === true) {
+						wrap.find('.mtm-image-upload-preview').html(response.data.image);
+					}
+				});
+			});
+			image_frame.on('open',function() {
+				var selection =  image_frame.state().get('selection');
+				ids = wrap.find('.mtm-image-upload-input').val().split(',');
+				ids.forEach(function(id) {
+					attachment = wp.media.attachment(id);
+					attachment.fetch();
+					selection.add( attachment ? [ attachment ] : [] );
+				});
+
+			});
+			image_frame.on('toolbar:create:select',function() {
+				image_frame.state().set('filterable', 'uploaded');
+			});
+			image_frame.open();
+		});
 	});
 });

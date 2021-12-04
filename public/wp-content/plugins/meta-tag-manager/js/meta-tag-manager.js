@@ -27,38 +27,57 @@ jQuery(document).ready( function($) {
 			}
 		});
 		//add selectize for contexts, which is a tag-style selection
-		container.find('.mtm-field-input-tag-context').selectize({
+		var selectize_context_options = {
 			plugins: ['remove_button'],
-		    maxItems: 100,
-		    closeAfterSelect: true,
-		    //add some extra functions in case 'all' is selected, hence no need to select other things
-		    onItemAdd: function(value, item){
-		    	if( this.items.length > 1 ){
-			    	if( value == 'all' ){
-			    		this.clear(true);
-			    		this.addItem('all', true);
-			    		//this.settings.maxItems = 1;
-			    	}else if( this.getItem('all').length ){ 
-			    		this.removeItem('all', true); 
-			    	}
-		    	}
-		    },
-		    //update display values on header of field card
-		    onChange: function(items){
-		    	var values = [];
-		    	if( typeof items == 'object' && items ){
-			    	items.forEach(function(item){
-			    		values.push(this.getItem(item).text().replace(/×$/i, ''));
-			    	}, this);
-		    	}
-		    	this.$control.closest('.mtm-field').find('.mtm-meta-context-values').text(values.join(', '));		    	
-		    }
-		}).on('click', function(){ this.selectize.open(); });
+			maxItems: 100,
+			closeAfterSelect: true,
+			//add some extra functions in case 'all' is selected, hence no need to select other things
+			onItemAdd: function(value, item){
+				if( this.items.length > 1 ){
+					if( value == 'all' ){
+						this.clear(true);
+						this.addItem('all', true);
+						//this.settings.maxItems = 1;
+					}else if( this.getItem('all').length ){
+						this.removeItem('all', true);
+					}
+				}
+			},
+			//update display values on header of field card
+			onChange: function(items){
+				var field = this.$control.closest('.mtm-field');
+				var context_class = $(this.$input[0]).data('values-container');
+				var context_text_class = $(this.$input[0]).data('values-text');
+				var context_default = $(this.$input[0]).data('values-default');
+				if( items.length == 0 ){
+					if( context_default ){
+						var default_option = this.options[context_default];
+						var default_text = this.options.all.text;
+						field.find('.' + context_text_class).text(default_text);
+					}else{
+						field.find('.' + context_text_class).text('');
+						field.find('.' + context_class).first().hide();
+					}
+				}else {
+					var values = [];
+					if (typeof items == 'object' && items) {
+						items.forEach(function (item) {
+							values.push(this.getItem(item).text().replace(/×$/i, ''));
+						}, this);
+					}
+					field.find('.' + context_class).first().show();
+					field.find('.' + context_text_class).text(values.join(', '));
+				}
+			}
+		};
+		$(document).triggerHandler('mtm_selectize_context_options', [selectize_context_options]);
+		container.find('.mtm-field-input-tag-context').selectize(selectize_context_options).on('click', function(){ this.selectize.open(); });
 		//general selectize for other selectizable dropdowns
 		container.find('.mtm-field-input-selectize').selectize({
 		    create: true,
 		});
 		container.find('.mtm-field-input-tag-reference').hide();
+		$(document).triggerHandler('mtm_tag_init', [container]);
 	}
 	//init displayed fields on page load
 	$('.mtm-builder .mtm-fields .mtm-field').addClass('closed')

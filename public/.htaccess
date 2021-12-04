@@ -130,7 +130,7 @@
 <FilesMatch "\.(css|htc|less|js|js2|js3|js4|CSS|HTC|LESS|JS|JS2|JS3|JS4)$">
     FileETag MTime Size
     <IfModule mod_headers.c>
-         Header unset Set-Cookie
+        Header unset Set-Cookie
     </IfModule>
 </FilesMatch>
 <FilesMatch "\.(html|htm|rtf|rtx|txt|xsd|xsl|xml|HTML|HTM|RTF|RTX|TXT|XSD|XSL|XML)$">
@@ -141,13 +141,8 @@
     <IfModule mod_headers.c>
         Header set Pragma "public"
         Header append Cache-Control "public"
-         Header unset Set-Cookie
-         Header set X-Powered-By "W3 Total Cache/2.1.7"
-    </IfModule>
-</FilesMatch>
-<FilesMatch "\.(bmp|class|doc|docx|eot|exe|ico|json|mdb|webm|mpp|otf|_otf|odb|odc|odf|odg|odp|ods|odt|ogg|pdf|pot|pps|ppt|pptx|svg|svgz|swf|tif|tiff|ttf|ttc|_ttf|wav|wri|woff|woff2|xla|xls|xlsx|xlt|xlw|BMP|CLASS|DOC|DOCX|EOT|EXE|ICO|JSON|MDB|WEBM|MPP|OTF|_OTF|ODB|ODC|ODF|ODG|ODP|ODS|ODT|OGG|PDF|POT|PPS|PPT|PPTX|SVG|SVGZ|SWF|TIF|TIFF|TTF|TTC|_TTF|WAV|WRI|WOFF|WOFF2|XLA|XLS|XLSX|XLT|XLW)$">
-    <IfModule mod_headers.c>
-         Header unset Last-Modified
+        Header unset Set-Cookie
+        Header set X-Powered-By "W3 Total Cache/2.2.0"
     </IfModule>
 </FilesMatch>
 <IfModule mod_headers.c>

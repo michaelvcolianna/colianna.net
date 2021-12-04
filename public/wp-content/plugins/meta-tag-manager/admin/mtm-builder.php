@@ -21,9 +21,13 @@ class MTM_Builder {
 	public static function output($meta_tags, $args = array() ){
 		?>
 		<div class="mtm-builder">
+			<?php do_action('mtm_builder_output_top'); ?>
 			<div class="mtm-fields<?php if( empty($args['context']) ): ?> no-context<?php endif; ?><?php if( empty($args['reference']) ): ?> no-reference<?php endif; ?>">
 				<?php
 					$i = 0;
+					if( !empty($args['context']) && empty($args['context-placeholder']) ){
+						$args['context-placeholder'] = apply_filters('mtm_builder_context_placeholder', esc_html__('choose contexts, leave blank for all pages', 'meta-tag-manager'), $meta_tags, $args);
+					}
 					foreach( $meta_tags as $tag ){
 						self::output_field($i, $tag, $args);
 						$i++;
@@ -50,19 +54,23 @@ class MTM_Builder {
 				<?php endforeach; ?>
 			</div>
 			<button type="button" class="button-secondary mtm-add-field"><span class="dashicons dashicons-plus"></span> <?php esc_html_e('Add Meta Tag','meta-tag-manager'); ?></button>
+			<?php do_action('mtm_builder_output_bottom'); ?>
 		</div>		
 		<?php
 	}
 
 	public static function output_field( $i = '', $tag, $args = array() ){
+		if( !empty($args['context']) && empty($args['context-placeholder']) ) $args['context-placeholder'] = esc_html__('choose contexts, leave blank for all pages', 'meta-tag-manager');
 		?>
 		<div class="mtm-field">
 			<div class="mtm-field-header">
 				<div class="mtm-field-header-toggle"></div>
 				<div class="mtm-col-sort"><span class="dashicons dashicons-sort"></span></div>
+				<?php do_action('mtm_builder_output_field_header_top', $i, $tag, $args ); ?>
 				<div class="mtm-field-title">
 					<?php if( !empty($args['reference']) ): ?>
 					<div class="mtm-meta-reference">
+						<?php do_action('mtm_builder_output_field_header_reference_top', $i, $tag, $args ); ?>
 						<?php $reference = empty($tag->reference) ? __('Custom Meta Tag','meta-tag-manager') : $tag->reference; ?>	
 						<span class="mtm-meta-reference-value" title="<?php esc_attr_e('Custom Meta Tag Reference','meta-tag-manager'); ?>"><?php echo esc_html($reference); ?></span>
 						<label class="mtm-field-input-reference">		
@@ -70,29 +78,17 @@ class MTM_Builder {
 							<input type="text" name="mtm-fields[<?php echo esc_attr($i); ?>][reference]" value="<?php echo esc_attr($tag->reference); ?>" placeholder="<?php esc_html_e('optional reference name', 'meta-tag-manager'); ?>"  class="mtm-field-input-tag-reference" />
 						</label>
 						<?php if( !empty($args['context']) ): ?>
-						<span class="mtm-meta-context">
+						<span class="mtm-meta-context mtm-meta-context-container">
 							<span class="dashicons dashicons-admin-page"></span>
 							<span class="mtm-meta-context-values">
-							<?php
-							$context_value = empty($tag->context) ? array('all') : $tag->context; 
-							$display_contexts = array();
-							foreach( self::get_context_options() as $context_label => $context_option ){
-								if( is_array($context_option) ){
-									foreach( $context_option as $context_option_label => $context_option_value )
-									if( in_array($context_option_value, $context_value) ){
-										$display_contexts[] = $context_option_label;
-									}
-								}else{
-									if( in_array($context_option, $context_value) ){
-										$display_contexts[] = $context_label;
-									}
-								}
-							}
-							echo implode(', ', $display_contexts);
-							?>
+								<?php
+								$context_value = empty($tag->context) ? array('all') : $tag->context;
+								echo static::get_contexts_list( $context_value );
+								?>
 							</span>
 						</span>
 						<?php endif; ?>
+						<?php do_action('mtm_builder_output_field_header_reference_bottom', $i, $tag, $args ); ?>
 					</div>
 					<?php endif; ?>
 					<code>
@@ -111,8 +107,10 @@ class MTM_Builder {
 					</code>
 					<a class="mtm-field-remove" title="<?php esc_attr_e('Remove Meta Tag','meta-tag-manager'); ?>"><span class="dashicons dashicons-trash"></span></a>
 				</div>
+				<?php do_action('mtm_builder_output_field_header_bottom', $i, $tag, $args ); ?>
 			</div>
 			<div class="mtm-field-data">
+				<?php do_action('mtm_builder_output_field_data_top', $i, $tag, $args ); ?>
 				<div class="mtm-field-input mtm-field-type-type">
 					<label> 
 						<span class="mtm-field-input-label"><?php esc_html_e('Tag Type','meta-tag-manager'); ?></span> 
@@ -148,50 +146,18 @@ class MTM_Builder {
 				<?php if( !empty($args['context']) ): ?>
 				<div class="mtm-field-input mtm-field-input-context">
 					<label> 
-						<span class="mtm-field-input-label"><?php echo esc_html_e('Where to display this tag','meta-tag-manager'); ?></span> 
-						<select name="mtm-fields[<?php echo esc_attr($i); ?>][context][]" class="mtm-field-input-tag-context" multiple>
-							<option value=""><?php esc_html_e('choose one or more contexts', 'meta-tag-manager'); ?></option>
+						<span class="mtm-field-input-label"><?php esc_html_e('Where to display this tag','meta-tag-manager'); ?></span>
+						<select name="mtm-fields[<?php echo esc_attr($i); ?>][context][]" class="mtm-field-input-tag-context mtm-field-input-tag-context-select" multiple  data-values-text="mtm-meta-context-values" data-values-container="mtm-meta-context-container" data-values-default="all">
+							<option value=""><?php echo $args['context-placeholder']; ?></option>
 							<?php
 								$context_options = self::get_context_options();
-								echo self::output_select_options($context_options, $context_value);
+								echo self::output_select_options($context_options, $tag->context, false);
 							?>
 						</select>
 					</label>
 				</div>
 				<?php endif; ?>
-				<?php 
-				/*
-				This is currently shelved as a feature unless there's demand, due to the extra work involved.
-				The intention of the bit below is to allow for extra custom attributes since the meta tag does allow for various global attributes. 
-				https://www.w3.org/TR/html5/document-metadata.html#the-meta-element
-				If you're reading this and you want to see this functionality, drop us a line on the support forums (and maybe a little context as for why)
-				so we know there's demand for it!
-				*/
-				/*
-				<div class="mtm-field-section">
-					<div class="mtm-field-section-header">
-						<div class="mtm-field-section-toggle"></div>
-						<div class="mtm-field-section-title"><?php esc_html_e('Additional Attributes (Advanced)','meta-tag-manager'); ?></div>
-					</div>
-					<div class="mtm-field-section-data">
-						<div class="mtm-field-type-custom">
-							<div class="mtm-field-input mtm-field-type-custom-name">
-								<label>
-									<span class="screen-reader-text"><?php sprintf(esc_html_x('Custom %s', 'label for custom attribute name/value fields', 'meta-tag-manager'),esc_html__('attribute name','meta-tag-manager')); ?></span>
-									<input type="text" name="mtm-fields[<?php echo esc_attr($i); ?>][][label]" value="" placeholder="<?php esc_attr_e('attribute name','meta-tag-manager'); ?>" />
-								</label>
-							</div>
-							<div class="mtm-field-input mtm-field-type-custom-value">
-								<label>
-									<span class="screen-reader-text"><?php sprintf(esc_html_x('Custom %s', 'label for custom attribute name/value fields', 'meta-tag-manager'),esc_html__('attribute value','meta-tag-manager')); ?></span>
-									<input type="text" name="mtm-fields[<?php echo esc_attr($i); ?>][][label]" value="" placeholder="<?php esc_attr_e('attribute value','meta-tag-manager'); ?>" />
-								</label>
-							</div>
-						</div>
-						<br class="clear" />
-					</div>
-				</div>
-				*/ ?>
+				<?php do_action('mtm_builder_output_field_data_bottom', $i, $tag, $args ); ?>
 				<div class="mtm-field-actions">
 					<button type="button" class="button-secondary mtm-field-close"><?php esc_html_e('Close Meta Tag Options','meta-tag-manager'); ?></button>
 				</div>
@@ -217,30 +183,54 @@ class MTM_Builder {
 				}
 			}
 		}
-		if( !preg_match('/selected="selected"/', $html) && $selected != '' && $add_selected_option ){
+		if( !preg_match('/selected="selected"/', $html) && !empty($selected) && $add_selected_option ){
 		    //value not existing, so we add it as an option
-		    $html = '<option selected="selected">'.esc_html($selected).'</option>' . $html;
+			if( is_array($selected) ){
+				foreach( $selected as $s ){
+					$html = '<option selected="selected">'.esc_html($s).'</option>' . $html;
+				}
+			}else{
+				$html = '<option selected="selected">'.esc_html($selected).'</option>' . $html;
+			}
 		}
-		return $html;
+		return apply_filters('mtm_builder_output_select_options', $html, $options, $selected, $add_selected_option);
+	}
+	
+	public static function get_contexts_list( $contexts ){
+		if( empty($contexts) ) return '';
+		$display_contexts = array();
+		foreach( self::get_context_options() as $context_label => $context_option ){
+			if( is_array($context_option) ){
+				foreach( $context_option as $context_option_label => $context_option_value )
+					if( in_array($context_option_value, $contexts) ){
+						$display_contexts[] = $context_option_label;
+					}
+			}else{
+				if( in_array($context_option, $contexts) ){
+					$display_contexts[] = $context_label;
+				}
+			}
+		}
+		return apply_filters('mtm_builder_get_contexts_list', implode(', ', $display_contexts), $display_contexts, $contexts);
 	}
 
 	public static function get_context_options(){
 		if( !empty(self::$context_options) ) return self::$context_options;
-		$context_options = array(
+		$context_options = apply_filters('mtm_builder_context_options_main', array(
 				__('All Pages', 'meta-tag-manager') => 'all',
 				__('Front Page', 'meta-tag-manager') => 'home'
-		);
-		//Post Types
+		));
+		// Post Types
 		$post_types_label = __('Post Types', 'meta-tag-manager');
 		foreach( get_post_types(array('public'=>true), 'objects') as $post_type){
 			$context_options[$post_types_label][$post_type->labels->name] = 'post-type_' . $post_type->name;
 		}
-		//Taxonomies
+		// Taxonomies
 		$taxonomies_label = __('Taxonomies', 'meta-tag-manager');
 		foreach( get_taxonomies(array('public'=>true), 'objects') as $taxonomy ){
 			$context_options[$taxonomies_label][$taxonomy->labels->name] = 'taxonomy_' . $taxonomy->name;
 		}
-		self::$context_options = $context_options;
+		self::$context_options = apply_filters('mtm_builder_context_options', $context_options);
 		return $context_options;
 	}
 }
