@@ -9,7 +9,8 @@
         <meta property="og:type" content="website">
         <meta name="twitter:card" content="summary">
         <meta property="description" content="{{ $description }}">
-        <meta name="twitter:image" content="">
+        <meta property="og:description" content="{{ $description }}">
+        <meta property="og:image" content="{{ asset('images/colianna-card.gif') }}">
         <style>{!! $css !!}</style>
     </head>
 
