@@ -10,9 +10,15 @@
         WordPress, and Contentful – from APIs to product information sites. All
         of his recent projects integrate some form of workflow to handle assets
         – usually Webpack to compile. Most is CI, currently deployed using
-        BitBucket + Circle, with features/bugs/changes managed in JIRA. He’s
-        constantly learning new ways to do things, however, and can generally
-        pick up a technology within a few hours.
+        BitBucket + Circle, with features/bugs/changes managed in JIRA.
+    </p>
+
+    <p>
+        Michael’s constantly seeking new ways to do things, however, and he can
+        generally pick up a technology within a few hours. As an example of
+        that, Michael learned React (albeit via Gatsby), as well as how to
+        implement Vue in a Nuxt project, then deployed those sites through
+        Netlify — all in the space of a week.
     </p>
 
     <x-figure
