@@ -1,4 +1,5 @@
-.env
-composer.lock
-/public/wp-content/cache
-/vendor
+node_modules/
+.cache/
+.env*
+!.env.example
+public
