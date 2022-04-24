@@ -1,4 +1,5 @@
 import * as React from "react"
+import { graphql } from 'gatsby'
 
 const WorkPage = (data) => {
   return (
@@ -8,5 +9,33 @@ const WorkPage = (data) => {
     </main>
   )
 }
+
+export const query = graphql`
+  query($slug: String!) {
+    contentfulWork(slug: {eq: $slug}) {
+      title
+      description {
+        childMarkdownRemark {
+          excerpt
+        }
+      }
+      date
+      hero {
+        gatsbyImageData(placeholder: BLURRED)
+      }
+      body {
+        raw
+        references {
+          ... on ContentfulAsset {
+            title
+            description
+            gatsbyImageData(placeholder: BLURRED)
+            __typename
+          }
+        }
+      }
+    }
+  }
+`
 
 export default WorkPage
