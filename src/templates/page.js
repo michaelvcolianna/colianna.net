@@ -12,7 +12,7 @@ const RegularPage = (data) => {
 
 export const query = graphql`
   query($slug: String!) {
-    contentfulPage(slug: {eq: $slug}) {
+    page: contentfulPage(slug: {eq: $slug}) {
       title
       name
       description {

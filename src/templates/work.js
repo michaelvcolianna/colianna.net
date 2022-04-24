@@ -12,7 +12,7 @@ const WorkPage = (data) => {
 
 export const query = graphql`
   query($slug: String!) {
-    contentfulWork(slug: {eq: $slug}) {
+    work: contentfulWork(slug: {eq: $slug}) {
       title
       description {
         childMarkdownRemark {
