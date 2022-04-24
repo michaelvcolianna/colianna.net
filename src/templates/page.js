@@ -1,18 +1,41 @@
 import * as React from "react"
 import { graphql } from 'gatsby'
 
-const RegularPage = (data) => {
-  return (
-    <main>
-      <h1>Regular Page</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </main>
-  )
+import Seo from '../components/seo'
+
+const RegularPage = ({
+  data,
+  data: {
+    page: {
+      isHome,
+      slug,
+      title,
+      name,
+      description: {
+        childMarkdownRemark: {
+          excerpt: description
+        }
+      },
+      body
+    }
+  }
+}) => {
+  return (<>
+    <Seo
+      customTitle={title || name}
+      customDescription={description || null}
+      customUrl={isHome ? null : slug}
+    />
+
+    <pre>{JSON.stringify(data, null, 2)}</pre>
+  </>)
 }
 
 export const query = graphql`
   query($slug: String!) {
     page: contentfulPage(slug: {eq: $slug}) {
+      isHome
+      slug
       title
       name
       description {

@@ -2,6 +2,8 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
+const appUrl = process.env.APP_URL || `https://colianna.net`;
+
 const contentfulConfig = {
   spaceId: process.env.CONTENTFUL_SPACE_ID,
   accessToken:
@@ -37,7 +39,9 @@ if (!spaceId || !accessToken) {
 module.exports = {
   siteMetadata: {
     title: `colianna.net`,
-    siteUrl: `https://www.colianna.net`
+    description: `Michael V. Colianna’s author and web developer site.`,
+    url: appUrl,
+    image: 'colianna-card.gif',
   },
   plugins: [
     "gatsby-transformer-remark",
