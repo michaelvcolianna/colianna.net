@@ -38,6 +38,7 @@ if (!spaceId || !accessToken) {
 
 module.exports = {
   siteMetadata: {
+    siteUrl: appUrl,
     title: `colianna.net`,
     description: `Michael V. Colianna’s author and web developer site.`,
     url: appUrl,
