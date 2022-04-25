@@ -1,5 +1,6 @@
 import * as React from "react"
 import { graphql } from 'gatsby'
+import { GatsbyImage } from "gatsby-plugin-image"
 
 import Seo from '../components/seo'
 import RichText from '../components/rich-text'
@@ -17,7 +18,9 @@ const WorkPage = ({
       },
       date,
       hero: {
-        gatsbyImageData: image
+        title: heroAlt,
+        description: heroCaption,
+        gatsbyImageData: hero
       },
       body
     }
@@ -28,10 +31,19 @@ const WorkPage = ({
       customTitle={title}
       customDescription={description}
       customUrl={`work/${slug}`}
-      customImage={image}
+      customImage={hero}
     />
 
     <pre>{date}</pre>
+
+    <div>
+      <GatsbyImage
+        image={hero}
+        alt={heroAlt}
+      />
+
+      <p>{heroCaption}</p>
+    </div>
 
     <RichText richText={body} />
   </>)
@@ -49,6 +61,8 @@ export const query = graphql`
       }
       date
       hero {
+        title
+        description
         gatsbyImageData(placeholder: BLURRED)
       }
       body {
@@ -59,6 +73,11 @@ export const query = graphql`
             title
             description
             gatsbyImageData(placeholder: BLURRED)
+            __typename
+          }
+          ... on ContentfulWork {
+            contentful_id
+            slug
             __typename
           }
         }
