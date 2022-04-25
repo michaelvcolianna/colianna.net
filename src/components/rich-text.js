@@ -16,13 +16,19 @@ const options = {
         href={node.data.uri}
         target="_blank"
         rel="noreferrer noopener"
+        aria-describedby="external-link-label"
       >
         {children}
       </a>
     ),
-    [INLINES.ENTRY_HYPERLINK]: (node, children) => (
-      <a href={node.data.target.slug}>{children}</a>
-    ),
+    [INLINES.ENTRY_HYPERLINK]: (node, children) => {
+      const pageType = node.data.target.__typename.replace('Contentful', '/').toLowerCase()
+      const pathPrefix = pageType === '/work'
+        ? pageType
+        : null
+
+      return <a href={`${pathPrefix}/${node.data.target.slug}`}>{children}</a>
+    },
     [BLOCKS.HEADING_1]: (node, children) => <h2 data-heading="h1">{children}</h2>,
     [BLOCKS.PARAGRAPH]: (node, children) => {
       return node.content[0].value === ''

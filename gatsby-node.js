@@ -16,7 +16,7 @@ exports.createPages = async({ graphql, actions }) => {
           }
         }
       }
-      allContentfulWork {
+      allContentfulWork(sort: { fields: date, order: DESC }) {
         edges {
           node {
             slug
@@ -42,13 +42,25 @@ exports.createPages = async({ graphql, actions }) => {
   })
 
   // Add work pages
-  result.data.allContentfulWork.edges.forEach(edge => {
+  const workPages = result.data.allContentfulWork.edges
+  workPages.forEach((edge, index) => {
+    const previousWork = index === workPages.length - 1
+      ? null
+      : workPages[index + 1]?.node.slug
+    const nextWork = index === 0
+      ? null
+      : workPages[index - 1]?.node.slug
+    const context = {
+      slug: edge.node.slug,
+      previous: previousWork,
+      next: nextWork
+    }
+    console.log(JSON.stringify(context, null, 2))
+
     createPage({
       path: `work/${edge.node.slug}`,
       component: workPageTemplate,
-      context: {
-        slug: edge.node.slug
-      }
+      context: context
     })
   })
 }

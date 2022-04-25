@@ -1,7 +1,8 @@
 import * as React from "react"
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import { GatsbyImage } from "gatsby-plugin-image"
 
+import LayoutContainer from "../components/layout"
 import Seo from '../components/seo'
 import RichText from '../components/rich-text'
 
@@ -23,34 +24,51 @@ const WorkPage = ({
         gatsbyImageData: hero
       },
       body
-    }
+    },
+    previous,
+    next
   }
 }) => {
-  return (<>
-    <Seo
-      customTitle={title}
-      customDescription={description}
-      customUrl={`work/${slug}`}
-      customImage={hero}
-    />
-
-    <pre>{date}</pre>
-
-    <div>
-      <GatsbyImage
-        image={hero}
-        alt={heroAlt}
+  return (
+    <LayoutContainer
+      slug={`work.${slug}`}
+      title={title}
+    >
+      <Seo
+        customTitle={title}
+        customDescription={description}
+        customUrl={`work/${slug}`}
+        customImage={hero}
       />
 
-      <p>{heroCaption}</p>
-    </div>
+      <Link to="/work">&lsaquo; Back to Work</Link>
 
-    <RichText richText={body} />
-  </>)
+      <p>{date}</p>
+
+      <div>
+        <GatsbyImage
+          image={hero}
+          alt={heroAlt}
+        />
+
+        <p>{heroCaption}</p>
+      </div>
+
+      <RichText richText={body} />
+
+      {previous && (
+        <Link to={`../${previous.slug}`}>&laquo; {previous.title}</Link>
+      )}
+
+      {next && (
+        <Link to={`../${next.slug}`}>{next.title} &raquo;</Link>
+      )}
+    </LayoutContainer>
+  )
 }
 
 export const query = graphql`
-  query($slug: String!) {
+  query($slug: String!, $previous: String, $next: String) {
     work: contentfulWork(slug: {eq: $slug}) {
       slug
       title
@@ -82,6 +100,14 @@ export const query = graphql`
           }
         }
       }
+    }
+    previous: contentfulWork(slug: {eq: $previous}) {
+      slug
+      title
+    }
+    next: contentfulWork(slug: {eq: $next}) {
+      slug
+      title
     }
   }
 `
