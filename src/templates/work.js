@@ -2,6 +2,7 @@ import * as React from "react"
 import { graphql } from 'gatsby'
 
 import Seo from '../components/seo'
+import RichText from '../components/rich-text'
 
 const WorkPage = ({
   data,
@@ -31,8 +32,8 @@ const WorkPage = ({
     />
 
     <pre>{date}</pre>
-    <textarea defaultValue={body.raw} />
-    <pre>{JSON.stringify(data, null, 2)}</pre>
+
+    <RichText richText={body} />
   </>)
 }
 
@@ -54,6 +55,7 @@ export const query = graphql`
         raw
         references {
           ... on ContentfulAsset {
+            contentful_id
             title
             description
             gatsbyImageData(placeholder: BLURRED)
