@@ -50,17 +50,15 @@ exports.createPages = async({ graphql, actions }) => {
     const nextWork = index === 0
       ? null
       : workPages[index - 1]?.node.slug
-    const context = {
-      slug: edge.node.slug,
-      previous: previousWork,
-      next: nextWork
-    }
-    console.log(JSON.stringify(context, null, 2))
 
     createPage({
       path: `work/${edge.node.slug}`,
       component: workPageTemplate,
-      context: context
+      context: {
+        slug: edge.node.slug,
+        previous: previousWork,
+        next: nextWork
+      }
     })
   })
 }
