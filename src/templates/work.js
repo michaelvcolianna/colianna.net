@@ -74,7 +74,7 @@ export const query = graphql`
           excerpt
         }
       }
-      date
+      date(formatString: "YYYY-MM-DD")
       hero {
         title
         description
