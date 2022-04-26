@@ -1,6 +1,8 @@
 import * as React from "react"
 import { Link } from "gatsby"
 
+import ExternalLink from "./external-link"
+
 import "../styles/app.scss"
 
 const LayoutContainer = ({
@@ -59,14 +61,9 @@ const LayoutContainer = ({
           </li>
 
           <li>
-            <a
-              href="https://www.linkedin.com/in/michaelvcolianna/"
-              target="_blank"
-              rel="noreferrer noopener"
-              aria-describedby="external-link-label"
-            >
+            <ExternalLink href="https://www.linkedin.com/in/michaelvcolianna/">
               LinkedIn
-            </a>
+            </ExternalLink>
           </li>
         </ul>
       </nav>
@@ -94,6 +91,8 @@ const LayoutContainer = ({
 
         <div className="copyright">
           © 2022 Michael V. Colianna
+          |
+          https://github.com/michaelvcolianna/colianna.net
         </div>
       </footer>
     </article>

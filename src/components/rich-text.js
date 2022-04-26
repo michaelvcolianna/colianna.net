@@ -2,6 +2,7 @@ import * as React from "react"
 import { INLINES, BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { renderRichText } from 'gatsby-source-contentful/rich-text'
 
+import ExternalLink from "./external-link"
 import ImageWithCaption from "./image"
 
 const options = {
@@ -13,14 +14,9 @@ const options = {
   },
   renderNode: {
     [INLINES.HYPERLINK]: (node, children) => (
-      <a
-        href={node.data.uri}
-        target="_blank"
-        rel="noreferrer noopener"
-        aria-describedby="external-link-label"
-      >
+      <ExternalLink href={node.data.uri}>
         {children}
-      </a>
+      </ExternalLink>
     ),
     [INLINES.ENTRY_HYPERLINK]: (node, children) => {
       const pageType = node.data.target.__typename.replace('Contentful', '/').toLowerCase()
