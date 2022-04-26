@@ -7,13 +7,13 @@ const ImageWithCaption = ({
   caption
 }) => {
   return (
-    <div>
+    <div className="figure">
       <GatsbyImage
         image={image}
         alt={alt}
       />
 
-      <p>{caption}</p>
+      <p className="figcaption">{caption}</p>
     </div>
   )
 }

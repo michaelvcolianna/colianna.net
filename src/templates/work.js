@@ -30,6 +30,7 @@ const WorkPage = ({
 }) => {
   return (
     <LayoutContainer
+      slug={`work work--${slug}`}
       title={title}
       subTitle={`Work / ${date}`}
       hero={

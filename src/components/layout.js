@@ -1,7 +1,10 @@
 import * as React from "react"
 import { Link } from "gatsby"
 
+import "../styles/app.scss"
+
 const LayoutContainer = ({
+  slug = 'page',
   title = null,
   subTitle = null,
   hero = null,
@@ -69,7 +72,7 @@ const LayoutContainer = ({
       </nav>
     </header>
 
-    <article className="main">
+    <article className={`main ${slug}`}>
       {(title || subTitle || hero) && (
         <header className="title">
           {title && <h1>{title}</h1>}
