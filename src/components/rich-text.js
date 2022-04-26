@@ -1,7 +1,8 @@
 import * as React from "react"
 import { INLINES, BLOCKS, MARKS } from '@contentful/rich-text-types'
 import { renderRichText } from 'gatsby-source-contentful/rich-text'
-import { GatsbyImage } from "gatsby-plugin-image"
+
+import ImageWithCaption from "./image"
 
 const options = {
   renderMark: {
@@ -39,14 +40,11 @@ const options = {
       const { gatsbyImageData, title, description } = node.data.target
 
       return (
-        <div>
-          <GatsbyImage
-            image={gatsbyImageData}
-            alt={title}
-          />
-
-          <p>{description}</p>
-        </div>
+        <ImageWithCaption
+          image={gatsbyImageData}
+          alt={title}
+          caption={description}
+        />
       )
     }
   }

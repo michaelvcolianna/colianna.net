@@ -2,18 +2,36 @@ import * as React from "react"
 import { Link } from "gatsby"
 
 const LayoutContainer = ({
-  slug = null,
   title = null,
-  children = null
+  subTitle = null,
+  hero = null,
+  children = null,
+  nav = null
 }) => {
   return (<>
-    <header>
-      <div>
-        <strong>colianna.net</strong>
-      </div>
+    <header className="masthead">
+      <h1>
+        <Link to="/">Michael V. Colianna</Link>
+      </h1>
 
-      <nav>
-        <ul>
+      <p className="tagline">Author / Web Developer</p>
+
+      <nav className="menu" aria-label="Site menu">
+        <input id="menu-check" type="checkbox" hidden />
+
+        <label
+          id="menu-label"
+          htmlFor="menu-check"
+          className="unselectable"
+          aria-controls="site-menu"
+          hidden
+        >
+          <span className="icon close-icon">✕</span>
+          <span className="icon open-icon">☰</span>
+          <span className="text">Menu</span>
+        </label>
+
+        <ul id="site-menu">
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -51,19 +69,31 @@ const LayoutContainer = ({
       </nav>
     </header>
 
-    <main rel={slug}>
-      {title && <h1>{title}</h1>}
+    <article className="main">
+      {(title || subTitle || hero) && (
+        <header className="title">
+          {title && <h1>{title}</h1>}
 
-      {children || (
-        <div>
-          <em>No children specified</em>
-        </div>
+          {subTitle && <h3>{subTitle}</h3>}
+
+          {hero}
+
+          <hr />
+        </header>
       )}
-    </main>
 
-    <footer>
-      © 2022 Michael V. Colianna
-    </footer>
+      {children}
+
+      <footer>
+        {nav}
+
+        <hr />
+
+        <div className="copyright">
+          © 2022 Michael V. Colianna
+        </div>
+      </footer>
+    </article>
 
     <div hidden>
       <span id="external-link-label">Opens an external site in a new window</span>

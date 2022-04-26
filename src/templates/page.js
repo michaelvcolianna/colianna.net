@@ -6,12 +6,12 @@ import Seo from '../components/seo'
 import RichText from '../components/rich-text'
 
 const RegularPage = ({
-  data,
   data: {
     page: {
       isHome,
       slug,
       title,
+      subTitle,
       name,
       description: {
         childMarkdownRemark: {
@@ -24,8 +24,8 @@ const RegularPage = ({
 }) => {
   return (
     <LayoutContainer
-      slug={slug}
       title={title}
+      subTitle={subTitle}
     >
       <Seo
         customTitle={title || name}
@@ -44,6 +44,7 @@ export const query = graphql`
       isHome
       slug
       title
+      subTitle
       name
       description {
         childMarkdownRemark {

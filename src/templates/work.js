@@ -1,13 +1,12 @@
 import * as React from "react"
 import { graphql, Link } from 'gatsby'
-import { GatsbyImage } from "gatsby-plugin-image"
 
 import LayoutContainer from "../components/layout"
 import Seo from '../components/seo'
 import RichText from '../components/rich-text'
+import ImageWithCaption from "../components/image"
 
 const WorkPage = ({
-  data,
   data: {
     work: {
       slug,
@@ -31,8 +30,26 @@ const WorkPage = ({
 }) => {
   return (
     <LayoutContainer
-      slug={`work.${slug}`}
       title={title}
+      subTitle={`Work / ${date}`}
+      hero={
+        <ImageWithCaption
+          image={hero}
+          alt={heroAlt}
+          caption={heroCaption}
+        />
+      }
+      nav={
+        <nav className="post-nav">
+          {previous && (
+            <Link to={`../${previous.slug}`}>&#8592; {previous.title}</Link>
+          )}
+
+          {next && (
+            <Link to={`../${next.slug}`}>{next.title} &#8594;</Link>
+          )}
+        </nav>
+      }
     >
       <Seo
         customTitle={title}
@@ -41,28 +58,7 @@ const WorkPage = ({
         customImage={hero}
       />
 
-      <Link to="/work">&lsaquo; Back to Work</Link>
-
-      <p>{date}</p>
-
-      <div>
-        <GatsbyImage
-          image={hero}
-          alt={heroAlt}
-        />
-
-        <p>{heroCaption}</p>
-      </div>
-
       <RichText richText={body} />
-
-      {previous && (
-        <Link to={`../${previous.slug}`}>&laquo; {previous.title}</Link>
-      )}
-
-      {next && (
-        <Link to={`../${next.slug}`}>{next.title} &raquo;</Link>
-      )}
     </LayoutContainer>
   )
 }
