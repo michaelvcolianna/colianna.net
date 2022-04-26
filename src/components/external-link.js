@@ -12,7 +12,7 @@ const ExternalLink = ({
       aria-describedby="external-link-label"
     >
       {children}
-      <span className="ext-link">(new tab)</span>
+      &nbsp;<span className="ext-link">(new tab)</span>
     </a>
   )
 }

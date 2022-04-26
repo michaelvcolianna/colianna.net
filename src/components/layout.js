@@ -92,7 +92,9 @@ const LayoutContainer = ({
         <div className="copyright">
           © 2022 Michael V. Colianna
           |
-          https://github.com/michaelvcolianna/colianna.net
+          &nbsp;<ExternalLink href="https://github.com/michaelvcolianna/colianna.net">
+            Source Code
+          </ExternalLink>
         </div>
       </footer>
     </article>
