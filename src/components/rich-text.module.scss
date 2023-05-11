@@ -1,0 +1,87 @@
+.content {
+  font-size: 18px;
+
+  h1,
+  h2 {
+    margin: 30px 0 20px 0;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+
+  h1 {
+    font-size: 40px;
+    line-height: 1.6;
+  }
+
+  h2,
+  h3 {
+    line-height: 1.4;
+  }
+
+  h2 {
+    font-size: var(--content-h2-size);
+  }
+
+  h3 {
+    font-size: 22px;
+  }
+
+  p {
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+    padding: 0;
+  }
+
+  ul,
+  ul li {
+    list-style: disc;
+  }
+
+  ol,
+  ol li {
+    list-style: decimal;
+  }
+
+  ul,
+  ol {
+    margin: 10px 0 20px 0;
+
+    li {
+      font-size: 18px;
+      line-height: 20px;
+      margin: 0 0 10px 0;
+    }
+  }
+
+  blockquote {
+    border-left: 5px solid var(--highlight-color);
+    margin: 30px 0;
+    padding: 20px;
+
+    p {
+      color: var(--color-base-text);
+      font-size: 20px;
+    }
+  }
+
+  figure {
+    margin: var(--figure-margin);
+    max-width: var(--figure-max-width);
+  }
+
+  figcaption {
+    color: var(--heading-color);
+    font-size: 85%;
+    margin-top: 1rem;
+  }
+
+  img {
+    margin: 40px 0;
+  }
+
+  hr {
+    margin: 4rem 0;
+  }
+}

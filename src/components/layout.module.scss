@@ -1,0 +1,17 @@
+.skip-link {
+  align-items: center;
+  background-color: var(--base-color);
+  border-radius: 3px;
+  display: flex;
+  flex-flow: row wrap;
+  height: 3rem;
+  left: 1rem;
+  padding: 0 2rem;
+  position: absolute;
+  top: -99rem;
+  z-index: 1;
+
+  &:focus {
+    top: 1rem;
+  }
+}

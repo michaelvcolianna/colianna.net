@@ -1,0 +1,21 @@
+.site-footer {
+  font-family: var(--font-special);
+  margin-top: var(--footer-margin);
+
+  p {
+    display: var(--footer-display);
+    gap: var(--footer-gap);
+    text-align: center;
+
+    span {
+      &:nth-child(2),
+      &:nth-child(4) {
+        display: var(--footer-bars);
+      }
+    }
+  }
+
+  [aria-current="page"] {
+    font-weight: 700;
+  }
+}

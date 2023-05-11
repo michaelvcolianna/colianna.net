@@ -1,70 +1,67 @@
 import React from 'react'
-import Helmet from 'react-helmet'
 import { useStaticQuery, graphql } from 'gatsby'
 
-const Seo = ({ customTitle, customDescription, customUrl, customImage }) => {
+const Seo = ({
+  title = null,
+  description = null,
+  url = null,
+  image = null,
+  bodyClass = null
+}) => {
   const {
     site: {
-      siteMetadata: { url, title, image, description },
-    },
+      siteMetadata: {
+        siteDescription,
+        siteImage,
+        siteName,
+        siteUrl
+      }
+    }
   } = useStaticQuery(graphql`
     {
       site {
         siteMetadata {
-          url
-          title
-          image
-          description
+          siteDescription
+          siteImage
+          siteName
+          siteUrl
         }
       }
     }
   `)
 
-  const seoTitle = customTitle
-    ? `${customTitle} | ${title}`
-    : title
-  const seoDescription = customDescription || description
-  const seoUrl = customUrl ? `${url}/${customUrl}` : url
-  const seoImage = customImage
-    ? `https://${customImage.images.fallback.src.replace(
-      /\/\//g,
-      ''
-    )}`
-  : `${url}/${image}`
+  // Determine/set the values that can vary
+  const seoDescription = description ?? siteDescription
+  const seoImage = image
+    ? `${siteUrl}${image}`
+    : siteImage
+  const seoTitle = title
+    ? `${title} - ${siteName}`
+    : siteName
+  const seoUrl = url
+    ? `${siteUrl}/${url}/`
+    : siteUrl
 
   return (
-    <Helmet>
-      <html lang="en-US" />
+    <>
+      <html lang="en" />
       <title>{seoTitle}</title>
-      <link rel="canonical" href={seoUrl} />
       <meta name="title" content={seoTitle} />
-      <meta name="description" content={seoDescription} />
-      <meta name="image" content={seoImage} />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={seoUrl} />
       <meta property="og:title" content={seoTitle} />
-      <meta property="og:description" content={seoDescription} />
-      <meta property="og:image" content={seoImage} />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:url" content={seoUrl} />
       <meta name="twitter:title" content={seoTitle} />
+      <link rel="canonical" href={seoUrl} />
+      <meta property="og:url" content={seoUrl} />
+      <meta name="twitter:url" content={seoUrl} />
+      <meta name="description" content={seoDescription} />
+      <meta property="og:description" content={seoDescription} />
       <meta name="twitter:description" content={seoDescription} />
+      <meta name="image" content={seoImage} />
+      <meta property="og:image" content={seoImage} />
       <meta name="twitter:image" content={seoImage} />
-      <link
-        rel="icon"
-        type="image/svg"
-        sizes="16x16"
-        href={`${url}/favicon.svg`}
-        data-react-helmet="true"
-      />
-      <link
-        rel="icon"
-        type="image/svg"
-        sizes="32x32"
-        href={`${url}/favicon.svg`}
-        data-react-helmet="true"
-      />
-    </Helmet>
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <body className={bodyClass} />
+    </>
   )
 }
 

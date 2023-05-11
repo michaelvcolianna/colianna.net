@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+  font-named-instance: 'Regular';
+  src: local('Poppins Regular'), local('Poppins-Regular'),
+        url(/fonts/Poppins-Regular.woff2);
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: local('Poppins Italic'), local('Poppins-Italic'),
+        url(/fonts/Poppins-Italic.woff2);
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+  font-named-instance: 'Bold';
+  src: local('Poppins Bold'), local('Poppins-Bold'),
+        url(/fonts/Poppins-Bold.woff2);
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 700;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Bold Italic';
+  src: local('Poppins Bold Italic'), local('Poppins-BoldItalic'),
+        url(/fonts/Poppins-BoldItalic.woff2);
+}

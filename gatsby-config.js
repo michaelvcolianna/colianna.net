@@ -1,60 +1,77 @@
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
-});
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`
+})
 
-const appUrl = process.env.APP_URL || `https://colianna.net`;
+const appUrl = process.env.APP_URL || 'https://colianna.net'
 
-const contentfulConfig = {
-  spaceId: process.env.CONTENTFUL_SPACE_ID,
-  accessToken:
-    process.env.CONTENTFUL_ACCESS_TOKEN ||
-    process.env.CONTENTFUL_DELIVERY_TOKEN,
-};
+const spaceId = process.env.CONTENTFUL_SPACE_ID
+const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN
 
-// If you want to use the preview API please define
-// CONTENTFUL_HOST and CONTENTFUL_PREVIEW_ACCESS_TOKEN in your
-// environment config.
-//
-// CONTENTFUL_HOST should map to `preview.contentful.com`
-// CONTENTFUL_PREVIEW_ACCESS_TOKEN should map to your
-// Content Preview API token
-//
-// For more information around the Preview API check out the documentation at
-// https://www.contentful.com/developers/docs/references/content-preview-api/#/reference/spaces/space/get-a-space/console/js
-//
-// To change back to the normal CDA, remove the CONTENTFUL_HOST variable from your environment.
-if (process.env.CONTENTFUL_HOST) {
-  contentfulConfig.host = process.env.CONTENTFUL_HOST;
-  contentfulConfig.accessToken = process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN;
+if(!spaceId || !accessToken) {
+  throw new Error('Contentful spaceId and accessToken are missing')
 }
 
-const { spaceId, accessToken } = contentfulConfig;
-
-if (!spaceId || !accessToken) {
-  throw new Error(
-    "Contentful spaceId and the access token need to be provided."
-  );
-}
-
+/**
+ * @type {import('gatsby').GatsbyConfig}
+ */
 module.exports = {
   siteMetadata: {
+    perPage: 3,
+    siteDescription: `Michael V. Colianna’s author and web developer site.`,
+    siteImage: `${appUrl}/colianna-card.gif`,
+    siteName: 'colianna.net',
     siteUrl: appUrl,
-    title: `colianna.net`,
-    description: `Michael V. Colianna’s author and web developer site.`,
-    url: appUrl,
-    image: 'colianna-card.gif',
+    title: 'colianna.net'
   },
   plugins: [
-    "gatsby-transformer-remark",
-    "gatsby-transformer-sharp",
-    "gatsby-plugin-sass",
-    "gatsby-plugin-react-helmet",
-    "gatsby-plugin-sitemap",
-    "gatsby-plugin-sharp",
-    "gatsby-plugin-image",
+    'gatsby-plugin-image',
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sass',
+    'gatsby-plugin-sitemap',
     {
       resolve: 'gatsby-source-contentful',
-      options: contentfulConfig
+      options: {
+        'accessToken': accessToken,
+        'spaceId': spaceId
+      }
+    },
+    {
+      resolve: 'gatsby-transformer-remark',
+      options: {
+        plugins: [
+          'gatsby-remark-copy-linked-files',
+          'gatsby-remark-external-links',
+          {
+            resolve: 'gatsby-remark-images',
+            options: {
+              linkImagesToOriginal: false,
+              maxWidth: 1200
+            }
+          }
+        ]
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-sharp',
+      options: {
+        defaults: {
+          formats: ['auto', 'webp', 'avif']
+        }
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        'icon': './src/images/favicon.svg'
+      }
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        'name': 'images',
+        'path': './src/images/'
+      },
+      __key: 'images'
     }
   ]
 };

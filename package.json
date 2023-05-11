@@ -3,32 +3,36 @@
   "version": "1.0.0",
   "private": true,
   "description": "colianna.net",
-  "author": "MVC",
+  "author": "Michael V. Colianna",
   "keywords": [
     "gatsby"
   ],
   "scripts": {
     "develop": "gatsby develop",
+    "dev": "gatsby develop",
     "start": "gatsby develop",
     "build": "gatsby build",
+    "generate": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "@contentful/rich-text-types": "^15.12.1",
-    "gatsby": "^4.12.1",
-    "gatsby-plugin-image": "^2.12.1",
-    "gatsby-plugin-react-helmet": "^5.12.1",
-    "gatsby-plugin-sass": "^5.12.1",
-    "gatsby-plugin-sharp": "^4.12.1",
-    "gatsby-plugin-sitemap": "^5.12.1",
-    "gatsby-source-contentful": "^7.10.1",
-    "gatsby-source-filesystem": "^4.12.1",
-    "gatsby-transformer-remark": "^5.12.1",
-    "gatsby-transformer-sharp": "^4.12.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-helmet": "^6.1.0",
-    "sass": "^1.50.1"
+    "@contentful/rich-text-types": "^16.1.0",
+    "gatsby": "^5.9.0",
+    "gatsby-plugin-image": "^3.9.0",
+    "gatsby-plugin-manifest": "^5.9.0",
+    "gatsby-plugin-sass": "^6.9.0",
+    "gatsby-plugin-sharp": "^5.9.0",
+    "gatsby-plugin-sitemap": "^6.9.0",
+    "gatsby-remark-copy-linked-files": "^6.9.0",
+    "gatsby-remark-external-links": "^0.0.4",
+    "gatsby-remark-images": "^7.9.0",
+    "gatsby-source-contentful": "^8.9.1",
+    "gatsby-source-filesystem": "^5.9.0",
+    "gatsby-transformer-remark": "^6.9.0",
+    "gatsby-transformer-sharp": "^5.9.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.62.1"
   }
 }

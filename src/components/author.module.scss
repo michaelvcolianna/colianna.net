@@ -1,0 +1,25 @@
+.author {
+  align-items: center;
+  display: grid;
+  font-size: 20px;
+  gap: 10px;
+  grid-template-columns: 50px 1fr;
+  margin: 30px 0;
+
+  img {
+    border: 2px solid var(--heading-color);
+    border-radius: 50%;
+  }
+
+  strong {
+    align-items: baseline;
+    display: var(--author-display);
+    flex-flow: row wrap;
+    gap: 16px;
+  }
+
+  span {
+    display: block;
+    font-weight: 400;
+  }
+}

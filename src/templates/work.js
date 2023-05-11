@@ -1,112 +1,91 @@
-import * as React from "react"
-import { graphql, Link } from 'gatsby'
+import React from 'react'
+import { graphql } from 'gatsby'
 
-import LayoutContainer from "../components/layout"
-import Seo from '../components/seo'
-import RichText from '../components/rich-text'
-import ImageWithCaption from "../components/image"
+import Layout from '@components/layout'
+import Seo from '@components/seo'
+import BackToWork from '@components/back-to-work'
 
-const WorkPage = ({
+const WorkTemplate = ({
   data: {
-    work: {
-      slug,
-      title,
-      description: {
-        childMarkdownRemark: {
-          excerpt: description
-        }
-      },
-      date,
-      hero: {
-        title: heroAlt,
-        description: heroCaption,
-        gatsbyImageData: hero
-      },
-      body
-    },
+    work,
     previous,
     next
   }
 }) => {
   return (
-    <LayoutContainer
-      slug={`work work--${slug}`}
-      title={title}
-      subTitle={`Work / ${date}`}
-      hero={
-        <ImageWithCaption
-          image={hero}
-          alt={heroAlt}
-          caption={heroCaption}
-        />
-      }
-      nav={
-        <nav className="post-nav">
-          {previous && (
-            <Link to={`../${previous.slug}`}>&#8592; {previous.title}</Link>
-          )}
-
-          {next && (
-            <Link to={`../${next.slug}`}>{next.title} &#8594;</Link>
-          )}
-        </nav>
-      }
-    >
-      <Seo
-        customTitle={title}
-        customDescription={description}
-        customUrl={`work/${slug}`}
-        customImage={hero}
-      />
-
-      <RichText richText={body} />
-    </LayoutContainer>
+    <Layout page={work} previous={previous} next={next}>
+      <BackToWork />
+    </Layout>
   )
 }
 
+export default WorkTemplate
+
 export const query = graphql`
   query($slug: String!, $previous: String, $next: String) {
-    work: contentfulWork(slug: {eq: $slug}) {
+    work: contentfulWork(slug: { eq: $slug }) {
       slug
       title
       description {
-        childMarkdownRemark {
-          excerpt
-        }
+        description
       }
       date(formatString: "YYYY-MM-DD")
       hero {
         title
         description
         gatsbyImageData(placeholder: BLURRED)
+        src: url
       }
       body {
         raw
         references {
           ... on ContentfulAsset {
+            __typename
             contentful_id
             title
             description
             gatsbyImageData(placeholder: BLURRED)
-            __typename
           }
           ... on ContentfulWork {
+            __typename
             contentful_id
             slug
-            __typename
           }
         }
       }
     }
-    previous: contentfulWork(slug: {eq: $previous}) {
+    previous: contentfulWork(slug: { eq: $next }) {
       slug
       title
     }
-    next: contentfulWork(slug: {eq: $next}) {
+    next: contentfulWork(slug: { eq: $previous }) {
       slug
       title
     }
   }
 `
 
-export default WorkPage
+export const Head = ({
+  data: {
+    work: {
+      slug,
+      title,
+      name,
+      description: {
+        description
+      },
+      hero: {
+        src
+      }
+    }
+  }
+}) => {
+  return (
+    <Seo
+      title={title || name}
+      description={description}
+      url={`work/${slug}`}
+      image={src}
+    />
+  )
+}

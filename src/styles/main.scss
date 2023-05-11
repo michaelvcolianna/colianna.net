@@ -1,0 +1,249 @@
+@import 'fonts';
+
+:root {
+  // General variables
+  --base-color: #ffffff;
+  --highlight-color: #0056b3;
+  --heading-color: #00254d;
+  --text-color: #4e5157;
+  --disabled-color: #999;
+  --dot-color: var(--highlight-color);
+  --font-standard: 'Helvetica Neue', 'Arial', sans-serif;
+  --font-special: 'Poppins', 'Verdana', sans-serif;
+  --transition-duration: 0s;
+  --transition-half-duration: 0s;
+  --transition-easing: linear;
+  --transition: var(--transition-duration) var(--transition-easing);
+
+  // Contrast override
+  @media (prefers-contrast: more) {
+    --disabled-color: #595959;
+  }
+
+  // Overrides to provide animations
+  @media (prefers-reduced-motion: no-preference) {
+    --transition-duration: 195ms;
+    --transition-half-duration: 97.5ms;
+    --transition-easing: ease-in-out;
+  }
+
+  // @main.scss
+  --body-padding: 20px;
+  --body-menu-height: 100vh;
+  --body-menu-overflow: hidden;
+
+  // @content.module.scss
+  --content-h2-size: 28px;
+
+  // @header.module.scss
+  --header-gap: 0;
+  --header-columns: 1fr 32px;
+  --header-margin: 30px;
+  --header-padding: 0;
+  --header-button-display: flex;
+  --header-menu-background: var(--highlight-color);
+  --header-menu-height: 100%;
+  --header-menu-position: fixed;
+  --header-menu-flow: column;
+  --header-menu-gap: 10px;
+  --header-menu-justify: center;
+  --header-menu-align: center;
+  --header-menu-color: var(--base-color);
+  --header-menu-size: 32px;
+  --header-menu-weight: 400;
+  --header-menu-underline: none;
+
+  // @footer.module.scss
+  --footer-margin: 60px;
+  --footer-display: grid;
+  --footer-gap: 0.5rem;
+  --footer-bars: none;
+
+  // @author.module.scss
+  --author-gap: 10px;
+  --author-display: block;
+
+  // @intro.module.scss
+  --intro-h1-size: 48px;
+  --intro-h1-line-height: 56px;
+  --intro-h1-margin: 0 0 30px 0;
+  --intro-h1-width: 100%;
+  --intro-h2-width: 100%;
+  --intro-p-size: 20px;
+  --intro-p-line-height: 26px;
+  --intro-p-width: 100%;
+
+  // @summary.module.scss
+  --summary-line-height: 24px;
+  --summary-margin: 50px;
+  --summary-h2-size: 34px;
+  --summary-h2-line-height: 38px;
+
+  // @pagination.module.scss
+  --pagination-height: 30px;
+
+  // @post-meta.module.scss
+  --meta-size: 14px;
+  --meta-columsn: 1fr;
+  --meta-category-justify: auto;
+
+  // @post-nav.module.scss
+  --nav-gap: 20px;
+  --nav-columns: 1fr;
+  --nav-next-grid: auto;
+
+  // @rich-text.module.scss
+  --figure-margin: 1rem auto 2rem auto;
+  --figure-max-width: 480px;
+
+  @media screen and (min-width: 768px) {
+    // @main.scss
+    --body-padding: 50px;
+
+    // @content.module.scss
+    --content-h2-size: 30px;
+
+    // @header.module.scss
+    --header-margin: 40px;
+    --header-padding: 5px;
+
+    // @footer.module.scss
+    --footer-margin: 90px;
+
+    // @author.module.scss
+    --author-gap: 20px;
+    --author-display: flex;
+
+    // @intro.module.scss
+    --intro-h1-size: 88px;
+    --intro-h1-line-height: 94px;
+    --intro-h1-margin: 0 0 50px 0;
+    --intro-h1-width: 80%;
+    --intro-h2-width: 80%;
+    --intro-p-size: 22px;
+    --intro-p-line-height: 32px;
+    --intro-p-width: 80%;
+
+    // @summary.module.scss
+    --summary-line-height: 26px;
+    --summary-margin: 80px;
+    --summary-h2-size: 52px;
+    --summary-h2-line-height: 58px;
+
+    // @pagination.module.scss
+    --pagination-height: 50px;
+
+    // @post-meta.module.scss
+    --meta-size: 16px;
+    --meta-columns: 1fr 200px;
+    --meta-category-justify: flex-end;
+
+    // @post-nav.module.scss
+    --nav-gap: 40px;
+    --nav-columns: 1fr 1fr;
+    --nav-next-grid: 2;
+  }
+
+  @media screen and (min-width: 992px) {
+    // @main.scss
+    --body-menu-height: auto;
+    --body-menu-overflow: auto;
+
+    // @header.module.scss
+    --header-gap: 20px;
+    --header-columns: 200px 1fr;
+    --header-button-display: none;
+    --header-menu-background: transparent;
+    --header-menu-height: auto;
+    --header-menu-position: static;
+    --header-menu-flow: row wrap;
+    --header-menu-gap: 16px;
+    --header-menu-justify: flex-end;
+    --header-menu-align: baseline;
+    --header-menu-color: var(--highlight-color);
+    --header-menu-size: 16px;
+    --header-menu-weight: 700;
+    --header-menu-underline: underline;
+
+    // @footer.module.scss
+    --footer-display: flex;
+    --footer-gap: 1rem;
+    --footer-bars: block;
+
+    // @rich-text.module.scss
+    --figure-margin: 1rem auto 2rem 0;
+    --figure-max-width: 768px;
+  }
+}
+
+* {
+  &,
+  &::after,
+  &::before {
+    box-sizing: border-box;
+  }
+}
+
+html {
+  font-family: var(--font-standard);
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--base-color);
+  border: 18px solid var(--highlight-color);
+  color: var(--text-color);
+  margin: 0;
+  min-height: 100vh;
+  padding: var(--body-padding);
+
+  &[data-menu-open="true"] {
+    height: var(--body-menu-height);
+    overflow: var(--body-menu-overflow);
+  }
+}
+
+a {
+  color: var(--highlight-color);
+
+  &:hover {
+    text-underline-offset: 2px;
+  }
+}
+
+h1,
+h2,
+h3 {
+  color: var(--heading-color);
+  font-family: var(--font-special);
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+img,
+svg {
+  display: inline-block;
+  height: auto;
+  max-width: 100%;
+}
+
+// Screen reader-only elements
+.sr {
+  border-width: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+// Add the dot this way
+.dot {
+  &::after {
+    color: var(--dot-color);
+    content: '.';
+  }
+}

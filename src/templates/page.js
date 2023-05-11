@@ -1,42 +1,16 @@
-import * as React from "react"
+import React from 'react'
 import { graphql } from 'gatsby'
 
-import LayoutContainer from "../components/layout"
-import Seo from '../components/seo'
-import RichText from '../components/rich-text'
+import Layout from '@components/layout'
+import Seo from '@components/seo'
 
-const RegularPage = ({
-  data: {
-    page: {
-      isHome,
-      slug,
-      title,
-      subTitle,
-      name,
-      description: {
-        childMarkdownRemark: {
-          excerpt: description
-        }
-      },
-      body
-    }
-  }
-}) => {
+const PageTemplate = ({ data: { page } }) => {
   return (
-    <LayoutContainer
-      title={title}
-      subTitle={subTitle}
-    >
-      <Seo
-        customTitle={title || name}
-        customDescription={description || null}
-        customUrl={isHome ? null : slug}
-      />
-
-      <RichText richText={body} />
-    </LayoutContainer>
+    <Layout page={page} />
   )
 }
+
+export default PageTemplate
 
 export const query = graphql`
   query($slug: String!) {
@@ -47,24 +21,22 @@ export const query = graphql`
       subTitle
       name
       description {
-        childMarkdownRemark {
-          excerpt
-        }
+        description
       }
       body {
         raw
         references {
           ... on ContentfulAsset {
+            __typename
             contentful_id
             title
             description
             gatsbyImageData(placeholder: BLURRED)
-            __typename
           }
-          ... on ContentfulWork {
+          ... on ContentfulPage {
+            __typename
             contentful_id
             slug
-            __typename
           }
         }
       }
@@ -72,4 +44,24 @@ export const query = graphql`
   }
 `
 
-export default RegularPage
+export const Head = ({
+  data: {
+    page: {
+      isHome,
+      slug,
+      title,
+      name,
+      description: {
+        description
+      }
+    }
+  }
+}) => {
+  return (
+    <Seo
+      title={title || name}
+      description={description}
+      url={isHome ? null : slug}
+    />
+  )
+}

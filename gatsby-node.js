@@ -1,24 +1,102 @@
 const path = require('path')
 
-exports.createPages = async({ graphql, actions }) => {
-  const { createPage } = actions
+/**
+ * Custom paginated page creation loop
+ *
+ * Running a loop like this inside the standard exports.createPages method will
+ * mess up the Promise return, even if async. This custom function runs fine
+ * inside the async method to create the paginated pages for any route.
+ *
+ * @param  object  createPage
+ * @param  integer  count
+ * @param  integer  limit
+ * @param  string  template
+ * @param  string  url
+ * @param  string  slug
+ * @return void
+ */
+const createPages = (
+  createPage,
+  count,
+  limit,
+  template,
+  url,
+  slug = null
+) => {
+  // Get total pages
+  const pages = Math.ceil(count / limit)
 
-  const regularPageTemplate = path.resolve(`src/templates/page.js`)
-  const workPageTemplate = path.resolve(`src/templates/work.js`)
+  // Loop and create page numbers
+  Array.from({ length: pages }).forEach((_, i) => {
+    // Adjust current page from zero base
+    const currentPage = i + 1
 
-  const result = await graphql(`
-    query {
-      allContentfulPage {
-        edges {
-          node {
-            slug
-            isHome
-          }
+    createPage({
+      path: i === 0 ? url : `${url}page/${currentPage}`,
+      component: path.resolve(`./src/templates/${template}.js`),
+      context: {
+        limit: limit,
+        skip: i * limit,
+        pages,
+        currentPage: currentPage,
+        slug: slug
+      }
+    })
+  })
+}
+
+// Add any import aliases
+exports.onCreateWebpackConfig = ({ actions: { setWebpackConfig }}) => {
+  setWebpackConfig({
+    resolve: {
+      alias: {
+        '@components': path.resolve(__dirname, 'src/components')
+      }
+    }
+  })
+}
+
+// Add pages
+exports.createPages = async ({ graphql, reporter, actions: { createPage }}) => {
+  // Get per page setting
+  const settings = await graphql(`
+    {
+      site {
+        siteMetadata {
+          perPage
         }
       }
-      allContentfulWork(sort: { fields: date, order: DESC }) {
+    }
+  `)
+
+  if(settings.error) {
+    reporter.panicOnBuild(`Error in 'settings' query`)
+  }
+
+  const perPage = settings.data?.site?.siteMetadata?.perPage || 3
+
+  // Get regular pages, work pages, and count for portfolio page(s)
+  const allPages = await graphql(`
+    {
+      regular: allContentfulPage {
+        pages: nodes {
+          contentful_id
+          slug
+        }
+      }
+      work: allContentfulWork(sort: { date: DESC }) {
+        count: totalCount
         edges {
-          node {
+          page: node {
+            contentful_id
+            slug
+          }
+          previous {
+            contentful_id
+            slug
+          }
+          next {
+            contentful_id
             slug
           }
         }
@@ -26,38 +104,43 @@ exports.createPages = async({ graphql, actions }) => {
     }
   `)
 
-  // Add top-level pages
-  result.data.allContentfulPage.edges.forEach(edge => {
-    let pagePath = edge.node.isHome
-      ? `/`
-      : `${edge.node.slug}`
+  if(allPages.error) {
+    reporter.panicOnBuild(`Error in 'allPages' query`)
+    return
+  }
 
-    createPage({
-      path: pagePath,
-      component: regularPageTemplate,
-      context: {
-        slug: edge.node.slug
-      }
-    })
+  // Make the regular pages
+  allPages.data?.regular?.pages?.forEach(page => {
+    if(page.slug !== 'work') {
+      createPage({
+        path: page.slug === 'home' ? '/' : `/${page.slug}`,
+        component: path.resolve('./src/templates/page.js'),
+        context: {
+          slug: page.slug
+        }
+      })
+    }
   })
 
-  // Add work pages
-  const workPages = result.data.allContentfulWork.edges
-  workPages.forEach((edge, index) => {
-    const previousWork = index === workPages.length - 1
-      ? null
-      : workPages[index + 1]?.node.slug
-    const nextWork = index === 0
-      ? null
-      : workPages[index - 1]?.node.slug
+  // Paginate the portfolio pages
+  createPages(
+    createPage,
+    allPages.data?.work?.count || 0,
+    perPage,
+    'portfolio',
+    '/work/',
+    'work'
+  )
 
+  // Make the work pages
+  allPages.data?.work?.edges?.forEach(edge => {
     createPage({
-      path: `work/${edge.node.slug}`,
-      component: workPageTemplate,
+      path: `/work/${edge.page.slug}`,
+      component: path.resolve('./src/templates/work.js'),
       context: {
-        slug: edge.node.slug,
-        previous: previousWork,
-        next: nextWork
+        slug: edge.page.slug,
+        previous: edge.previous?.slug || null,
+        next: edge.next?.slug || null
       }
     })
   })

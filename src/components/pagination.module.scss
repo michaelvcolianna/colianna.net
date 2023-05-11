@@ -1,0 +1,33 @@
+.pagination {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: var(--pagination-height) 1fr var(--pagination-height);
+}
+
+.link {
+  align-items: center;
+  border: 2px solid;
+  border-radius: 3px;
+  display: flex;
+  font-size: 0;
+  height: var(--pagination-height);
+  justify-content: center;
+
+  &[disabled] {
+    color: var(--disabled-color);
+  }
+
+  svg {
+    height: calc(var(--pagination-height) * 0.666666666666667);
+    width: auto;
+  }
+}
+
+.numbering {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  font-size: 14px;
+  justify-content: center;
+  text-transform: uppercase;
+}
