@@ -32,9 +32,7 @@ const Seo = ({
 
   // Determine/set the values that can vary
   const seoDescription = description ?? siteDescription
-  const seoImage = image
-    ? `${siteUrl}${image}`
-    : siteImage
+  const seoImage = image ?? siteImage
   const seoTitle = title
     ? `${title} - ${siteName}`
     : siteName
