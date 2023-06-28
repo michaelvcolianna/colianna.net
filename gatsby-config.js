@@ -16,7 +16,7 @@ if(!spaceId || !accessToken) {
  */
 module.exports = {
   siteMetadata: {
-    perPage: 3,
+    perPage: 4,
     siteDescription: `Michael V. Colianna’s author and web developer site.`,
     siteImage: `${appUrl}/colianna-card.gif`,
     siteName: 'colianna.net',
