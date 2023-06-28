@@ -57,7 +57,7 @@ export const query = graphql`
         title
         slug
         dateTime: date
-        date(fromNow: true)
+        date(formatString: "MMMM Do, YYYY")
         description {
           description
         }
