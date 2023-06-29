@@ -5,6 +5,7 @@ import Layout from '@components/layout'
 import Seo from '@components/seo'
 import PostListing from '@components/post-listing'
 import Pagination from '@components/pagination'
+import RichText from '@components/rich-text'
 
 const PortfolioTemplate = ({
   data: {
@@ -17,6 +18,8 @@ const PortfolioTemplate = ({
 }) => {
   return (
     <Layout page={page}>
+      {page.workBody && <RichText richText={page.workBody} />}
+
       <PostListing items={items} />
 
       <Pagination info={pagination} path="/work/" />
@@ -36,6 +39,23 @@ export const query = graphql`
       name
       description {
         description
+      }
+      workBody: body {
+        raw
+        references {
+          ... on ContentfulAsset {
+            __typename
+            contentful_id
+            title
+            description
+            gatsbyImageData(placeholder: BLURRED)
+          }
+          ... on ContentfulPage {
+            __typename
+            contentful_id
+            slug
+          }
+        }
       }
     }
     work: allContentfulWork(

@@ -4,10 +4,11 @@ require('dotenv').config({
 
 const appUrl = process.env.APP_URL || 'https://colianna.net'
 
-const spaceId = process.env.CONTENTFUL_SPACE_ID
-const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN
+const ctfSpaceId = process.env.CONTENTFUL_SPACE_ID
+const ctfAccessToken = process.env.CONTENTFUL_ACCESS_TOKEN
+const ctfHost = process.env.CONTENTFUL_HOST ?? 'cdn.contentful.com'
 
-if(!spaceId || !accessToken) {
+if(!ctfSpaceId || !ctfAccessToken) {
   throw new Error('Contentful spaceId and accessToken are missing')
 }
 
@@ -31,8 +32,9 @@ module.exports = {
     {
       resolve: 'gatsby-source-contentful',
       options: {
-        'accessToken': accessToken,
-        'spaceId': spaceId
+        accessToken: ctfAccessToken,
+        spaceId: ctfSpaceId,
+        host: ctfHost
       }
     },
     {
